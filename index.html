@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nolla — 1st Anniversary</title>
+  <meta name="description" content="粉絲自製的一週年紀念站，收錄時間軸、留言牆、倒數與精彩片段。">
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#121833;
+      --text:#eaf0ff;
+      --muted:#a7b1d9;
+      --accent:#7aa5ff;
+      --accent2:#a07bff;
+      --ok:#9affc5;
+      --warn:#ffd166;
+      --heart:#ff6b9f;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(1200px 600px at 10% -10%, #1a224a 0%, #0b1020 55%), #0b1020;color:var(--text);font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei";}
+    a{color:var(--accent)}
+    .wrap{max-width:1100px;margin:0 auto;padding:22px}
+    header.hero{position:relative;border-radius:var(--radius);padding:40px 22px;background:
+      radial-gradient(1200px 600px at 120% -10%, rgba(160,123,255,.25), transparent 60%),
+      linear-gradient(135deg, rgba(122,165,255,.18), rgba(160,123,255,.18));
+      box-shadow: var(--shadow);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .title{font-size: clamp(28px, 4vw, 44px); margin:0 0 6px 0; font-weight:800}
+    .subtitle{color:var(--muted);margin:0 0 18px 0}
+    .btn{cursor:pointer; border:none; border-radius:999px; padding:10px 16px; font-weight:700; box-shadow: var(--shadow); background: linear-gradient(135deg, var(--accent), var(--accent2)); color:#0b1020; margin-top:10px}
+    .btn:active{transform:scale(.98)}
+    section{margin-top:26px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); padding:18px; box-shadow: var(--shadow)}
+    .grid{display:grid; gap:18px}
+    @media(min-width:900px){ .grid.cols-2{grid-template-columns:1fr 1fr} }
+    /* 倒數 */
+    .countdown{display:flex; gap:12px; flex-wrap:wrap}
+    .tile{flex:0 1 110px; background:rgba(10,16,40,.6); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px; text-align:center}
+    .tile .num{font-size:34px; font-weight:900}
+    .tile .unit{font-size:13px; color:var(--muted)}
+    /* timeline */
+    .timeline{position:relative; padding-left:18px}
+    .timeline::before{content:""; position:absolute; left:6px; top:5px; bottom:5px; width:2px; background:rgba(255,255,255,.12)}
+    .t-item{position:relative; margin:14px 0; padding-left:14px}
+    .t-item::before{content:""; position:absolute; left:-2px; top:6px; width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent2))}
+    .t-item h4{margin:4px 0}
+    .t-item p{margin:0;color:var(--muted)}
+    /* gallery */
+    .gallery{display:grid; grid-template-columns: repeat(2,1fr); gap:10px}
+    @media(min-width:700px){ .gallery{grid-template-columns: repeat(4,1fr)}}
+    .ph{aspect-ratio:1/1; background:linear-gradient(135deg, rgba(122,165,255,.25),rgba(160,123,255,.25)); border:1px dashed rgba(255,255,255,.2); border-radius:12px; display:flex; align-items:center; justify-content:center; color:#121833; font-weight:800}
+    /* message wall */
+    .wall{display:flex; flex-direction:column; gap:10px}
+    .wall form{display:grid; gap:10px}
+    input, textarea{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px; color:var(--text)}
+    .msg{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px}
+    .msg .name{font-weight:700}
+    .msg .time{color:var(--muted); font-size:12px}
+    footer{margin:30px 0 20px; text-align:center; color:var(--muted)}
+  </style>
+</head>
+<body>
+<canvas id="confetti" style="position:fixed;inset:0;pointer-events:none"></canvas>
+<div class="wrap">
+  <header class="hero card">
+    <h1 class="title">🎉 Nolla 1st Anniversary</h1>
+    <p class="subtitle">一起把第一年最燦爛的記憶收藏在這裡。</p>
+    <button class="btn" onclick="burstConfetti()">放彩帶</button>
+  </header>
+
+  <section class="grid cols-2">
+    <div class="card">
+      <h3>⏳ 一週年倒數</h3>
+      <div class="countdown" id="countdown"></div>
+    </div>
+    <div class="card">
+      <h3>📺 精彩影片</h3>
+      <video controls style="width:100%; border-radius:12px; background:#000" src="">
+        您的瀏覽器不支援影片播放。
+      </video>
+      <p class="subtitle">把影片檔放同資料夾，設定 src 即可。</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>📌 里程碑時間軸</h3>
+    <div class="timeline">
+      <div class="t-item"><h4>出道日</h4><p>寫下第一天的小故事</p></div>
+      <div class="t-item"><h4>最熱血的遊戲瞬間</h4><p>連結直播片段</p></div>
+      <div class="t-item"><h4>最感動的歌回</h4><p>附上短影片</p></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>🖼️ 回憶相簿</h3>
+    <div class="gallery">
+      <div class="ph">IMG 1</div>
+      <div class="ph">IMG 2</div>
+      <div class="ph">IMG 3</div>
+      <div class="ph">IMG 4</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>💬 留言牆</h3>
+    <div class="wall">
+      <form id="form">
+        <input id="msg-name" placeholder="你的名字" required maxlength="32"/>
+        <textarea id="msg-text" placeholder="想對 Nolla 說的話" required maxlength="200" rows="3"></textarea>
+        <button class="btn" type="submit">送出</button>
+      </form>
+      <div id="messages"></div>
+    </div>
+  </section>
+
+  <footer>Made with ❤️ by 糯米 · 粉絲自製，非官方</footer>
+</div>
+
+<script>
+  // 倒數計時
+  const ANNIV_DATE = "2025-10-09T20:00:00+08:00"; // 修改這裡
+  const cd = document.getElementById('countdown');
+  function updateCountdown(){
+    const t = new Date(ANNIV_DATE).getTime() - Date.now();
+    const clamp = (v)=> Math.max(0, v);
+    const d = clamp(Math.floor(t/86400000));
+    const h = clamp(Math.floor((t%86400000)/3600000));
+    const m = clamp(Math.floor((t%3600000)/60000));
+    const s = clamp(Math.floor((t%60000)/1000));
+    cd.innerHTML = ['Days','Hours','Minutes','Seconds'].map((u,i)=>{
+      const v = [d,h,m,s][i]; return `
+        <div class="tile"><div class="num">${String(v).padStart(2,'0')}</div><div class="unit">${u}</div></div>
+      `}).join('');
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  // 留言牆
+  const $form = document.getElementById('form');
+  const $messages = document.getElementById('messages');
+  function loadMessages(){
+    const arr = JSON.parse(localStorage.getItem('nolla_msgs')||'[]');
+    $messages.innerHTML = arr.slice(-50).reverse().map(m=>{
+      return `
+        <div class="msg">
+          <div class="name">${m.name}</div>
+          <div class="time">${new Date(m.time).toLocaleString()}</div>
+          <div class="text">${m.text.replace(/</g,'&lt;')}</div>
+        </div>`}).join('') || '<p class="subtitle">還沒有留言</p>';
+  }
+  $form.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    const name=document.getElementById('msg-name').value.trim();
+    const text=document.getElementById('msg-text').value.trim();
+    if(!name||!text)return;
+    const arr=JSON.parse(localStorage.getItem('nolla_msgs')||'[]');
+    arr.push({name,text,time:Date.now()});
+    localStorage.setItem('nolla_msgs',JSON.stringify(arr));
+    $form.reset(); loadMessages(); burstConfetti(60);
+  });
+  loadMessages();
+
+  // 彩帶特效
+  const canvas=document.getElementById('confetti');
+  const ctx=canvas.getContext('2d');
+  let W,H,confs=[];
+  function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight}
+  addEventListener('resize',resize);resize();
+  function rnd(a,b){return Math.random()*(b-a)+a}
+  function spawn(n=120){
+    for(let i=0;i<n;i++){
+      confs.push({x:rnd(0,W),y:rnd(-H*0.2,0),r:rnd(2,5),vy:rnd(1,3),vx:rnd(-1,1),rot:rnd(0,Math.PI*2)});
+    }
+  }
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    confs.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.rot+=0.05;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      ctx.fillStyle=['#7aa5ff','#a07bff','#9affc5','#ffd166','#ff6b9f'][Math.floor(rnd(0,5))];
+      ctx.fillRect(-p.r,-p.r,p.r*2,p.r*2*0.6);
+      ctx.restore();
+    });
+    confs=confs.filter(p=>p.y<H+20);
+    requestAnimationFrame(loop);
+  }
+  function burstConfetti(n=120){spawn(n)}
+  loop();
+</script>
+</body>
+</html>
