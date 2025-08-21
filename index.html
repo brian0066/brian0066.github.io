@@ -1,16 +1,67 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Nolla — 1st Anniversary</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nolla — 1st Anniversary" />
+  <meta property="og:description" content="粉絲自製一週年回顧：時間軸、精華片段、相簿收藏。" />
+  <meta property="og:image" content="https://brian0066.github.io/assets/cover.png" />
+  <meta property="og:url" content="https://brian0066.github.io/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preload" as="image" href="/assets/cover.png" />
+  <link rel="stylesheet" href="/assets/styles.css" />
 </head>
 <body>
-  <img src="/assets/cover.png" alt="cover"
-       style="max-width:100%;display:block;margin:40px auto;">
-  <p style="text-align:center;color:#999">
-    如果這張圖顯示，代表 /assets 路徑沒問題。
-  </p>
+  <nav class="nav">
+    <a href="/">HOME</a>
+    <a href="/about/">關於諾菈</a>
+    <a href="/timeline/">里程碑</a>
+    <a href="/gifts/">給諾菈的禮物</a>
+    <a href="/gallery/">相簿</a>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <h1>Nolla — 1st Anniversary</h1>
+      <p class="tagline">把第一年的光與熱收進來——這是我（粉絲）策展的回憶小站。</p>
+      <nav class="cta">
+        <a class="btn" href="/timeline/">看里程碑</a>
+        <a class="btn outline" href="/gallery/">看相簿</a>
+      </nav>
+    </div>
+    <img class="cover" src="/assets/cover.png" alt="Anniversary Cover" />
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>這一年最喜歡的 3 段精華</h2>
+      <div class="grid vids">
+        <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="Nolla Highlight 1" loading="lazy" allowfullscreen></iframe></div>
+        <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="Nolla Highlight 2" loading="lazy" allowfullscreen></iframe></div>
+        <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_3" title="Nolla Highlight 3" loading="lazy" allowfullscreen></iframe></div>
+      </div>
+      <p class="hint">把上面三個 YouTube 影片 ID 換成你的。</p>
+    </section>
+
+    <section>
+      <h2>站內導覽</h2>
+      <ul class="list">
+        <li><a href="/timeline/">里程碑（互動時間軸）</a></li>
+        <li><a href="/gifts/">給諾菈的禮物（祝福語 / 手寫信 / FAN ART / 影片）</a></li>
+        <li><a href="/about/">關於諾菈</a></li>
+        <li><a href="/gallery/">回憶相簿</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Fans made • 非官方 • © 2025</p>
+  </footer>
 </body>
 </html>
 
