@@ -1,33 +1,202 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>關於諾菈</title>
-  <link rel="stylesheet" href="/assets/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>關於諾菈 | Nolla</title>
+
+  <!-- 字體可換成你全站既用的（例如 Noto Sans TC / Inter） -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020;           /* 背景深藍夜色（可改） */
+      --panel:#121833;        /* 內文卡片底色 */
+      --text:#eaf0ff;         /* 主要文字色 */
+      --muted:#a7b1d9;        /* 次要文字色 */
+      --accent:#a07bff;       /* 重點紫 */
+      --accent-soft:#7aa5ff;  /* 輔助藍 */
+      --radius:18px;
+      --shadow:0 12px 40px rgba(0,0,0,.35);
+      --maxw: 820px;          /* 單欄閱讀寬度，對齊 Wix 的窄欄感 */
+      --leading: 1.95;        /* 較鬆的行距，適合長文 */
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ margin:0; padding:0; background:
+      radial-gradient(1000px 600px at 15% 0%, rgba(160,123,255,.18), transparent 60%),
+      radial-gradient(1000px 600px at 85% 20%, rgba(122,165,255,.12), transparent 60%),
+      var(--bg);
+      color:var(--text);
+      font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    /* 頁首（可接到你的全站導覽） */
+    header{
+      padding: 48px 20px 12px;
+      text-align:center;
+    }
+    .kicker{
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-size:.85rem;
+    }
+    h1{
+      margin:.25em 0 0;
+      font-size: clamp(28px, 3.4vw, 44px);
+      line-height:1.2;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .subtitle{
+      color:var(--muted);
+      margin-top: 6px;
+      font-size: .98rem;
+    }
+
+    /* 內容容器（單欄卡片樣式） */
+    main{
+      max-width: var(--maxw);
+      margin: 28px auto 80px;
+      padding: 0 20px 0;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 36px);
+    }
+
+    /* 章節標題與文字 */
+    section + section{ margin-top: 36px; }
+    h2{
+      font-size: clamp(20px, 2.2vw, 28px);
+      margin: 0 0 10px;
+      color: #ffffff;
+      position: relative;
+    }
+    h2::after{
+      content:"";
+      display:block;
+      width: 64px;
+      height: 3px;
+      border-radius: 999px;
+      margin-top: 8px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity:.75;
+    }
+    p{
+      margin: 12px 0;
+      line-height: var(--leading);
+      font-size: clamp(15px, 1.4vw, 18px);
+      color: var(--text);
+    }
+    .muted{ color: var(--muted); }
+
+    /* 插圖（置中、窄欄氛圍） */
+    figure{
+      margin: 18px auto;
+      text-align:center;
+    }
+    figure img{
+      width: min(100%, 760px);
+      max-height: 520px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
+    figcaption{
+      color: var(--muted);
+      font-size: .9rem;
+      margin-top: 6px;
+    }
+
+    /* 文字繞圖（可讓單張圖靠左或靠右） */
+    .float{
+      float: right;           /* left/right 任選 */
+      width: min(46%, 360px);
+      margin: 6px 0 12px 16px;
+    }
+    .float img{ width: 100%; border-radius: 12px; }
+
+    /* 區隔線（柔和） */
+    .divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      margin: 24px 0;
+    }
+
+    /* 手機優化：取消繞圖避免擠壓 */
+    @media (max-width: 860px){
+      .float{
+        float:none; width:100%; margin: 8px 0 12px 0;
+      }
+    }
+  </style>
 </head>
 <body>
-  
-<nav class="nav">
-  <a href="/">HOME</a>
-  <a href="/about/">關於諾菈</a>
-  <a href="/timeline/">里程碑</a>
-  <a href="/gifts/">給諾菈的禮物</a>
-  <a href="/gallery/">相簿</a>
-</nav>
 
-  <main class="wrap">
+  <header>
+    <div class="kicker">About Nolla</div>
     <h1>關於諾菈</h1>
-    <div class="cards">
-      <div class="card">
-        <h3>簡介</h3>
-        <p>這是一個粉絲自製的 1 週年回顧站，用我的角度整理這一年中我最喜歡的瞬間與創作。</p>
-      </div>
-      <div class="card">
-        <h3>喜歡的片段</h3>
-        <p>把最打動你的歌回、遊戲名場面記錄在這裡，並在 <a href="/timeline/">里程碑</a> 補上日期與連結。</p>
-      </div>
-    </div>
+    <div class="subtitle">像紫藤故事一樣的長篇敘事頁，溫柔、節奏慢、圖片穿插</div>
+  </header>
+
+  <main>
+    <article class="card">
+
+      <!-- 第一幕：世界觀／出場 -->
+      <section>
+        <h2>在月色與螢光之間</h2>
+        <p>在某個總會飄著微光的夜晚，諾菈踏進了我們的時間線。她並不急著說話，只是把歌聲放進你我的耳機，像把一盞盞小燈，悄悄點在各自的日常裡。</p>
+        <figure>
+          <img src="nolla-hero.gif" alt="諾菈初遇的剪影（替換為你的 GIF）">
+          <figcaption>初遇諾菈的片刻（示意圖，請替換）</figcaption>
+        </figure>
+        <p>有人說，那天之後，通勤的路不再那麼漫長；也有人說，考前夜的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- 第二幕：日常／角色夥伴（對齊原頁「關於依米學院」「小堇龍」的章節感） -->
+      <section>
+        <h2>關於諾菈的日常</h2>
+        <figure class="float"><img src="nolla-daily.png" alt="諾菈日常插圖（替換）"></figure>
+        <p>直播裡，她是那個不疾不徐的人：先把聊天室都看過一遍，再把遊戲打開；先接住你的問候，再把玩笑說完。她喜歡把舞台讓出一半給觀眾，讓彼此的故事都能被看見。</p>
+        <p>有時是輕快聊天，有時是全力唱歌；偶爾也會輸給藍色 SC（笑）。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
+        <p class="muted">（這段可換成你的實際設定／經歷）</p>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- 第三幕：夥伴群像／彩蛋 -->
+      <section>
+        <h2>夥伴與彩蛋</h2>
+        <p>一路上，總有固定會出現的夥伴：剪精華的你、做圖的你、每晚準時打招呼的你。也有只在特別時刻冒頭的彩蛋：周年的倒數、深夜的突發、和那句「晚安要記得說」。</p>
+        <figure>
+          <img src="nolla-friends.png" alt="群像合照（替換）">
+        </figure>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- 第四幕：現在與未來 -->
+      <section>
+        <h2>接下來，我們要去的地方</h2>
+        <p>如果說開始是偶然，那就讓後來變成約定。下一次歌回、下一個里程碑、下一份更勇敢的作品——都麻煩你一起見證。</p>
+        <figure>
+          <img src="nolla-future.png" alt="未來展望插圖（替換）">
+        </figure>
+        <p class="muted">最後更新：2025-08-22（記得維護時間）</p>
+      </section>
+
+    </article>
   </main>
 </body>
 </html>
