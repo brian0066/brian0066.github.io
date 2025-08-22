@@ -5,6 +5,38 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>給諾菈的禮物</title>
   <link rel="stylesheet" href="/assets/styles.css" />
+  <style>
+    .cards {
+      display: grid;
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .card {
+      display: block;
+      background: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.08);
+      border: 1px solid #eee;
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      color: #1b1f36;
+    }
+    .card p {
+      margin: 0;
+      color: #555;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
   
@@ -16,12 +48,18 @@
   <a href="/gallery/">相簿</a>
 </nav>
 
-  <main class="wrap">
-    <h1>給諾菈的祝福</h1>
-    <div class="cards">
-      <a class="card" href="/gifts/blessings/"><h3>祝福語</h3><p>寫給她的話，短短幾句就足夠。</p></a>
-  
-    </div>
-  </main>
+<main class="wrap">
+  <h1>給諾菈的祝福</h1>
+  <p class="muted">在這裡留下你想對她說的話，短短幾句就足夠。</p>
+
+  <div class="cards">
+    <a class="card" href="/gifts/blessings/">
+      <h3>祝福語</h3>
+      <p>寫給她的話，短短幾句就足夠。</p>
+    </a>
+  </div>
+</main>
+
 </body>
 </html>
+
