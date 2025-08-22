@@ -5,15 +5,92 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>里程碑 — 一年大事記</title>
   <link rel="stylesheet" href="/assets/styles.css" />
+
   <style>
-    #timeline-embed {
-      width: 100%;
-      height: 650px;
+    /* ===== 垂直時間軸（直式，桌機左右交錯；手機單欄） ===== */
+    :root{
+      --line:#d7dcff;
+      --dot:#7aa5ff;
+      --card:#ffffff;
+      --ink:#1b1f36;
+      --muted:#7682a4;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:16px;
+      --maxw: 980px;
+    }
+
+    main.wrap { max-width: var(--maxw); }
+
+    .timeline{
+      position: relative;
+      margin: 28px auto 80px;
+      padding: 20px 0;
+    }
+    /* 中線 */
+    .timeline::before{
+      content:"";
+      position:absolute; left:50%; top:0; bottom:0;
+      width:3px; transform:translateX(-50%);
+      background: linear-gradient(180deg, #c9d4ff, #e8ecff);
+    }
+
+    /* 每一個事件 */
+    .tl-item{
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 26px 0;
+    }
+    /* 點點 */
+    .tl-item::before{
+      content:"";
+      position:absolute; left:50%; top:24px; transform:translate(-50%,-50%);
+      width:16px; height:16px; border-radius:50%;
+      background: var(--dot);
+      box-shadow: 0 0 0 6px rgba(122,165,255,.18);
+      border:3px solid #fff;
+    }
+
+    /* 日期（靠左或靠右） */
+    .tl-date{
+      display:flex; align-items:center; justify-content:flex-end;
+      color: var(--muted); font-weight:700; letter-spacing:.02em;
+    }
+    .tl-date span{ background:#f3f6ff; border:1px solid #e2e8ff; padding:8px 12px; border-radius:999px; }
+
+    /* 內容卡 */
+    .tl-card{
+      background: var(--card); color: var(--ink);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      border:1px solid #eef1ff; padding: 16px 18px;
+    }
+    .tl-card h3{ margin:.1rem 0 .4rem; font-size:1.25rem; }
+    .tl-card p{ margin:0; line-height:1.8; color:#38415b; }
+    .tl-media{ margin-top:10px; border-radius:12px; overflow:hidden; }
+    .tl-media img, .tl-media iframe{ width:100%; display:block; border:0; }
+
+    /* 左右交錯：奇數在左、偶數在右 */
+    .tl-item:nth-child(odd) .tl-date{ grid-column: 1 / 2; }
+    .tl-item:nth-child(odd) .tl-card{ grid-column: 2 / 3; }
+    .tl-item:nth-child(even) .tl-date{ grid-column: 2 / 3; justify-content:flex-start; }
+    .tl-item:nth-child(even) .tl-card{ grid-column: 1 / 2; }
+
+    /* 手機：單欄 */
+    @media (max-width: 800px){
+      .timeline::before{ left:24px; transform:none; }
+      .tl-item{ grid-template-columns: 1fr; padding-left:56px; }
+      .tl-item::before{ left:24px; transform:translate(-50%,-50%); }
+      .tl-date{ justify-content:flex-start; }
+      .tl-item:nth-child(odd) .tl-date,
+      .tl-item:nth-child(odd) .tl-card,
+      .tl-item:nth-child(even) .tl-date,
+      .tl-item:nth-child(even) .tl-card { grid-column: auto; }
     }
   </style>
 </head>
 <body>
-  
+
 <nav class="nav">
   <a href="/">HOME</a>
   <a href="/about/">關於諾菈</a>
@@ -23,21 +100,57 @@
 </nav>
 
 <main class="wrap">
-  <h1>一年大事記</h1>
-  <p class="muted">以下是互動式時間軸，資料來自 Google 試算表。</p>
+  <h1>一年大事記（直式）</h1>
+  <p class="muted">這是直式年表樣式。要新增事件，複製下面的 <code>.tl-item</code> 區塊即可。</p>
 
-  <!-- TimelineJS 方案 B -->
-<iframe
-  class="frame"
-  src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vQLq2bk-h0f8dcHm1Y5TfrT8aNS3dcDQ09ouyuPAVY8jRojLJ_lT1ayF58qO3U_xuIdDiJ9NMikS067&lang=zh-tw&initial_zoom=2&height=650"
-  width="100%" height="650" frameborder="0"
-  webkitallowfullscreen mozallowfullscreen allowfullscreen>
-</iframe>
+  <section class="timeline">
 
+    <!-- 範例事件 1 -->
+    <article class="tl-item">
+      <div class="tl-date"><span>2024-10-09</span></div>
+      <div class="tl-card">
+        <h3>諾菈初配信</h3>
+        <p>正式開啟旅程 🎉 第一次直播、和大家見面。</p>
+        <!-- 如果要放圖片 / 影片就打開這段 -->
+        <!--
+        <div class="tl-media">
+          <img src="/assets/sample1.jpg" alt="初配信">
+        </div>
+        -->
+      </div>
+    </article>
 
-  <p class="hint">要更新內容，直接編輯 Google Sheet，發佈就會自動同步。</p>
+    <!-- 範例事件 2（YouTube 影片示例） -->
+    <article class="tl-item">
+      <div class="tl-date"><span>2025-02-14</span></div>
+      <div class="tl-card">
+        <h3>情人節歌回</h3>
+        <p>聊天室大合唱，點歌環節超熱鬧！</p>
+        <div class="tl-media">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/IGGnWKx_E8A?rel=0&modestbranding=1"
+            title="Valentine Live" loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </article>
+
+    <!-- 範例事件 3 -->
+    <article class="tl-item">
+      <div class="tl-date"><span>2025-10-09</span></div>
+      <div class="tl-card">
+        <h3>Channel 一週年</h3>
+        <p>粉絲回顧網站上線，大家一起見證里程碑。</p>
+      </div>
+    </article>
+
+    <!-- 之後要新增事件，複製上方 <article class="tl-item"> ... </article> 一段，換日期與內容即可 -->
+  </section>
+
 </main>
 
 </body>
 </html>
+
 
