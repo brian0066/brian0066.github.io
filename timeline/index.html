@@ -7,7 +7,38 @@
   <link rel="stylesheet" href="/assets/styles.css" />
 
   <style>
-    /* ===== 垂直時間軸（直式，桌機左右交錯；手機單欄） ===== */
+    /* === 固定在頂端的膠囊導覽（和 about 同款）=== */
+    .site-nav{
+      position: fixed;        /* 永遠吸頂 */
+      top: 0; left: 0; right: 0;
+      z-index: 10000;
+      display: flex; justify-content: center; gap: 12px;
+      padding: 10px 14px;
+      background: rgba(11,16,32,.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .site-nav .pill{
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #eaf0ff; font-weight: 600;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      transition: .2s;
+    }
+    .site-nav .pill:hover{
+      background: rgba(160,123,255,.25);
+      border-color: rgba(255,255,255,.36);
+      color:#fff;
+      box-shadow: 0 6px 20px rgba(160,123,255,.25);
+    }
+    /* 讓內容不被固定導覽遮住 */
+    body.has-fixed-nav{ padding-top: var(--nav-h, 60px); }
+
+    /* ===== 垂直時間軸（直式） ===== */
     :root{
       --line:#d7dcff;
       --dot:#7aa5ff;
@@ -18,7 +49,6 @@
       --radius:16px;
       --maxw: 980px;
     }
-
     main.wrap { max-width: var(--maxw); }
 
     .timeline{
@@ -26,7 +56,6 @@
       margin: 28px auto 80px;
       padding: 20px 0;
     }
-    /* 中線 */
     .timeline::before{
       content:"";
       position:absolute; left:50%; top:0; bottom:0;
@@ -34,7 +63,6 @@
       background: linear-gradient(180deg, #c9d4ff, #e8ecff);
     }
 
-    /* 每一個事件 */
     .tl-item{
       position: relative;
       display: grid;
@@ -42,7 +70,6 @@
       gap: 24px;
       margin: 26px 0;
     }
-    /* 點點 */
     .tl-item::before{
       content:"";
       position:absolute; left:50%; top:24px; transform:translate(-50%,-50%);
@@ -52,14 +79,12 @@
       border:3px solid #fff;
     }
 
-    /* 日期（靠左或靠右） */
     .tl-date{
       display:flex; align-items:center; justify-content:flex-end;
       color: var(--muted); font-weight:700; letter-spacing:.02em;
     }
     .tl-date span{ background:#f3f6ff; border:1px solid #e2e8ff; padding:8px 12px; border-radius:999px; }
 
-    /* 內容卡 */
     .tl-card{
       background: var(--card); color: var(--ink);
       border-radius: var(--radius); box-shadow: var(--shadow);
@@ -70,13 +95,11 @@
     .tl-media{ margin-top:10px; border-radius:12px; overflow:hidden; }
     .tl-media img, .tl-media iframe{ width:100%; display:block; border:0; }
 
-    /* 左右交錯：奇數在左、偶數在右 */
     .tl-item:nth-child(odd) .tl-date{ grid-column: 1 / 2; }
     .tl-item:nth-child(odd) .tl-card{ grid-column: 2 / 3; }
     .tl-item:nth-child(even) .tl-date{ grid-column: 2 / 3; justify-content:flex-start; }
     .tl-item:nth-child(even) .tl-card{ grid-column: 1 / 2; }
 
-    /* 手機：單欄 */
     @media (max-width: 800px){
       .timeline::before{ left:24px; transform:none; }
       .tl-item{ grid-template-columns: 1fr; padding-left:56px; }
@@ -91,65 +114,70 @@
 </head>
 <body class="theme-sky">
 
-<nav class="nav">
-  <a href="/">HOME</a>
-  <a href="/about/">關於諾菈</a>
-  <a href="/timeline/">里程碑</a>
-  <a href="/gifts/">給諾菈的禮物</a>
-  <a href="/gallery/">相簿</a>
-</nav>
+  <!-- 固定頂端導覽 -->
+  <nav class="site-nav" id="siteNav">
+    <a class="pill" href="/">Home</a>
+    <a class="pill" href="/about/">關於諾菈</a>
+    <a class="pill" href="/timeline/">里程碑</a>
+    <a class="pill" href="/gifts/">給諾菈的禮物</a>
+    <a class="pill" href="/gallery/">相簿</a>
+  </nav>
 
-<main class="wrap">
-  <h1>一年大事記（直式）</h1>
-  <p class="muted">這是直式年表樣式。要新增事件，複製下面的 <code>.tl-item</code> 區塊即可。</p>
+  <main class="wrap">
+    <h1>一年大事記（直式）</h1>
+    <p class="muted">這是直式年表樣式。要新增事件，複製下面的 <code>.tl-item</code> 區塊即可。</p>
 
-  <section class="timeline">
-
-    <!-- 範例事件 1 -->
-    <article class="tl-item">
-      <div class="tl-date"><span>2024-10-09</span></div>
-      <div class="tl-card">
-        <h3>諾菈初配信</h3>
-        <p>正式開啟旅程 🎉 第一次直播、和大家見面。</p>
-        <!-- 如果要放圖片 / 影片就打開這段 -->
-        <!--
-        <div class="tl-media">
-          <img src="/assets/sample1.jpg" alt="初配信">
+    <section class="timeline">
+      <!-- 範例事件 1 -->
+      <article class="tl-item">
+        <div class="tl-date"><span>2024-10-09</span></div>
+        <div class="tl-card">
+          <h3>諾菈初配信</h3>
+          <p>正式開啟旅程 🎉 第一次直播、和大家見面。</p>
         </div>
-        -->
-      </div>
-    </article>
+      </article>
 
-    <!-- 範例事件 2（YouTube 影片示例） -->
-    <article class="tl-item">
-      <div class="tl-date"><span>2025-02-14</span></div>
-      <div class="tl-card">
-        <h3>情人節歌回</h3>
-        <p>聊天室大合唱，點歌環節超熱鬧！</p>
-        <div class="tl-media">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/IGGnWKx_E8A?rel=0&modestbranding=1"
-            title="Valentine Live" loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
+      <!-- 範例事件 2（YouTube 影片示例） -->
+      <article class="tl-item">
+        <div class="tl-date"><span>2025-02-14</span></div>
+        <div class="tl-card">
+          <h3>情人節歌回</h3>
+          <p>聊天室大合唱，點歌環節超熱鬧！</p>
+          <div class="tl-media">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/IGGnWKx_E8A?rel=0&modestbranding=1"
+              title="Valentine Live" loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- 範例事件 3 -->
-    <article class="tl-item">
-      <div class="tl-date"><span>2025-10-09</span></div>
-      <div class="tl-card">
-        <h3>Channel 一週年</h3>
-        <p>粉絲回顧網站上線，大家一起見證里程碑。</p>
-      </div>
-    </article>
+      <!-- 範例事件 3 -->
+      <article class="tl-item">
+        <div class="tl-date"><span>2025-10-09</span></div>
+        <div class="tl-card">
+          <h3>Channel 一週年</h3>
+          <p>粉絲回顧網站上線，大家一起見證里程碑。</p>
+        </div>
+      </article>
+    </section>
+  </main>
 
-    <!-- 之後要新增事件，複製上方 <article class="tl-item"> ... </article> 一段，換日期與內容即可 -->
-  </section>
-
-</main>
-
+  <!-- 動態取得導覽高度，替 body 預留空間 -->
+  <script>
+    (function(){
+      const nav = document.getElementById('siteNav');
+      if(!nav) return;
+      function applyPadding(){
+        const h = nav.offsetHeight || 60;
+        document.body.classList.add('has-fixed-nav');
+        document.body.style.setProperty('--nav-h', h + 'px');
+      }
+      applyPadding();
+      window.addEventListener('resize', applyPadding);
+    })();
+  </script>
 </body>
 </html>
 
