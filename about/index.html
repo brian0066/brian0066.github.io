@@ -89,16 +89,7 @@ body::after{
 }
 
 
-    /* 半透明遮罩，讓文字可讀 */
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 15, 45, 0.55); /* 深藍遮罩 */
-      backdrop-filter: blur(2px);         /* 模糊一點點，避免太亮 */
-      z-index: 0;
-    }
-
+   
     /* 內容層 */
     .topnav, header, main, footer, article, section {
       position: relative;
@@ -200,6 +191,44 @@ body::after{
 (function(){
   const nav = document.getElementById('siteNav');
   if(!nav) return;
+  /* === 固定在頂端的膠囊導覽 === */
+.site-nav{
+  position: sticky;      /* 捲動時仍黏在頂端 */
+  top: 0;
+  z-index: 1000;         /* 蓋過背景層 */
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(11,16,32,.65);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+/* 導覽按鈕外觀 */
+.site-nav .pill{
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #eaf0ff;
+  font-weight: 600;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
+  transition: .2s;
+}
+.site-nav .pill:hover{
+  background: rgba(160,123,255,.25);
+  border-color: rgba(255,255,255,.36);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(160,123,255,.25);
+}
+
+/* 當導覽是 sticky/fixed 時，給內容預留高度，避免被壓住 */
+body.has-fixed-nav{
+  padding-top: var(--nav-h, 60px);
+}
+
 
   // 依導覽高度動態推內容
   function applyPadding(){
@@ -226,7 +255,6 @@ body::after{
   }
 })();
 </script>
-
       </section>
     </article>
   </main>
