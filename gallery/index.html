@@ -5,16 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>回憶相簿</title>
   <link rel="stylesheet" href="/assets/styles.css" />
+  <style>
+    /* === 固定在頂端的膠囊導覽（統一樣式） === */
+    .site-nav{
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 10000;
+      display: flex; justify-content: center; gap: 12px;
+      padding: 10px 14px;
+      background: rgba(11,16,32,.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .site-nav .pill{
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #eaf0ff; font-weight: 600;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      transition: .2s;
+    }
+    .site-nav .pill:hover{
+      background: rgba(160,123,255,.25);
+      border-color: rgba(255,255,255,.36);
+      color:#fff;
+      box-shadow: 0 6px 20px rgba(160,123,255,.25);
+    }
+    /* 預留導覽高度，避免內容被蓋住 */
+    body.has-fixed-nav{ padding-top: var(--nav-h, 60px); }
+  </style>
 </head>
 <body class="theme-sky">
   
-<nav class="nav">
-  <a href="/">HOME</a>
-  <a href="/about/">關於諾菈</a>
-  <a href="/timeline/">里程碑</a>
-  <a href="/gifts/">給諾菈的禮物</a>
-  <a href="/gallery/">相簿</a>
-</nav>
+  <!-- 固定頂端導覽 -->
+  <nav class="site-nav" id="siteNav">
+    <a class="pill" href="/">Home</a>
+    <a class="pill" href="/about/">關於諾菈</a>
+    <a class="pill" href="/timeline/">里程碑</a>
+    <a class="pill" href="/gifts/">給諾菈的禮物</a>
+    <a class="pill" href="/gallery/">相簿</a>
+  </nav>
 
   <main class="wrap">
     <h1>回憶相簿</h1>
@@ -26,5 +58,20 @@
     </div>
     <p class="hint">* 將圖片上傳到 /assets/，把上面 &lt;img&gt; 的 src 改成你的檔名即可。*</p>
   </main>
+
+  <!-- 動態取得導覽高度，替 body 預留空間 -->
+  <script>
+    (function(){
+      const nav = document.getElementById('siteNav');
+      if(!nav) return;
+      function applyPadding(){
+        const h = nav.offsetHeight || 60;
+        document.body.classList.add('has-fixed-nav');
+        document.body.style.setProperty('--nav-h', h + 'px');
+      }
+      applyPadding();
+      window.addEventListener('resize', applyPadding);
+    })();
+  </script>
 </body>
 </html>
