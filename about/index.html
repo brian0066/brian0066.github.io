@@ -24,11 +24,19 @@
       font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif; 
       position: relative;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* 🎨 藍色星空背景 */
+    /* 🎨 藍色星空背景 + 動態效果 */
     body{
-      background: url('../assets/your-blue-starry.png.png') center/cover no-repeat fixed;
+      background: url('../assets/your-blue-starry.png.png') center/cover repeat;
+      animation: starMove 120s linear infinite; /* 動態移動 */
+    }
+
+    /* 星空慢慢飄動 */
+    @keyframes starMove {
+      from { background-position: 0 0; }
+      to   { background-position: 1200px 800px; }
     }
 
     /* 半透明遮罩，讓文字可讀 */
@@ -36,7 +44,8 @@
       content:"";
       position: fixed;
       inset: 0;
-      background: rgba(0, 20, 60, 0.55); /* 深藍透明層 */
+      background: rgba(0, 15, 45, 0.55); /* 深藍遮罩 */
+      backdrop-filter: blur(2px);         /* 模糊一點點，避免太亮 */
       z-index: 0;
     }
 
@@ -48,7 +57,7 @@
 
     /* 上方導覽：回首頁 */
     .topnav{ position: sticky; top: 0; z-index: 50;
-      background: rgba(11,16,32,.60);
+      background: rgba(11,16,32,.65);
       backdrop-filter: saturate(140%) blur(6px);
       padding: 8px 12px;
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -56,33 +65,39 @@
     .topnav a.home{ display:inline-block; padding:8px 12px; border-radius:999px;
       border:1px solid rgba(255,255,255,.14); color:var(--text); text-decoration:none; font-size:.95rem; }
     .topnav a.home:hover{ border-color: rgba(255,255,255,.28); }
+
+    /* 標題與文字 */
     header{ padding: 48px 20px 12px; text-align:center; }
     .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
     h1{ margin:.25em 0 0; font-size: clamp(28px, 3.4vw, 44px); line-height:1.2; font-weight: 800;
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
       -webkit-background-clip: text; background-clip: text; color: transparent; }
     .subtitle{ color:var(--muted); margin-top: 6px; font-size: .98rem; }
+
     main{ max-width: var(--maxw); margin: 28px auto 80px; padding: 0 20px 0; }
     .card{ background: rgba(18,24,51,.65);
       border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow);
       padding: clamp(18px, 3vw, 36px); }
+
     section + section{ margin-top: 36px; }
     h2{ font-size: clamp(20px, 2.2vw, 28px); margin: 0 0 10px; color: #ffffff; position: relative; }
     h2::after{ content:""; display:block; width: 64px; height: 3px; border-radius: 999px;
       margin-top: 8px; background: linear-gradient(90deg, var(--accent), transparent); opacity:.75; }
     p{ margin: 12px 0; line-height: var(--leading); font-size: clamp(15px, 1.4vw, 18px); color: var(--text); }
     .muted{ color: var(--muted); }
+
     figure{ margin: 18px auto; text-align:center; }
     figure img{ width: min(100%, 760px); max-height: 520px; object-fit: cover; border-radius: 14px;
       border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 30px rgba(0,0,0,.25); }
     figcaption{ color: var(--muted); font-size: .9rem; margin-top: 6px; }
+
     .float{ float: right; width: min(46%, 360px); margin: 6px 0 12px 16px; }
     .float img{ width: 100%; border-radius: 12px; }
     .divider{ height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); margin: 24px 0; }
     @media (max-width: 860px){ .float{ float:none; width:100%; margin: 8px 0 12px 0; } }
   </style>
 </head>
-<body class="theme-night">
+<body>
   <!-- 回首頁導覽 -->
   <nav class="topnav"><a class="home" href="/">← 回首頁</a></nav>
   <header>
@@ -130,6 +145,7 @@
   </main>
 </body>
 </html>
+
 
 
 
