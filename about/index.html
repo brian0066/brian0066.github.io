@@ -27,17 +27,67 @@
       overflow-x: hidden;
     }
 
-    /* 🎨 藍色星空背景 + 動態效果 */
-    body{
-      background: url('../assets/your-blue-starry.png.png') center/cover repeat;
-      animation: starMove 120s linear infinite; /* 動態移動 */
-    }
+  /* ====== 動態雙層星空（視差） ====== */
 
-    /* 星空慢慢飄動 */
-    @keyframes starMove {
-      from { background-position: 0 0; }
-      to   { background-position: 1200px 800px; }
-    }
+/* 頁面基本：深藍底色先鋪好，避免圖片載入瞬間閃白 */
+html, body{
+  background: #0a1630;
+  overflow-x: hidden;
+}
+
+/* 內容層維持在上面 */
+.topnav, header, main, footer, article, section{
+  position: relative;
+  z-index: 1;
+}
+
+/* 遠景層：藍色星雲（慢）+ 深藍遮罩（確保可讀） */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* 用兩層背景：第1層是深藍半透明膜，第2層才是星雲圖 */
+  background:
+    linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
+    url('../assets/your-blue-starry.png.png');
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
+
+  /* 慢慢飄動（只會影響第2層圖，遮罩是固定的 0 0）*/
+  animation: nebulaDrift 160s linear infinite;
+}
+
+/* 近景層：小星點（快） */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: 0;               /* 跟 ::before 同層即可，兩者不互相遮蔽 */
+  pointer-events: none;
+  opacity: .22;             /* 亮度別太高，避免干擾文字 */
+
+  background: url('../assets/stars.png') repeat;
+  background-size: 720px 720px;   /* 星點密度 */
+  animation: starDrift 85s linear infinite;
+}
+
+/* 遠景（星雲）慢速對角漂移 */
+@keyframes nebulaDrift{
+  from { background-position: 0 0,       0 0; }
+  to   { background-position: 0 0,  1200px 900px; }
+}
+
+/* 近景（星點）稍快反向漂移，形成視差 */
+@keyframes starDrift{
+  from { background-position:    0   0; }
+  to   { background-position: -1400px -900px; }
+}
+
 
     /* 半透明遮罩，讓文字可讀 */
     body::before{
