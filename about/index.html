@@ -1,51 +1,136 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>樣式測試</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>關於諾菈 | Nolla</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* 你的 CSS（原樣） */
-    /* 讓 Hero 變成「整塊背景」，而且會依螢幕高低自適應 */
-    .hero {
+    :root{
+      --panel:#121833;
+      --text:#eaf0ff;
+      --muted:#a7b1d9;
+      --accent:#a07bff;
+      --accent-soft:#7aa5ff;
+      --radius:18px;
+      --shadow:0 12px 40px rgba(0,0,0,.35);
+      --maxw: 820px;
+      --leading: 1.95;
+    }
+    *{ box-sizing:border-box }
+    html,body{ 
+      margin:0; padding:0; 
+      color:var(--text); 
+      font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif; 
       position: relative;
-      background: url('/assets/cover.png?v=2') right center / cover no-repeat;
-      min-height: clamp(360px, 60vh, 720px);
-      display:grid; place-items:center; text-align:center;
+      min-height: 100vh;
     }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.40));
-    }
-    .hero .wrap { position: relative; z-index: 1; color:#ECF2FF; }
-    :root { --wrap: min(92vw, 1040px); }
-    .wrap { max-width: var(--wrap); margin: 24px auto; padding: 0 16px; }
-    .hero h1 { font-size: clamp(28px, 4.5vw, 56px); line-height:1.1;
-      background: linear-gradient(90deg, #2f6aff, #7aa5ff);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      text-shadow: 0 1px 0 rgba(255,255,255,.35);
-    }
-    .tagline { font-size: clamp(14px, 1.8vw, 18px); color:#ECF2FF; opacity:.9; }
 
-    /* 下面略：保持你原本的 CSS 都可以 */
+    /* 🎨 藍色星空背景 */
+    body{
+      background: url('../assets/your-blue-starry.png.png') center/cover no-repeat fixed;
+    }
+
+    /* 半透明遮罩，讓文字可讀 */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 20, 60, 0.55); /* 深藍透明層 */
+      z-index: 0;
+    }
+
+    /* 內容層 */
+    .topnav, header, main, footer, article, section {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 上方導覽：回首頁 */
+    .topnav{ position: sticky; top: 0; z-index: 50;
+      background: rgba(11,16,32,.60);
+      backdrop-filter: saturate(140%) blur(6px);
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .topnav a.home{ display:inline-block; padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.14); color:var(--text); text-decoration:none; font-size:.95rem; }
+    .topnav a.home:hover{ border-color: rgba(255,255,255,.28); }
+    header{ padding: 48px 20px 12px; text-align:center; }
+    .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
+    h1{ margin:.25em 0 0; font-size: clamp(28px, 3.4vw, 44px); line-height:1.2; font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .subtitle{ color:var(--muted); margin-top: 6px; font-size: .98rem; }
+    main{ max-width: var(--maxw); margin: 28px auto 80px; padding: 0 20px 0; }
+    .card{ background: rgba(18,24,51,.65);
+      border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 36px); }
+    section + section{ margin-top: 36px; }
+    h2{ font-size: clamp(20px, 2.2vw, 28px); margin: 0 0 10px; color: #ffffff; position: relative; }
+    h2::after{ content:""; display:block; width: 64px; height: 3px; border-radius: 999px;
+      margin-top: 8px; background: linear-gradient(90deg, var(--accent), transparent); opacity:.75; }
+    p{ margin: 12px 0; line-height: var(--leading); font-size: clamp(15px, 1.4vw, 18px); color: var(--text); }
+    .muted{ color: var(--muted); }
+    figure{ margin: 18px auto; text-align:center; }
+    figure img{ width: min(100%, 760px); max-height: 520px; object-fit: cover; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 30px rgba(0,0,0,.25); }
+    figcaption{ color: var(--muted); font-size: .9rem; margin-top: 6px; }
+    .float{ float: right; width: min(46%, 360px); margin: 6px 0 12px 16px; }
+    .float img{ width: 100%; border-radius: 12px; }
+    .divider{ height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); margin: 24px 0; }
+    @media (max-width: 860px){ .float{ float:none; width:100%; margin: 8px 0 12px 0; } }
   </style>
 </head>
-<body>
-  <!-- 這裡一定要有內容！ -->
-  <header class="hero">
-    <div class="wrap">
-      <h1>這不是白頁 🎉</h1>
-      <p class="tagline">看得到這些字，代表 HTML + CSS 都在正確的位置。</p>
-    </div>
+<body class="theme-night">
+  <!-- 回首頁導覽 -->
+  <nav class="topnav"><a class="home" href="/">← 回首頁</a></nav>
+  <header>
+    <div class="kicker">About Nolla</div>
+    <h1>關於諾菈</h1>
+    <div class="subtitle">像紫藤故事一樣的長篇敘事頁，溫柔、節奏慢、圖片穿插</div>
   </header>
-
-  <main class="wrap">
-    <p>接著把你的實際內容（導覽、倒數、影片等）慢慢加回來。</p>
+  <main>
+    <article class="card">
+      <section>
+        <h2>在月色與螢光之間</h2>
+        <p>在某個總會飄著微光的夜晚，諾菈踏進了我們的時間線。她並不急著說話，只是把歌聲放進你我的耳機，像把一盞盞小燈，悄悄點在各自的日常裡。</p>
+        <figure>
+          <img src="nolla-hero.gif" alt="諾菈初遇的剪影（替換為你的 GIF）">
+          <figcaption>初遇諾菈的片刻（示意圖，請替換）</figcaption>
+        </figure>
+        <p>有人說，那天之後，通勤的路不再那麼漫長；也有人說，考前夜的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>關於諾菈的日常</h2>
+        <figure class="float"><img src="nolla-daily.png" alt="諾菈日常插圖（替換）"></figure>
+        <p>直播裡，她是那個不疾不徐的人：先把聊天室都看過一遍，再把遊戲打開；先接住你的問候，再把玩笑說完。她喜歡把舞台讓出一半給觀眾，讓彼此的故事都能被看見。</p>
+        <p>有時是輕快聊天，有時是全力唱歌；偶爾也會輸給藍色 SC（笑）。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
+        <p class="muted">（這段可換成你的實際設定／經歷）</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>夥伴與彩蛋</h2>
+        <p>一路上，總有固定會出現的夥伴：剪精華的你、做圖的你、每晚準時打招呼的你。也有只在特別時刻冒頭的彩蛋：周年的倒數、深夜的突發、和那句「晚安要記得說」。</p>
+        <figure>
+          <img src="nolla-friends.png" alt="群像合照（替換）">
+        </figure>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>接下來，我們要去的地方</h2>
+        <p>如果說開始是偶然，那就讓後來變成約定。下一次歌回、下一個里程碑、下一份更勇敢的作品——都麻煩你一起見證。</p>
+        <figure>
+          <img src="nolla-future.png" alt="未來展望插圖（替換）">
+        </figure>
+        <p class="muted">最後更新：2025-08-22（記得維護時間）</p>
+      </section>
+    </article>
   </main>
 </body>
 </html>
+
 
 
 
