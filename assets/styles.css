@@ -301,3 +301,19 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
 @media (max-width:640px){
   .site-nav{ gap:10px 12px; }
 }
+/* ✅ 影片容器置中 */
+.video {
+  aspect-ratio: 16/9;
+  width: 100%;
+  max-width: 800px;     /* 影片區塊最大寬度，自己調整 */
+  margin: 20px auto;    /* 上下留白 & 水平自動置中 */
+  border-radius: 12px;  /* 圓角（可刪除） */
+  overflow: hidden;     /* 防止圓角外溢 */
+  box-shadow: 0 8px 24px rgba(0,0,0,.25); /* 陰影（可刪除） */
+}
+.video iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
