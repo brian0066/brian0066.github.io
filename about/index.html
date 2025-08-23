@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>關於諾菈 | Nolla</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
+    /* ========= 基本變數 ========= */
     :root{
       --panel:#121833;
       --text:#eaf0ff;
@@ -17,119 +19,135 @@
       --maxw: 820px;
       --leading: 1.95;
     }
+
     *{ box-sizing:border-box }
-    html,body{ 
-      margin:0; padding:0; 
-      color:var(--text); 
-      font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif; 
+
+    html,body{
+      margin:0; padding:0;
+      color:var(--text);
+      font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif;
       position: relative;
       min-height: 100vh;
       overflow-x: hidden;
+      background:#0a1630; /* 防止載入瞬間閃白 */
     }
 
-  /* ====== 動態雙層星空（視差） ====== */
-
-/* 頁面基本：深藍底色先鋪好，避免圖片載入瞬間閃白 */
-html, body{
-  background: #0a1630;
-  overflow-x: hidden;
-}
-
-/* 內容層維持在上面 */
-.topnav, header, main, footer, article, section{
-  position: relative;
-  z-index: 1;
-}
-
-/* 遠景層：藍色星雲（慢）+ 深藍遮罩（確保可讀） */
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  /* 用兩層背景：第1層是深藍半透明膜，第2層才是星雲圖 */
-  background:
-    linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
-    url('../assets/your-blue-starry.png.png');
-  background-repeat: no-repeat, no-repeat;
-  background-position: center, center;
-  background-size: cover, cover;
-  background-attachment: fixed, fixed;
-
-  /* 慢慢飄動（只會影響第2層圖，遮罩是固定的 0 0）*/
-  animation: nebulaDrift 160s linear infinite;
-}
-
-/* 近景層：小星點（快） */
-body::after{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: 0;               /* 跟 ::before 同層即可，兩者不互相遮蔽 */
-  pointer-events: none;
-  opacity: .22;             /* 亮度別太高，避免干擾文字 */
-
-  background: url('../assets/stars.png') repeat;
-  background-size: 720px 720px;   /* 星點密度 */
-  animation: starDrift 85s linear infinite;
-}
-
-/* 遠景（星雲）慢速對角漂移 */
-@keyframes nebulaDrift{
-  from { background-position: 0 0,       0 0; }
-  to   { background-position: 0 0,  1200px 900px; }
-}
-
-/* 近景（星點）稍快反向漂移，形成視差 */
-@keyframes starDrift{
-  from { background-position:    0   0; }
-  to   { background-position: -1400px -900px; }
-}
-
-
-   
-    /* 內容層 */
-    .topnav, header, main, footer, article, section {
-      position: relative;
-      z-index: 1;
+    /* ====== 動態雙層星空（視差） ====== */
+    /* 遠景層：藍色星雲（慢）+ 深藍遮罩（確保可讀） */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        /* 深藍半透明膜 */
+        linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
+        /* 你的藍色星空背景 */
+        url('../assets/your-blue-starry.png.png');
+      background-repeat: no-repeat, no-repeat;
+      background-position: center, center;
+      background-size: cover, cover;
+      background-attachment: fixed, fixed;
+      /* 只讓第2層星雲慢慢飄；第1層遮罩固定 */
+      animation: nebulaDrift 160s linear infinite;
+    }
+    @keyframes nebulaDrift{
+      from { background-position: 0 0, 0 0; }
+      to   { background-position: 0 0, 1200px 900px; }
     }
 
-    /* 上方導覽：回首頁 */
-    .topnav{ position: sticky; top: 0; z-index: 50;
+    /* 近景層：小星點（快） */
+    body::after{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .22;
+      background: url('../assets/stars.png') repeat;
+      background-size: 720px 720px;
+      animation: starDrift 85s linear infinite;
+    }
+    @keyframes starDrift{
+      from { background-position: 0 0; }
+      to   { background-position: -1400px -900px; }
+    }
+
+    /* 內容層確保在背景之上 */
+    .topnav, .site-nav, header, main, footer, article, section{ position:relative; z-index:1; }
+
+    /* ========= 置中固定導覽（你要的樣式） ========= */
+    /* === 固定在頂端的膠囊導覽 === */
+    .site-nav{
+      position: sticky;      /* 捲動時仍黏在頂端 */
+      top: 0;
+      z-index: 1000;         /* 蓋過背景層 */
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px 14px;
       background: rgba(11,16,32,.65);
-      backdrop-filter: saturate(140%) blur(6px);
-      padding: 8px 12px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .topnav a.home{ display:inline-block; padding:8px 12px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.14); color:var(--text); text-decoration:none; font-size:.95rem; }
-    .topnav a.home:hover{ border-color: rgba(255,255,255,.28); }
+    /* 導覽按鈕外觀 */
+    .site-nav .pill{
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #eaf0ff;
+      font-weight: 600;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      transition: .2s;
+    }
+    .site-nav .pill:hover{
+      background: rgba(160,123,255,.25);
+      border-color: rgba(255,255,255,.36);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(160,123,255,.25);
+    }
+    /* 當導覽是 sticky/fixed 時，給內容預留高度，避免被壓住 */
+    body.has-fixed-nav{
+      padding-top: var(--nav-h, 60px);
+    }
 
-    /* 標題與文字 */
+    /* ========= 內容樣式 ========= */
     header{ padding: 48px 20px 12px; text-align:center; }
     .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
-    h1{ margin:.25em 0 0; font-size: clamp(28px, 3.4vw, 44px); line-height:1.2; font-weight: 800;
+    h1{
+      margin:.25em 0 0;
+      font-size: clamp(28px, 3.4vw, 44px);
+      line-height:1.2; font-weight: 800;
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-      -webkit-background-clip: text; background-clip: text; color: transparent; }
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
     .subtitle{ color:var(--muted); margin-top: 6px; font-size: .98rem; }
 
     main{ max-width: var(--maxw); margin: 28px auto 80px; padding: 0 20px 0; }
-    .card{ background: rgba(18,24,51,.65);
-      border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: clamp(18px, 3vw, 36px); }
-
+    .card{
+      background: rgba(18,24,51,.65);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 36px);
+    }
     section + section{ margin-top: 36px; }
     h2{ font-size: clamp(20px, 2.2vw, 28px); margin: 0 0 10px; color: #ffffff; position: relative; }
-    h2::after{ content:""; display:block; width: 64px; height: 3px; border-radius: 999px;
-      margin-top: 8px; background: linear-gradient(90deg, var(--accent), transparent); opacity:.75; }
+    h2::after{
+      content:""; display:block; width: 64px; height: 3px; border-radius: 999px;
+      margin-top: 8px; background: linear-gradient(90deg, var(--accent), transparent); opacity:.75;
+    }
     p{ margin: 12px 0; line-height: var(--leading); font-size: clamp(15px, 1.4vw, 18px); color: var(--text); }
     .muted{ color: var(--muted); }
 
     figure{ margin: 18px auto; text-align:center; }
-    figure img{ width: min(100%, 760px); max-height: 520px; object-fit: cover; border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 30px rgba(0,0,0,.25); }
+    figure img{
+      width: min(100%, 760px); max-height: 520px; object-fit: cover; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
     figcaption{ color: var(--muted); font-size: .9rem; margin-top: 6px; }
 
     .float{ float: right; width: min(46%, 360px); margin: 6px 0 12px 16px; }
@@ -138,20 +156,23 @@ body::after{
     @media (max-width: 860px){ .float{ float:none; width:100%; margin: 8px 0 12px 0; } }
   </style>
 </head>
+
 <body>
-<nav class="site-nav" id="siteNav">
-  <a class="pill" href="/">Home</a>
-  <a class="pill" href="/about/">關於諾菈</a>
-  <a class="pill" href="/timeline/">里程碑</a>
-  <a class="pill" href="/gifts/">給諾菈的禮物</a>
-  <a class="pill" href="/gallery/">相簿</a>
-</nav>
+  <!-- 置中固定導覽 -->
+  <nav class="site-nav" id="siteNav">
+    <a class="pill" href="/">Home</a>
+    <a class="pill" href="/about/">關於諾菈</a>
+    <a class="pill" href="/timeline/">里程碑</a>
+    <a class="pill" href="/gifts/">給諾菈的禮物</a>
+    <a class="pill" href="/gallery/">相簿</a>
+  </nav>
 
   <header>
     <div class="kicker">About Nolla</div>
     <h1>關於諾菈</h1>
     <div class="subtitle">像紫藤故事一樣的長篇敘事頁，溫柔、節奏慢、圖片穿插</div>
   </header>
+
   <main>
     <article class="card">
       <section>
@@ -163,7 +184,9 @@ body::after{
         </figure>
         <p>有人說，那天之後，通勤的路不再那麼漫長；也有人說，考前夜的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
       </section>
+
       <div class="divider"></div>
+
       <section>
         <h2>關於諾菈的日常</h2>
         <figure class="float"><img src="nolla-daily.png" alt="諾菈日常插圖（替換）"></figure>
@@ -171,7 +194,9 @@ body::after{
         <p>有時是輕快聊天，有時是全力唱歌；偶爾也會輸給藍色 SC（笑）。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
         <p class="muted">（這段可換成你的實際設定／經歷）</p>
       </section>
+
       <div class="divider"></div>
+
       <section>
         <h2>夥伴與彩蛋</h2>
         <p>一路上，總有固定會出現的夥伴：剪精華的你、做圖的你、每晚準時打招呼的你。也有只在特別時刻冒頭的彩蛋：周年的倒數、深夜的突發、和那句「晚安要記得說」。</p>
@@ -179,7 +204,9 @@ body::after{
           <img src="nolla-friends.png" alt="群像合照（替換）">
         </figure>
       </section>
+
       <div class="divider"></div>
+
       <section>
         <h2>接下來，我們要去的地方</h2>
         <p>如果說開始是偶然，那就讓後來變成約定。下一次歌回、下一個里程碑、下一份更勇敢的作品——都麻煩你一起見證。</p>
@@ -187,77 +214,32 @@ body::after{
           <img src="nolla-future.png" alt="未來展望插圖（替換）">
         </figure>
         <p class="muted">最後更新：2025-08-22（記得維護時間）</p>
-        <script>
-(function(){
-  const nav = document.getElementById('siteNav');
-  if(!nav) return;
-  /* === 固定在頂端的膠囊導覽 === */
-.site-nav{
-  position: sticky;      /* 捲動時仍黏在頂端 */
-  top: 0;
-  z-index: 1000;         /* 蓋過背景層 */
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  padding: 10px 14px;
-  background: rgba(11,16,32,.65);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-/* 導覽按鈕外觀 */
-.site-nav .pill{
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: #eaf0ff;
-  font-weight: 600;
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.18);
-  transition: .2s;
-}
-.site-nav .pill:hover{
-  background: rgba(160,123,255,.25);
-  border-color: rgba(255,255,255,.36);
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(160,123,255,.25);
-}
-
-/* 當導覽是 sticky/fixed 時，給內容預留高度，避免被壓住 */
-body.has-fixed-nav{
-  padding-top: var(--nav-h, 60px);
-}
-
-
-  // 依導覽高度動態推內容
-  function applyPadding(){
-    const h = nav.offsetHeight || 64;
-    document.body.classList.add('has-fixed-nav');
-    document.body.style.setProperty('--nav-h', h + 'px');
-  }
-  applyPadding();
-  window.addEventListener('resize', applyPadding);
-
-  // 高亮目前頁面
-  const path = location.pathname.replace(/\/+$/,'');  // 去掉最後的 /
-  for (const a of nav.querySelectorAll('a.pill')){
-    const href = a.getAttribute('href').replace(/\/+$/,'');
-    if (href === path || (href === '' && path === '')) a.classList.add('active');
-    // 讓首頁 "/" 也能在子頁顯示不高亮
-    if (href === '' || href === '/') {
-      if (path === '' || path === '/') a.classList.add('active');
-    }
-    if (href === '/about' && path.startsWith('/about')) a.classList.add('active');
-    if (href === '/timeline' && path.startsWith('/timeline')) a.classList.add('active');
-    if (href === '/gifts' && path.startsWith('/gifts')) a.classList.add('active');
-    if (href === '/gallery' && path.startsWith('/gallery')) a.classList.add('active');
-  }
-})();
-</script>
       </section>
     </article>
   </main>
+
+  <!-- 動態設定導覽高度，替 body 加入預留間距 -->
+  <script>
+    (function(){
+      const nav = document.getElementById('siteNav');
+      if(!nav) return;
+
+      function applyPadding(){
+        const h = nav.offsetHeight || 60;
+        document.body.classList.add('has-fixed-nav');
+        document.body.style.setProperty('--nav-h', h + 'px');
+      }
+      applyPadding();
+      window.addEventListener('resize', applyPadding);
+
+      // 高亮目前頁面（可選）
+      const path = location.pathname.replace(/\/+$/,'');
+      for (const a of nav.querySelectorAll('a.pill')){
+        const href = (a.getAttribute('href') || '').replace(/\/+$/,'');
+        if ((href === '' && (path === '' || path === '/')) || href === path) a.classList.add('active');
+      }
+    })();
+  </script>
 </body>
 </html>
 
