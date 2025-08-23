@@ -32,11 +32,16 @@
       content:"";
       position: fixed;
       inset: 0;
-      z-index: 0;               /* 在最底層 */
-      pointer-events: none;     /* 不擋內容互動 */
-      opacity:.15;              /* 星光亮度可調 */
-      background: url('/assets/stars.png') repeat;
-      background-size: 600px 600px; /* 調整星點密度 */
+      z-index: 0;               
+      pointer-events: none;     
+      opacity:.18;              
+      background: url('../assets/stars.png') repeat;
+      background-size: 600px 600px; 
+      animation: moveStars 120s linear infinite;
+    }
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to   { background-position: 1000px 1000px; }
     }
 
     /* 內容層確保在上方 */
@@ -129,6 +134,8 @@
   </main>
 </body>
 </html>
+
+
 
 
 
