@@ -91,28 +91,48 @@
       backdrop-filter: blur(6px);
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    /* 導覽按鈕外觀 */
-    .site-nav .pill{
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 999px;
-      text-decoration: none;
-      color: #eaf0ff;
-      font-weight: 600;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.18);
-      transition: .2s;
-    }
-    .site-nav .pill:hover{
-      background: rgba(160,123,255,.25);
-      border-color: rgba(255,255,255,.36);
-      color: #fff;
-      box-shadow: 0 6px 20px rgba(160,123,255,.25);
-    }
-    /* 當導覽是 sticky/fixed 時，給內容預留高度，避免被壓住 */
-    body.has-fixed-nav{
-      padding-top: var(--nav-h, 60px);
-    }
+   /* === 固定在頂端的膠囊導覽（改用 fixed）=== */
+.site-nav{
+  position: fixed;         /* <— 由 sticky 改成 fixed */
+  top: 0;
+  left: 0;
+  right: 0;                /* 保證滿版 */
+  z-index: 10000;          /* 較大的層級，永遠壓在最上層 */
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 14px;
+
+  background: rgba(11,16,32,.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); /* iOS/Safari */
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+/* 導覽按鈕外觀（原樣保留） */
+.site-nav .pill{
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #eaf0ff;
+  font-weight: 600;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
+  transition: .2s;
+}
+.site-nav .pill:hover{
+  background: rgba(160,123,255,.25);
+  border-color: rgba(255,255,255,.36);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(160,123,255,.25);
+}
+
+/* 給內容預留固定導覽的高度（你原本的 JS 會動態設定 --nav-h） */
+body.has-fixed-nav{
+  padding-top: var(--nav-h, 60px);
+}
+
 
     /* ========= 內容樣式 ========= */
     header{ padding: 48px 20px 12px; text-align:center; }
