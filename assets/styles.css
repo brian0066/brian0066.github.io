@@ -142,4 +142,67 @@
 @media (max-width: 860px){
   .card{ border-radius: 14px; }
 }
+/* === Hero 區塊提亮 & 倒數更清楚 === */
+.hero {
+  position: relative;
+  isolation: isolate;          /* 讓 ::before 不影響其他層 */
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  /* 以前是偏暗的覆蓋，改成偏亮 + 微白霧，讓文字更清楚 */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.18));
+  z-index: 0;
+}
+
+/* 如果你的主視覺是 <img class="cover">，把任何變暗的濾鏡移除 */
+.hero .cover{
+  filter:none !important;
+  opacity: 1 !important;
+}
+
+/* 標題顏色改成以藍為主的漸層，視覺更亮 */
+.hero h1{
+  position: relative;
+  z-index: 1;
+  margin-bottom: .25em;
+  background: linear-gradient(90deg, #2f6aff, #7aa5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 0 rgba(255,255,255,.35); /* 細微提亮 */
+}
+
+/* 倒數文字：字大、行距緊、輕陰影，藍色點題 */
+.countdown, .countdown *{
+  position: relative;
+  z-index: 1;
+}
+.countdown{
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.25), 0 8px 24px rgba(0,0,0,.06);
+}
+.countdown .num{
+  font-size: clamp(28px, 4.8vw, 56px);
+  line-height: 1.05;
+  color: #2456ff;              /* 主藍 */
+  margin-right: .15em;
+}
+.countdown .unit{
+  font-size: clamp(16px, 2.2vw, 22px);
+  color: #1b2a4a;
+  opacity: .9;
+  margin-right: .6em;
+}
+
+/* 目標時間的顯示也提亮 */
+.countdown-note{
+  color:#0f2350;
+  font-weight:600;
+  opacity:.9;
+}
 
