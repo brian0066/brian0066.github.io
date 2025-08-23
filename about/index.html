@@ -1,175 +1,315 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>關於諾菈 | Nolla</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --panel:#121833;
-      --text:#eaf0ff;
-      --muted:#a7b1d9;
-      --accent:#a07bff;
-      --accent-soft:#7aa5ff;
-      --radius:18px;
-      --shadow:0 12px 40px rgba(0,0,0,.35);
-      --maxw: 820px;
-      --leading: 1.95;
-    }
-    *{ box-sizing:border-box }
-    html,body{ 
-      margin:0; padding:0; 
-      color:var(--text); 
-      font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif; 
-      position: relative;
-      min-height: 100vh;
-    }
+/* 讓 Hero 變成「整塊背景」，而且會依螢幕高低自適應 */
+.hero {
+  position: relative;
+  /* 如果剛換圖看不到更新，把 ?v=2 改大一點破快取 */
+  background: url('/assets/cover.png?v=2') right center / cover no-repeat;
+  min-height: clamp(360px, 60vh, 720px); /* 手機不會太矮、桌機不會太扁 */
+}
 
-    /* 🎨 藍色星空背景 */
-    body{
-      background: url('../assets/your-blue-starry.png.png') center/cover no-repeat fixed;
-    }
+/* 疊一層暗漸層，讓字清楚 */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.40));
+}
 
- /* 原本的 body::before 改成使用你的藍色圖 + 漂移動畫 */
-body.theme-night::before,
-body.theme-night.theme-night::before, /* 保險寫法，避免優先度衝突 */
-body::before {
+/* Hero 文字層要在最上面 */
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* 字體與容器做流體排版（各尺寸都好看） */
+:root {
+  --wrap: min(92vw, 1040px);
+}
+.wrap {
+  max-width: var(--wrap);
+}
+.hero h1 {
+  font-size: clamp(28px, 4.5vw, 56px);
+  line-height: 1.1;
+}
+.tagline {
+  font-size: clamp(14px, 1.8vw, 18px);
+}
+
+/* 導覽與按鈕在小螢幕不要擠在一起 */
+.nav {
+  flex-wrap: wrap;
+  gap: 10px 14px;
+}
+@media (max-width: 640px) {
+  .hero {
+    /* 直向手機時，背景重心往上，看起來更好 */
+    background-position: center 25%;
+    min-height: clamp(420px, 62vh, 780px);
+  }
+  .cta .btn {
+    margin: 0 10px 10px 0;
+  }
+}
+
+/* 影片永遠維持 16:9 */
+.video {
+  aspect-ratio: 16/9;
+}
+.video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* 相簿格依螢幕數量自動增減 */
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.grid img {
+  height: clamp(140px, 18vw, 220px);
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+/* ========= 全站藍色主題變數 ========= */
+:root {
+  /* 藍色基調 */
+  --accent: #3A86FF;      /* 主藍（按鈕/重點） */
+  --accent-soft: #9cc6ff; /* 次藍（漸層） */
+
+  /* 文字色 */
+  --text-strong: #0c1a33; /* 淺底用深字 */
+  --text-soft: #455a7a;
+
+  /* 卡片圓角/陰影 */
+  --radius: 16px;
+  --shadow-soft: 0 8px 30px rgba(32,56,96,.15);
+  --shadow-dark: 0 12px 40px rgba(0,0,0,.25);
+}
+
+/* ========= 兩種主題：淺藍 & 夜藍 ========= */
+
+/* A. 淺藍（頁面：里程碑 / 禮物 / 相簿） */
+.theme-sky {
+  color: var(--text-strong);
+  background:
+    radial-gradient(1000px 600px at 10% -10%, rgba(154, 197, 255, .20), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(58, 134, 255, .12), transparent 60%),
+    linear-gradient(180deg, #F5F9FF, #F9FBFF);
+}
+/* 淺藍卡片（白底、柔和陰影） */
+.theme-sky .card {
+  background: #fff;
+  border: 1px solid rgba(58,134,255,.10);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+/* 標題/小字色 */
+.theme-sky h1, .theme-sky h2 { color: #12325f; }
+.theme-sky .muted { color: var(--text-soft); }
+
+/* B. 夜藍（頁面：關於諾菈）— 比現在更亮、更藍、星星更淡 */
+.theme-night {
+  color: #ECF2FF;
+  background:
+    radial-gradient(1400px 700px at 15% -10%, rgba(112,158,255,.18), transparent 60%),
+    radial-gradient(1200px 600px at 85% 0%, rgba(58,134,255,.14), transparent 60%),
+    #0E1B33; /* 更藍的深底 */
+}
+/* 夜藍卡片（半透明） */
+.theme-night .card {
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-dark);
+}
+/* 夜藍：淡淡的星空（不遮內容） */
+.theme-night::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-
-  /* 用你的圖，滿版覆蓋，不重複 */
-  background: url('/assets/your-blue-starry.png.png') center / cover no-repeat fixed;
-
-  /* 漂移 + 微縮放（很慢、很柔） */
-  animation: starPan 60s linear infinite alternate;
-  transform-origin: center;
-  will-change: transform;
-  opacity: .9; /* 想再淡可調 0.85~0.95 */
+  opacity: .08; /* 星星更淡 */
+  background: url('../assets/stars.png') repeat;
+  background-size: 800px 800px; /* 星點更疏 */
+  animation: starDrift 160s linear infinite; /* 慢慢漂移 */
+}
+@keyframes starDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 1200px 900px; }
+}
+/* 內容層確保在星空之上 */
+.theme-night .topnav,
+.theme-night header,
+.theme-night main,
+.theme-night footer,
+.theme-night article,
+.theme-night section {
+  position: relative;
+  z-index: 1;
 }
 
-@keyframes starPan {
-  0%   { transform: translate3d(0,0,0) scale(1); }
-  50%  { transform: translate3d(-1.5%, -1%, 0) scale(1.03); }
-  100% { transform: translate3d(1.5%,  1%, 0) scale(1.06); }
+/* 共用：標題裝飾條（兩邊主題都用） */
+.card h2 {
+  position: relative;
+  margin: 0 0 12px;
+  font-weight: 700;
 }
-    /* 淡淡星火閃爍層（可選） */
-body.theme-night::after {
+.card h2::after {
   content: "";
-  position: fixed;
+  display: block;
+  width: 64px;
+  height: 3px;
+  border-radius: 999px;
+  margin-top: 8px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: .75;
+}
+
+/* 小螢幕：時間軸/卡片留白 */
+@media (max-width: 860px) {
+  .card { border-radius: 14px; }
+}
+
+/* === Hero 區塊提亮 & 倒數更清楚 === */
+.hero {
+  position: relative;
+  isolation: isolate; /* 讓 ::before 不影響其他層 */
+}
+.hero::before {
+  content: "";
+  position: absolute;
   inset: 0;
-  z-index: 0;           /* 一樣在背景層 */
-  pointer-events: none;
-  background-image:
-    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.25), transparent 50%),
-    radial-gradient(1.6px 1.6px at 70% 60%, rgba(255,255,255,.2),  transparent 50%),
-    radial-gradient(1.2px 1.2px at 40% 80%, rgba(255,255,255,.2),  transparent 50%);
-  background-repeat: no-repeat;
-  animation: twinkle 6s ease-in-out infinite alternate;
-  opacity: .07;         /* 可調 0.05~0.1 */
+  /* 以前是偏暗的覆蓋，改成偏亮 + 微白霧，讓文字更清楚 */
+  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.18));
+  z-index: 0;
+}
+/* 如果你的主視覺是 <img class="cover">，把任何變暗的濾鏡移除 */
+.hero .cover {
+  filter: none !important;
+  opacity: 1 !important;
+}
+/* 標題顏色改成以藍為主的漸層，視覺更亮 */
+.hero h1 {
+  position: relative;
+  z-index: 1;
+  margin-bottom: .25em;
+  background: linear-gradient(90deg, #2f6aff, #7aa5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 0 rgba(255,255,255,.35); /* 細微提亮 */
 }
 
-@keyframes twinkle {
-  0%   { filter: brightness(1);   }
-  100% { filter: brightness(1.25); }
+/* 倒數文字：字大、行距緊、輕陰影，藍色點題 */
+.countdown, .countdown * {
+  position: relative;
+  z-index: 1;
+}
+.countdown {
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-shadow: 
+    0 1px 0 rgba(255,255,255,.25),
+    0 8px 24px rgba(0,0,0,.06);
+}
+.countdown .num {
+  font-size: clamp(28px, 4.8vw, 56px);
+  line-height: 1.05;
+  color: #2456ff; /* 主藍 */
+  margin-right: .15em;
+}
+.countdown .unit {
+  font-size: clamp(16px, 2.2vw, 22px);
+  color: #1b2a4a;
+  opacity: .9;
+  margin-right: .6em;
+}
+/* 目標時間的顯示也提亮 */
+.countdown-note {
+  color: #0f2350;
+  font-weight: 600;
+  opacity: .9;
 }
 
+/* 倒數計時器（亮一點、數字更清楚） */
+.countdown {
+  font-weight: 700;
+  margin-top: 16px;
+  line-height: 1.25;
+  /* 提亮：藍色到紫色漸層＋柔和陰影 */
+  background: linear-gradient(90deg, #3aa8ff, #8b7bff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 12px rgba(58,168,255,.25);
+  font-size: clamp(22px, 4vw, 36px);
+}
+.countdown .num {
+  display: inline-block;
+  min-width: 2ch; /* 讓 04 這種寬度一致 */
+  text-align: right;
+  letter-spacing: .5px;
+}
+.countdown .unit {
+  display: inline-block;
+  margin: 0 .35em 0 .15em;
+  opacity: .9;
+}
+.countdown-note {
+  margin-top: 6px;
+  font-weight: 500;
+  font-size: .85em;
+  color: rgba(234,240,255,.85);
+  text-shadow: none;
+}
 
-    }
-
-    /* 內容層 */
-    .topnav, header, main, footer, article, section {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* 上方導覽：回首頁 */
-    .topnav{ position: sticky; top: 0; z-index: 50;
-      background: rgba(11,16,32,.60);
-      backdrop-filter: saturate(140%) blur(6px);
-      padding: 8px 12px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    .topnav a.home{ display:inline-block; padding:8px 12px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.14); color:var(--text); text-decoration:none; font-size:.95rem; }
-    .topnav a.home:hover{ border-color: rgba(255,255,255,.28); }
-    header{ padding: 48px 20px 12px; text-align:center; }
-    .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
-    h1{ margin:.25em 0 0; font-size: clamp(28px, 3.4vw, 44px); line-height:1.2; font-weight: 800;
-      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-      -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .subtitle{ color:var(--muted); margin-top: 6px; font-size: .98rem; }
-    main{ max-width: var(--maxw); margin: 28px auto 80px; padding: 0 20px 0; }
-    .card{ background: rgba(18,24,51,.65);
-      border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: clamp(18px, 3vw, 36px); }
-    section + section{ margin-top: 36px; }
-    h2{ font-size: clamp(20px, 2.2vw, 28px); margin: 0 0 10px; color: #ffffff; position: relative; }
-    h2::after{ content:""; display:block; width: 64px; height: 3px; border-radius: 999px;
-      margin-top: 8px; background: linear-gradient(90deg, var(--accent), transparent); opacity:.75; }
-    p{ margin: 12px 0; line-height: var(--leading); font-size: clamp(15px, 1.4vw, 18px); color: var(--text); }
-    .muted{ color: var(--muted); }
-    figure{ margin: 18px auto; text-align:center; }
-    figure img{ width: min(100%, 760px); max-height: 520px; object-fit: cover; border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 30px rgba(0,0,0,.25); }
-    figcaption{ color: var(--muted); font-size: .9rem; margin-top: 6px; }
-    .float{ float: right; width: min(46%, 360px); margin: 6px 0 12px 16px; }
-    .float img{ width: 100%; border-radius: 12px; }
-    .divider{ height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); margin: 24px 0; }
-    @media (max-width: 860px){ .float{ float:none; width:100%; margin: 8px 0 12px 0; } }
-  </style>
-</head>
-<body class="theme-night">
-  <!-- 回首頁導覽 -->
-  <nav class="topnav"><a class="home" href="/">← 回首頁</a></nav>
-  <header>
-    <div class="kicker">About Nolla</div>
-    <h1>關於諾菈</h1>
-    <div class="subtitle">像紫藤故事一樣的長篇敘事頁，溫柔、節奏慢、圖片穿插</div>
-  </header>
-  <main>
-    <article class="card">
-      <section>
-        <h2>在月色與螢光之間</h2>
-        <p>在某個總會飄著微光的夜晚，諾菈踏進了我們的時間線。她並不急著說話，只是把歌聲放進你我的耳機，像把一盞盞小燈，悄悄點在各自的日常裡。</p>
-        <figure>
-          <img src="nolla-hero.gif" alt="諾菈初遇的剪影（替換為你的 GIF）">
-          <figcaption>初遇諾菈的片刻（示意圖，請替換）</figcaption>
-        </figure>
-        <p>有人說，那天之後，通勤的路不再那麼漫長；也有人說，考前夜的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
-      </section>
-      <div class="divider"></div>
-      <section>
-        <h2>關於諾菈的日常</h2>
-        <figure class="float"><img src="nolla-daily.png" alt="諾菈日常插圖（替換）"></figure>
-        <p>直播裡，她是那個不疾不徐的人：先把聊天室都看過一遍，再把遊戲打開；先接住你的問候，再把玩笑說完。她喜歡把舞台讓出一半給觀眾，讓彼此的故事都能被看見。</p>
-        <p>有時是輕快聊天，有時是全力唱歌；偶爾也會輸給藍色 SC（笑）。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
-        <p class="muted">（這段可換成你的實際設定／經歷）</p>
-      </section>
-      <div class="divider"></div>
-      <section>
-        <h2>夥伴與彩蛋</h2>
-        <p>一路上，總有固定會出現的夥伴：剪精華的你、做圖的你、每晚準時打招呼的你。也有只在特別時刻冒頭的彩蛋：周年的倒數、深夜的突發、和那句「晚安要記得說」。</p>
-        <figure>
-          <img src="nolla-friends.png" alt="群像合照（替換）">
-        </figure>
-      </section>
-      <div class="divider"></div>
-      <section>
-        <h2>接下來，我們要去的地方</h2>
-        <p>如果說開始是偶然，那就讓後來變成約定。下一次歌回、下一個里程碑、下一份更勇敢的作品——都麻煩你一起見證。</p>
-        <figure>
-          <img src="nolla-future.png" alt="未來展望插圖（替換）">
-        </figure>
-        <p class="muted">最後更新：2025-08-22（記得維護時間）</p>
-      </section>
-    </article>
-  </main>
-</body>
-</html>
+/* === 頂部導覽：膠囊卡片樣式 === */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,.55); /* 提亮、跟主視覺分離 */
+  backdrop-filter: blur(8px) saturate(140%);
+  border-bottom: 1px solid rgba(47,106,255,.12);
+}
+.site-nav .pill {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: #0f2350;
+  background: linear-gradient(180deg, #ffffff, #f4f7ff);
+  box-shadow:
+    0 10px 24px rgba(28, 92, 255, .12),
+    inset 0 0 0 1px rgba(47,106,255,.16);
+  transition: transform .15s ease,
+              box-shadow .15s ease,
+              background .2s ease;
+}
+.site-nav .pill:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 28px rgba(28, 92, 255, .18),
+    inset 0 0 0 1px rgba(47,106,255,.28);
+}
+.site-nav .pill:active {
+  transform: translateY(0);
+}
+.site-nav .pill.active {
+  background: linear-gradient(180deg, #e9f2ff, #dbe8ff);
+  color: #0a1a44;
+  box-shadow:
+    0 12px 26px rgba(28, 92, 255, .2),
+    inset 0 0 0 1px rgba(47,106,255,.36);
+}
 
 
 
