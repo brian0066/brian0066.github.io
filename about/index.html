@@ -1,321 +1,51 @@
+<!doctype html>
+<html lang="zh-Hant">
 <head>
-  …
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>樣式測試</title>
   <style>
- /* 讓 Hero 變成「整塊背景」，而且會依螢幕高低自適應 */
-.hero {
-  position: relative;
-  /* 如果剛換圖看不到更新，把 ?v=2 改大一點破快取 */
-  background: url('/assets/cover.png?v=2') right center / cover no-repeat;
-  min-height: clamp(360px, 60vh, 720px); /* 手機不會太矮、桌機不會太扁 */
-}
+    /* 你的 CSS（原樣） */
+    /* 讓 Hero 變成「整塊背景」，而且會依螢幕高低自適應 */
+    .hero {
+      position: relative;
+      background: url('/assets/cover.png?v=2') right center / cover no-repeat;
+      min-height: clamp(360px, 60vh, 720px);
+      display:grid; place-items:center; text-align:center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.40));
+    }
+    .hero .wrap { position: relative; z-index: 1; color:#ECF2FF; }
+    :root { --wrap: min(92vw, 1040px); }
+    .wrap { max-width: var(--wrap); margin: 24px auto; padding: 0 16px; }
+    .hero h1 { font-size: clamp(28px, 4.5vw, 56px); line-height:1.1;
+      background: linear-gradient(90deg, #2f6aff, #7aa5ff);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      text-shadow: 0 1px 0 rgba(255,255,255,.35);
+    }
+    .tagline { font-size: clamp(14px, 1.8vw, 18px); color:#ECF2FF; opacity:.9; }
 
-/* 疊一層暗漸層，讓字清楚 */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.40));
-}
-
-/* Hero 文字層要在最上面 */
-.hero .wrap {
-  position: relative;
-  z-index: 1;
-}
-
-/* 字體與容器做流體排版（各尺寸都好看） */
-:root {
-  --wrap: min(92vw, 1040px);
-}
-.wrap {
-  max-width: var(--wrap);
-}
-.hero h1 {
-  font-size: clamp(28px, 4.5vw, 56px);
-  line-height: 1.1;
-}
-.tagline {
-  font-size: clamp(14px, 1.8vw, 18px);
-}
-
-/* 導覽與按鈕在小螢幕不要擠在一起 */
-.nav {
-  flex-wrap: wrap;
-  gap: 10px 14px;
-}
-@media (max-width: 640px) {
-  .hero {
-    /* 直向手機時，背景重心往上，看起來更好 */
-    background-position: center 25%;
-    min-height: clamp(420px, 62vh, 780px);
-  }
-  .cta .btn {
-    margin: 0 10px 10px 0;
-  }
-}
-
-/* 影片永遠維持 16:9 */
-.video {
-  aspect-ratio: 16/9;
-}
-.video iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-/* 相簿格依螢幕數量自動增減 */
-.grid {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-}
-.grid img {
-  height: clamp(140px, 18vw, 220px);
-  object-fit: cover;
-  border-radius: 14px;
-}
-
-/* ========= 全站藍色主題變數 ========= */
-:root {
-  /* 藍色基調 */
-  --accent: #3A86FF;      /* 主藍（按鈕/重點） */
-  --accent-soft: #9cc6ff; /* 次藍（漸層） */
-
-  /* 文字色 */
-  --text-strong: #0c1a33; /* 淺底用深字 */
-  --text-soft: #455a7a;
-
-  /* 卡片圓角/陰影 */
-  --radius: 16px;
-  --shadow-soft: 0 8px 30px rgba(32,56,96,.15);
-  --shadow-dark: 0 12px 40px rgba(0,0,0,.25);
-}
-
-/* ========= 兩種主題：淺藍 & 夜藍 ========= */
-
-/* A. 淺藍（頁面：里程碑 / 禮物 / 相簿） */
-.theme-sky {
-  color: var(--text-strong);
-  background:
-    radial-gradient(1000px 600px at 10% -10%, rgba(154, 197, 255, .20), transparent 55%),
-    radial-gradient(900px 500px at 90% 0%, rgba(58, 134, 255, .12), transparent 60%),
-    linear-gradient(180deg, #F5F9FF, #F9FBFF);
-}
-/* 淺藍卡片（白底、柔和陰影） */
-.theme-sky .card {
-  background: #fff;
-  border: 1px solid rgba(58,134,255,.10);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
-}
-/* 標題/小字色 */
-.theme-sky h1, .theme-sky h2 { color: #12325f; }
-.theme-sky .muted { color: var(--text-soft); }
-
-/* B. 夜藍（頁面：關於諾菈）— 比現在更亮、更藍、星星更淡 */
-.theme-night {
-  color: #ECF2FF;
-  background:
-    radial-gradient(1400px 700px at 15% -10%, rgba(112,158,255,.18), transparent 60%),
-    radial-gradient(1200px 600px at 85% 0%, rgba(58,134,255,.14), transparent 60%),
-    #0E1B33; /* 更藍的深底 */
-}
-/* 夜藍卡片（半透明） */
-.theme-night .card {
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-dark);
-}
-/* 夜藍：淡淡的星空（不遮內容） */
-.theme-night::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .08; /* 星星更淡 */
-  background: url('../assets/stars.png') repeat;
-  background-size: 800px 800px; /* 星點更疏 */
-  animation: starDrift 160s linear infinite; /* 慢慢漂移 */
-}
-@keyframes starDrift {
-  from { background-position: 0 0; }
-  to   { background-position: 1200px 900px; }
-}
-/* 內容層確保在星空之上 */
-.theme-night .topnav,
-.theme-night header,
-.theme-night main,
-.theme-night footer,
-.theme-night article,
-.theme-night section {
-  position: relative;
-  z-index: 1;
-}
-
-/* 共用：標題裝飾條（兩邊主題都用） */
-.card h2 {
-  position: relative;
-  margin: 0 0 12px;
-  font-weight: 700;
-}
-.card h2::after {
-  content: "";
-  display: block;
-  width: 64px;
-  height: 3px;
-  border-radius: 999px;
-  margin-top: 8px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  opacity: .75;
-}
-
-/* 小螢幕：時間軸/卡片留白 */
-@media (max-width: 860px) {
-  .card { border-radius: 14px; }
-}
-
-/* === Hero 區塊提亮 & 倒數更清楚 === */
-.hero {
-  position: relative;
-  isolation: isolate; /* 讓 ::before 不影響其他層 */
-}
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* 以前是偏暗的覆蓋，改成偏亮 + 微白霧，讓文字更清楚 */
-  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.18));
-  z-index: 0;
-}
-/* 如果你的主視覺是 <img class="cover">，把任何變暗的濾鏡移除 */
-.hero .cover {
-  filter: none !important;
-  opacity: 1 !important;
-}
-/* 標題顏色改成以藍為主的漸層，視覺更亮 */
-.hero h1 {
-  position: relative;
-  z-index: 1;
-  margin-bottom: .25em;
-  background: linear-gradient(90deg, #2f6aff, #7aa5ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 1px 0 rgba(255,255,255,.35); /* 細微提亮 */
-}
-
-/* 倒數文字：字大、行距緊、輕陰影，藍色點題 */
-.countdown, .countdown * {
-  position: relative;
-  z-index: 1;
-}
-.countdown {
-  font-weight: 700;
-  letter-spacing: .02em;
-  text-shadow: 
-    0 1px 0 rgba(255,255,255,.25),
-    0 8px 24px rgba(0,0,0,.06);
-}
-.countdown .num {
-  font-size: clamp(28px, 4.8vw, 56px);
-  line-height: 1.05;
-  color: #2456ff; /* 主藍 */
-  margin-right: .15em;
-}
-.countdown .unit {
-  font-size: clamp(16px, 2.2vw, 22px);
-  color: #1b2a4a;
-  opacity: .9;
-  margin-right: .6em;
-}
-/* 目標時間的顯示也提亮 */
-.countdown-note {
-  color: #0f2350;
-  font-weight: 600;
-  opacity: .9;
-}
-
-/* 倒數計時器（亮一點、數字更清楚） */
-.countdown {
-  font-weight: 700;
-  margin-top: 16px;
-  line-height: 1.25;
-  /* 提亮：藍色到紫色漸層＋柔和陰影 */
-  background: linear-gradient(90deg, #3aa8ff, #8b7bff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 2px 12px rgba(58,168,255,.25);
-  font-size: clamp(22px, 4vw, 36px);
-}
-.countdown .num {
-  display: inline-block;
-  min-width: 2ch; /* 讓 04 這種寬度一致 */
-  text-align: right;
-  letter-spacing: .5px;
-}
-.countdown .unit {
-  display: inline-block;
-  margin: 0 .35em 0 .15em;
-  opacity: .9;
-}
-.countdown-note {
-  margin-top: 6px;
-  font-weight: 500;
-  font-size: .85em;
-  color: rgba(234,240,255,.85);
-  text-shadow: none;
-}
-
-/* === 頂部導覽：膠囊卡片樣式 === */
-.site-nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: rgba(255,255,255,.55); /* 提亮、跟主視覺分離 */
-  backdrop-filter: blur(8px) saturate(140%);
-  border-bottom: 1px solid rgba(47,106,255,.12);
-}
-.site-nav .pill {
-  display: inline-block;
-  padding: 9px 16px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 600;
-  letter-spacing: .02em;
-  color: #0f2350;
-  background: linear-gradient(180deg, #ffffff, #f4f7ff);
-  box-shadow:
-    0 10px 24px rgba(28, 92, 255, .12),
-    inset 0 0 0 1px rgba(47,106,255,.16);
-  transition: transform .15s ease,
-              box-shadow .15s ease,
-              background .2s ease;
-}
-.site-nav .pill:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 14px 28px rgba(28, 92, 255, .18),
-    inset 0 0 0 1px rgba(47,106,255,.28);
-}
-.site-nav .pill:active {
-  transform: translateY(0);
-}
-.site-nav .pill.active {
-  background: linear-gradient(180deg, #e9f2ff, #dbe8ff);
-  color: #0a1a44;
-  box-shadow:
-    0 12px 26px rgba(28, 92, 255, .2),
-    inset 0 0 0 1px rgba(47,106,255,.36);
-}
-
+    /* 下面略：保持你原本的 CSS 都可以 */
   </style>
 </head>
+<body>
+  <!-- 這裡一定要有內容！ -->
+  <header class="hero">
+    <div class="wrap">
+      <h1>這不是白頁 🎉</h1>
+      <p class="tagline">看得到這些字，代表 HTML + CSS 都在正確的位置。</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p>接著把你的實際內容（導覽、倒數、影片等）慢慢加回來。</p>
+  </main>
+</body>
+</html>
 
 
 
