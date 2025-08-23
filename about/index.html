@@ -31,13 +31,32 @@
       background: url('../assets/your-blue-starry.png.png') center/cover no-repeat fixed;
     }
 
-    /* 半透明遮罩，讓文字可讀 */
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 20, 60, 0.55); /* 深藍透明層 */
-      z-index: 0;
+ /* 原本的 body::before 改成使用你的藍色圖 + 漂移動畫 */
+body.theme-night::before,
+body.theme-night.theme-night::before, /* 保險寫法，避免優先度衝突 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* 用你的圖，滿版覆蓋，不重複 */
+  background: url('/assets/your-blue-starry.png.png') center / cover no-repeat fixed;
+
+  /* 漂移 + 微縮放（很慢、很柔） */
+  animation: starPan 60s linear infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+  opacity: .9; /* 想再淡可調 0.85~0.95 */
+}
+
+@keyframes starPan {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(-1.5%, -1%, 0) scale(1.03); }
+  100% { transform: translate3d(1.5%,  1%, 0) scale(1.06); }
+}
+
     }
 
     /* 內容層 */
