@@ -56,6 +56,27 @@ body::before {
   50%  { transform: translate3d(-1.5%, -1%, 0) scale(1.03); }
   100% { transform: translate3d(1.5%,  1%, 0) scale(1.06); }
 }
+    /* 淡淡星火閃爍層（可選） */
+body.theme-night::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;           /* 一樣在背景層 */
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.25), transparent 50%),
+    radial-gradient(1.6px 1.6px at 70% 60%, rgba(255,255,255,.2),  transparent 50%),
+    radial-gradient(1.2px 1.2px at 40% 80%, rgba(255,255,255,.2),  transparent 50%);
+  background-repeat: no-repeat;
+  animation: twinkle 6s ease-in-out infinite alternate;
+  opacity: .07;         /* 可調 0.05~0.1 */
+}
+
+@keyframes twinkle {
+  0%   { filter: brightness(1);   }
+  100% { filter: brightness(1.25); }
+}
+
 
     }
 
