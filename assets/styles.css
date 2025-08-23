@@ -236,4 +236,44 @@
   color: rgba(234,240,255,.85);
   text-shadow: none;
 }
+/* === 頂部導覽：膠囊卡片樣式 === */
+.site-nav{
+  position: sticky; top: 0; z-index: 1000;
+  display: flex; justify-content: center; gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,.55);           /* 提亮、跟主視覺分離 */
+  backdrop-filter: blur(8px) saturate(140%);
+  border-bottom: 1px solid rgba(47,106,255,.12);
+}
+
+.site-nav .pill{
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: #0f2350;
+  background: linear-gradient(180deg,#ffffff,#f4f7ff);
+  box-shadow:
+    0 10px 24px rgba(28, 92, 255, .12),
+    inset 0 0 0 1px rgba(47,106,255,.16);
+  transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+}
+.site-nav .pill:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 28px rgba(28, 92, 255, .18),
+    inset 0 0 0 1px rgba(47,106,255,.28);
+}
+.site-nav .pill:active{
+  transform: translateY(0);
+}
+.site-nav .pill.active{
+  background: linear-gradient(180deg,#e9f2ff,#dbe8ff);
+  color:#0a1a44;
+  box-shadow:
+    0 12px 26px rgba(28, 92, 255, .2),
+    inset 0 0 0 1px rgba(47,106,255,.36);
+}
 
