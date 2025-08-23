@@ -148,8 +148,14 @@ body::after{
   </style>
 </head>
 <body>
-  <!-- 回首頁導覽 -->
-  <nav class="topnav"><a class="home" href="/">← 回首頁</a></nav>
+<nav class="site-nav" id="siteNav">
+  <a class="pill" href="/">Home</a>
+  <a class="pill" href="/about/">關於諾菈</a>
+  <a class="pill" href="/timeline/">里程碑</a>
+  <a class="pill" href="/gifts/">給諾菈的禮物</a>
+  <a class="pill" href="/gallery/">相簿</a>
+</nav>
+
   <header>
     <div class="kicker">About Nolla</div>
     <h1>關於諾菈</h1>
@@ -190,6 +196,37 @@ body::after{
           <img src="nolla-future.png" alt="未來展望插圖（替換）">
         </figure>
         <p class="muted">最後更新：2025-08-22（記得維護時間）</p>
+        <script>
+(function(){
+  const nav = document.getElementById('siteNav');
+  if(!nav) return;
+
+  // 依導覽高度動態推內容
+  function applyPadding(){
+    const h = nav.offsetHeight || 64;
+    document.body.classList.add('has-fixed-nav');
+    document.body.style.setProperty('--nav-h', h + 'px');
+  }
+  applyPadding();
+  window.addEventListener('resize', applyPadding);
+
+  // 高亮目前頁面
+  const path = location.pathname.replace(/\/+$/,'');  // 去掉最後的 /
+  for (const a of nav.querySelectorAll('a.pill')){
+    const href = a.getAttribute('href').replace(/\/+$/,'');
+    if (href === path || (href === '' && path === '')) a.classList.add('active');
+    // 讓首頁 "/" 也能在子頁顯示不高亮
+    if (href === '' || href === '/') {
+      if (path === '' || path === '/') a.classList.add('active');
+    }
+    if (href === '/about' && path.startsWith('/about')) a.classList.add('active');
+    if (href === '/timeline' && path.startsWith('/timeline')) a.classList.add('active');
+    if (href === '/gifts' && path.startsWith('/gifts')) a.classList.add('active');
+    if (href === '/gallery' && path.startsWith('/gallery')) a.classList.add('active');
+  }
+})();
+</script>
+
       </section>
     </article>
   </main>
