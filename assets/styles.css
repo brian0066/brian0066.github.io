@@ -301,28 +301,29 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
 @media (max-width:640px){
   .site-nav{ gap:10px 12px; }
 }
-/* ✅ 可調寬度＋可調對齊的 YouTube 影片容器 */
-.video{
-  /* 自由調整影片最大寬度（單位可用 px / % / ch 等）*/
-  --w: 800px;
-
-  display: flex;
-  justify-content: center;   /* 預設置中 */
-  align-items: center;
-
-  width: 100%;
-  margin: 20px auto;         /* 讓容器本身置中 */
+/* 讓 .wrap 容器真正置中 */
+.wrap{
+  max-width: var(--wrap);
+  margin: 0 auto;           /* ← 這行很重要 */
 }
 
-/* 位置控制：加上 class 就能改對齊 */
+/* ✅ 單一版本的影片置中規則（刪掉前面舊的 .video 規則） */
+.video{
+  --w: 800px;               /* 想多寬就改數字 */
+  display: flex;
+  justify-content: center;  /* 置中 */
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;        /* 容器本身置中 */
+}
+
 .video.align-left  { justify-content: flex-start; }
 .video.align-right { justify-content: flex-end;  }
 
-/* 影片本體：強制覆蓋 YouTube 行內寬高並維持 16:9 */
 .video iframe{
-  width: min(100%, var(--w)) !important; /* 覆蓋 width="xxx" */
+  width: min(100%, var(--w)) !important;  /* 蓋掉 YouTube 的行內 width */
   aspect-ratio: 16 / 9;
-  height: auto !important;               /* 覆蓋 height="xxx" */
+  height: auto !important;                /* 蓋掉行內 height */
   display: block;
   border: 0;
 }
