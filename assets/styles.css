@@ -301,20 +301,23 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
 @media (max-width:640px){
   .site-nav{ gap:10px 12px; }
 }
-/* ✅ 影片容器置中 */
-.video {
-  aspect-ratio: 16/9;
-  width: 100%;
-  max-width: 800px;   /* 影片最大寬度 */
-  margin: 20px auto;  /* 上下留白 + 水平自動置中 */
-  display: flex;      /* 用 flex 幫 iframe 置中 */
-  justify-content: center;
-  align-items: center;
+/* 影片容器置中 + 限制最大寬度 */
+.wrap .video{
+  width: min(100%, 960px);   /* 或改你喜歡的最大寬度 */
+  margin: 16px auto;         /* 左右 auto 就會置中 */
+  aspect-ratio: 16 / 9;
 }
 
-.video iframe {
+/* 播放器鋪滿容器，去掉邊框 */
+.wrap .video iframe{
+  display: block;            /* 防止 inline 元素留下縫隙 */
   width: 100%;
   height: 100%;
-  display: block;
   border: 0;
 }
+<section class="video-list">
+  <div class="video">…</div>
+  <div class="video">…</div>
+  <div class="video">…</div>
+</section>
+
