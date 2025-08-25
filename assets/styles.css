@@ -370,4 +370,63 @@ body::before{
     linear-gradient(0deg, rgba(0,15,45,.72), rgba(0,15,45,.72)),
     url('/assets/your-blue-starry.png') !important;
 }
+/* ====== 讀性鎖死：Hero 與卡片都變清楚（不改 HTML）====== */
 
+/* 1) Hero 先壓暗背景，不要用白霧提亮 */
+.hero{
+  position: relative;
+  isolation: isolate;            /* 切斷混色鏈 */
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  /* 由原本白霧(亮) → 改成深色漸層(暗)；讓白字有對比 */
+  background: linear-gradient(180deg, rgba(0,0,0,.60), rgba(0,0,0,.48)) !important;
+  z-index:0;
+}
+
+/* 2) Hero 標題不要用透明漸層字，先回到實白 + 細陰影 */
+.hero h1{
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 6px rgba(0,0,0,.55) !important;
+}
+
+/* 3) Hero 內文也提亮與描邊，避免星星穿透時吃字 */
+.hero .wrap, .hero .wrap *{
+  color: #f9fbff !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.55) !important;
+  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
+}
+
+/* 4) 卡片內容：給卡片自己的一層暗幕（即使你的卡片是半透明也不會吃字） */
+.card{
+  position: relative;
+  isolation: isolate;                                     /* 切混色 */
+  background:
+    linear-gradient(0deg, rgba(8,12,28,.86), rgba(8,12,28,.86)),
+    rgba(18,24,51,.45) !important;                        /* 深色薄膜 + 原色 */
+  mix-blend-mode: normal !important;
+}
+.card p, .card li, .card .muted{
+  color:#f9fbff !important;
+  text-shadow: 0 0 1px rgba(0,0,0,.55);
+  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
+}
+.card h2, .card h3, .card h4{
+  color:#ffffff !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.45);
+  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
+}
+
+/* 5) 防踩雷：把任何祖先誤設的透明/濾鏡/混色阻斷掉 */
+.card, .card *{
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* 6) 背景星點再淡一點（全站，可留可拿掉） */
+body::after{ opacity:.10 !important; }
