@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --panel:#121833; --text:#f2f5ff; --muted:#e0e6ff; --accent:#a07bff; --accent-soft:#7aa5ff;
+      --panel:#121833; --text:#ffffff; --muted:#e6ebff; --accent:#a07bff; --accent-soft:#7aa5ff;
       --radius:18px; --shadow:0 12px 40px rgba(0,0,0,.35); --maxw: 860px; --leading: 1.95;
     }
     *{box-sizing:border-box}
@@ -38,12 +38,13 @@
     .subtitle{color:var(--muted);margin-top:6px;font-size:.98rem}
 
     main{max-width:var(--maxw);margin:28px auto 80px;padding:0 20px}
-    .card{background:rgba(18,24,51,.65);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(18px,3vw,36px)}
+    .card{background:rgba(10,15,35,0.75); /* 半透明深底 */
+      border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(18px,3vw,36px)}
     section+section{margin-top:36px}
     h2{font-size:clamp(20px,2.2vw,28px);margin:0 0 10px;color:#fff;position:relative}
     h2::after{content:"";display:block;width:64px;height:3px;border-radius:999px;margin-top:8px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.75}
-    p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);color:var(--text);text-shadow:0 1px 2px rgba(0,0,0,.6)}
-    .muted{color:var(--muted);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+    p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);color:var(--text);text-shadow:0 0 6px rgba(0,0,0,.9)}
+    .muted{color:var(--muted);text-shadow:0 0 6px rgba(0,0,0,.9)}
 
     figure{margin:18px auto;text-align:center}
     figure img{width:min(100%,760px);max-height:520px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 30px rgba(0,0,0,.25)}
@@ -178,6 +179,7 @@
   </script>
 </body>
 </html>
+
 
 
 
