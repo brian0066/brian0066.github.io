@@ -8,7 +8,7 @@
   <style>
     /* 導航列 */
     .nav {
-      position: fixed;        /* 固定在上方 */
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -16,12 +16,11 @@
       justify-content: center;
       gap: 1.2rem;
       padding: 12px 0;
-      background: rgba(40,40,60,0.7); /* 半透明背景 */
+      background: rgba(40,40,60,0.7);
       backdrop-filter: blur(6px);
       z-index: 999;
     }
 
-    /* 導航列按鈕 */
     .nav a {
       color: #fff;
       text-decoration: none;
@@ -36,33 +35,56 @@
       background: rgba(122,165,255,0.25);
     }
 
-    /* 主內容避免被 nav 擋住 */
-    .wrap {
-      padding-top: 100px; /* 預留導航列高度 */
-      max-width: 800px;
-      margin: 0 auto;
+    /* 背景設計 */
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      background: linear-gradient(135deg, #0b1020 0%, #1e2746 100%);
+      position: relative;
+      overflow: hidden;
+      font-family: "Noto Sans TC", sans-serif;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url('/assets/cover.png') center/cover no-repeat;
+      opacity: 0.15;           /* 讓背景圖淡淡的 */
+      filter: blur(8px);       /* 模糊處理 */
+      z-index: -1;             /* 在最底層 */
     }
 
-    .cards {
-      display: grid;
-      gap: 1.2rem;
+    /* 主內容置中 */
+    .wrap {
+      padding-top: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100% - 100px);
     }
 
     .card {
-      background: rgba(255,255,255,0.08);
-      padding: 16px 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.2);
+      max-width: 900px;
+      background: rgba(255,255,255,0.92);
+      padding: 40px 48px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-align: justify;
+      animation: fadeIn 0.8s ease;
     }
 
     .card h3 {
       margin-top: 0;
+      font-size: 1.6rem;
     }
 
-    .hint {
-      color: #aaa;
-      font-size: 0.9rem;
-      margin-top: 2rem;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -77,16 +99,14 @@
   </nav>
 
   <main class="wrap">
-    <h1>祝福語</h1>
-    <div class="cards">
-      <div class="card">
-        <h3>致 Nolla</h3>
-        <p>雖然距離真正的一週年還有一點時間，但我還是想提前對你說聲「一周年快樂」。從最初到現在，你一直都以最真誠、最快樂的模樣陪伴著大家，讓我們在日常生活中多了一份溫暖與力量。這段時間我也遇到了一些煩心的事，心情不太美好，但因為嘗試了你分享的方法，真的感覺好多了，事情也慢慢往好的方向發展。謝謝你總是在無形中帶來安慰和鼓勵，讓我們知道即使遇到困難，也能一點一點跨過去。希望未來的日子裡，你依然能保持這份開心，做自己喜歡的直播，繼續帶著笑容陪伴我們很久很久。再次祝你一周年快樂，也願你的每一天都閃閃發光。</p>
-      </div>
-     
+    <div class="card">
+      <h3>致 Nolla</h3>
+      <p>
+        雖然距離真正的一週年還有一點時間，但我還是想提前對你說聲「一周年快樂」。從最初到現在，你一直都以最真誠、最快樂的模樣陪伴著大家，讓我們在日常生活中多了一份溫暖與力量。這段時間我也遇到了一些煩心的事，心情不太美好，但因為嘗試了你分享的方法，真的感覺好多了，事情也慢慢往好的方向發展。謝謝你總是在無形中帶來安慰和鼓勵，讓我們知道即使遇到困難，也能一點一點跨過去。希望未來的日子裡，你依然能保持這份開心，做自己喜歡的直播，繼續帶著笑容陪伴我們很久很久。再次祝你一周年快樂，也願你的每一天都閃閃發光。
+      </p>
     </div>
-
   </main>
 </body>
 </html>
+
 
