@@ -48,7 +48,7 @@
     .hero{
       position: relative;
       color: #fff;
-      text-align: left;          /* ✅ 預設靠左 */
+      text-align: left;
     }
     .hero::before{
       content:"";
@@ -62,7 +62,7 @@
       z-index: 1;
       max-width: 960px;
       margin: 0 auto;
-      padding-left: 20px;        /* 左邊留點空隙 */
+      padding-left: 20px;
     }
     .hero h1{
       color:#fff;
@@ -100,10 +100,21 @@
       color:#eaf0ff;
     }
 
+    /* CTA / 重新播放煙火 */
+    .cta{ display:flex; gap:10px; margin-top:16px; }
+    .btn{
+      display:inline-block; padding:10px 14px; border-radius:12px;
+      background:#7aa5ff; color:#fff; text-decoration:none; font-weight:700;
+      border:1px solid rgba(255,255,255,.2)
+    }
+    .btn.outline{ background:transparent; border-color:#7aa5ff; color:#7aa5ff }
+    .btn.ghost{ background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.25) }
+
     /* ✅ 小螢幕自動置中 */
     @media (max-width: 768px){
       .hero{ text-align: center; }
       .hero .wrap{ padding-left: 0; }
+      .cta{ justify-content:center; }
     }
 
     /* ====== 影片 / 站內導覽置中 ====== */
@@ -116,6 +127,25 @@
     .list a{ text-decoration: none; color: #2456ff; font-weight: 600; }
     .list a:hover{ text-decoration: underline; }
     .foot{ text-align: center; margin: 32px 0 16px; color: #777; font-size: .9rem; }
+
+    /* ====== 煙火層（新增） ====== */
+    #fireworks{
+      position: fixed; inset: 0; z-index: 9999;
+      display: none;              /* 需要時再顯示 */
+      pointer-events: none;       /* 不擋互動 */
+    }
+    /* 文字橫幅（歸零彈出，可選） */
+    .fx-banner{
+      position: fixed; inset: 0; z-index: 10000; display:none;
+      place-items:center; text-align:center; pointer-events:none;
+    }
+    .fx-banner .msg{
+      backdrop-filter: blur(6px);
+      background: rgba(0,0,0,.35);
+      color:#fff; padding:16px 20px; border-radius:16px; font-weight:800;
+      text-shadow: 0 2px 12px rgba(0,0,0,.5);
+      font-size: clamp(18px,3.6vw,28px);
+    }
   </style>
 </head>
 <body>
@@ -142,6 +172,8 @@
       <nav class="cta">
         <a class="btn" href="/timeline/">看里程碑</a>
         <a class="btn outline" href="/gallery/">看相簿</a>
+        <!-- 重新播放煙火（新增，初始隱藏） -->
+        <button id="replayFx" class="btn ghost" style="display:none">再放一次煙火 ✨</button>
       </nav>
     </div>
   </header>
@@ -158,7 +190,6 @@
       <div class="video">
         <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_3?rel=0&modestbranding=1" allowfullscreen></iframe>
       </div>
-   
     </section>
 
     <section>
@@ -176,10 +207,20 @@
     <p>Fans made • 非官方 • © 2025</p>
   </footer>
 
-  <!-- 倒數計時器 -->
+  <!-- ====== 煙火層（新增） ====== -->
+  <canvas id="fireworks"></canvas>
+  <div class="fx-banner" id="fxBanner" aria-hidden="true">
+    <div class="msg">🎉 一週年快樂！</div>
+  </div>
+
+  <!-- 倒數計時器 + 煙火腳本 -->
   <script>
     const targetDate = new Date("2025-10-09T21:00:00");
     const el = document.getElementById("countdown");
+    const replayBtn = document.getElementById("replayFx");
+    const fxCanvas = document.getElementById("fireworks");
+    const fxBanner = document.getElementById("fxBanner");
+
     function pad(n){ return String(n).padStart(2, "0"); }
     function render(diffMs){
       const days = Math.floor(diffMs / 86400000);
@@ -189,19 +230,156 @@
       el.innerHTML = `<span>${days}</span> 天 <span>${pad(hours)}</span> 小時 <span>${pad(minutes)}</span> 分 <span>${pad(seconds)}</span> 秒
       <small>目標：${targetDate.toLocaleString()}</small>`;
     }
+
+    let timer;
     function tick(){
       const now = new Date();
       const diff = targetDate - now;
       if (diff <= 0){
         el.textContent = "🎉 一週年快樂！";
         clearInterval(timer);
-      } else { render(diff); }
+        startFireworks();                 // ← 觸發煙火
+        replayBtn.style.display = "inline-block";
+      } else {
+        render(diff);
+      }
     }
     tick();
-    const timer = setInterval(tick, 1000);
+    timer = setInterval(tick, 1000);
+
+    // ====== 煙火邏輯（無依賴） ======
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let ctx, W, H, DPR, running = false, particles = [], bursts = [];
+    function resizeCanvas(){
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      W = fxCanvas.clientWidth = window.innerWidth;
+      H = fxCanvas.clientHeight = window.innerHeight;
+      fxCanvas.width = W * DPR;
+      fxCanvas.height = H * DPR;
+      ctx = fxCanvas.getContext("2d");
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    window.addEventListener("resize", () => running && resizeCanvas(), {passive:true});
+
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+    function hsla(h, s, l, a){ return `hsla(${h} ${s}% ${l}% / ${a})`; }
+
+    function spawnBurst(x, y){
+      const count = prefersReduced ? 30 : 70;
+      const hue = rand(0, 360);
+      for(let i=0;i<count;i++){
+        const angle = (Math.PI * 2) * (i / count) + rand(-0.05, 0.05);
+        const speed = rand(2.2, 5.2);
+        particles.push({
+          x, y,
+          vx: Math.cos(angle)*speed,
+          vy: Math.sin(angle)*speed,
+          life: rand(0.9, 1.4),
+          age: 0,
+          size: rand(1.2, 2.8),
+          color: hsla(hue + rand(-20,20), 85, 60, 1),
+          fade: rand(0.8, 1)
+        });
+      }
+      // 小閃光（核心）
+      bursts.push({x,y, r: 0, max: rand(40,70), alpha: 1});
+    }
+
+    function animateFireworks(startTs, durationMs){
+      const gravity = 0.05;  // 重力
+      const air = 0.995;     // 空氣阻力
+      function frame(ts){
+        if(!running) return;
+        if(!startTs) startTs = ts;
+        const t = ts - startTs;
+
+        ctx.clearRect(0,0,W,H);
+
+        // 生成隨機爆點
+        if(t < durationMs){
+          const interval = prefersReduced ? 220 : 120; // 越小越密集
+          if(Math.floor(t/interval) !== Math.floor((t-16)/interval)){
+            const x = rand(0.1*W, 0.9*W);
+            const y = rand(0.15*H, 0.55*H);
+            spawnBurst(x, y);
+          }
+        }
+
+        // 畫爆心圓暈
+        for(let i=bursts.length-1;i>=0;i--){
+          const b = bursts[i];
+          b.r += 2.8;
+          b.alpha *= 0.96;
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+          ctx.strokeStyle = `rgba(255,255,255,${0.35*b.alpha})`;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          if(b.alpha < 0.05) bursts.splice(i,1);
+        }
+
+        // 畫粒子
+        for(let i=particles.length-1;i>=0;i--){
+          const p = particles[i];
+          p.vx *= air; p.vy = p.vy*air + gravity;
+          p.x += p.vx; p.y += p.vy;
+          p.age += 0.016;
+
+          // 拖尾
+          ctx.globalCompositeOperation = "lighter";
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+          ctx.fill();
+
+          // 漸淡
+          if(p.age > p.life) p.size *= 0.92;
+          if(p.size < 0.4 || p.y > H+20) particles.splice(i,1);
+        }
+        ctx.globalCompositeOperation = "source-over";
+
+        // 自動結束：粒子清空且超過展示時間
+        if(t > durationMs && particles.length === 0){
+          stopFireworks();
+          return;
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function startFireworks(){
+      if (prefersReduced) {
+        // 低動態：僅顯示祝賀橫幅 3 秒
+        fxBanner.style.display = "grid";
+        setTimeout(()=> fxBanner.style.display = "none", 3000);
+        return;
+      }
+      running = true;
+      fxCanvas.style.display = "block";
+      fxBanner.style.display = "grid";
+      resizeCanvas();
+      particles = []; bursts = [];
+      animateFireworks(0, 12000);         // 播放約 12 秒
+      // 可選：播放音效（若需要，放開註解並提供短音檔）
+      // new Audio('/assets/fireworks.mp3').play().catch(()=>{});
+    }
+
+    function stopFireworks(){
+      running = false;
+      fxCanvas.style.display = "none";
+      fxBanner.style.display = "none";
+    }
+
+    // 手動重播
+    replayBtn?.addEventListener("click", () => {
+      startFireworks();
+    }, {passive:true});
   </script>
 </body>
 </html>
+
 
 
 
