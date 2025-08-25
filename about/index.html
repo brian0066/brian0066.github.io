@@ -18,23 +18,20 @@
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;color:var(--text);font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif;position:relative;min-height:100vh;overflow-x:hidden;background:#0a1630}
 
-    /* ===== 動態雙層星空（修正：資源路徑與動畫） ===== */
     body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:
       linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
-      url('/assets/your-blue-starry.png'); /* 修正: 去除重複 .png.png 並改為網站根目錄路徑 */
+      url('/assets/your-blue-starry.png');
       background-repeat:no-repeat,no-repeat;background-position:center,center;background-size:cover,cover;background-attachment:fixed,fixed;animation:nebulaDrift 160s linear infinite}
     @keyframes nebulaDrift{from{background-position:0 0,0 0}to{background-position:0 0,1200px 900px}}
     body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.22;background:url('/assets/stars.png') repeat;background-size:720px 720px;animation:starDrift 85s linear infinite}
     @keyframes starDrift{from{background-position:0 0}to{background-position:-1400px -900px}}
 
-    /* ===== 導覽（合併 sticky/fixed 定義，避免重複） ===== */
     .site-nav{position:fixed;top:0;left:0;right:0;z-index:10000;display:flex;justify-content:center;gap:12px;padding:10px 14px;background:rgba(11,16,32,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.08)}
     .site-nav .pill{display:inline-block;padding:8px 14px;border-radius:999px;text-decoration:none;color:#eaf0ff;font-weight:600;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);transition:.2s}
     .site-nav .pill:hover{background:rgba(160,123,255,.25);border-color:rgba(255,255,255,.36);color:#fff;box-shadow:0 6px 20px rgba(160,123,255,.25)}
     .site-nav .pill.active{outline:2px solid rgba(160,123,255,.55);background:rgba(160,123,255,.18)}
     body.has-fixed-nav{padding-top:var(--nav-h, 60px)}
 
-    /* ===== 內容框架 ===== */
     header{padding:64px 20px 12px;text-align:center}
     .kicker{letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-size:.85rem}
     h1{margin:.25em 0 0;font-size:clamp(28px,3.4vw,44px);line-height:1.2;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-soft));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -46,7 +43,7 @@
     h2{font-size:clamp(20px,2.2vw,28px);margin:0 0 10px;color:#fff;position:relative}
     h2::after{content:"";display:block;width:64px;height:3px;border-radius:999px;margin-top:8px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.75}
     p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);color:var(--text)}
-    .muted{color:var(--muted)}
+    .muted{color:#d0d8ff; text-shadow:0 1px 3px rgba(0,0,0,.6);} /* ★ 方案C：亮字＋陰影 */
     figure{margin:18px auto;text-align:center}
     figure img{width:min(100%,760px);max-height:520px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 30px rgba(0,0,0,.25)}
     figcaption{color:var(--muted);font-size:.9rem;margin-top:6px}
@@ -55,7 +52,6 @@
     .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);margin:24px 0}
     @media (max-width:860px){.float{float:none;width:100%;margin:8px 0 12px 0}}
 
-    /* ===== 世界觀段落附卡 ===== */
     .bullets{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
     .bullet{padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
     .bullet strong{display:block;margin-bottom:6px}
@@ -69,7 +65,6 @@
   </style>
 </head>
 <body>
-  <!-- 置中固定導覽（合併後） -->
   <nav class="site-nav" id="siteNav" aria-label="主導覽">
     <a class="pill" href="/">Home</a>
     <a class="pill" href="/about/">關於諾菈</a>
@@ -87,7 +82,6 @@
   </header>
 
   <main>
-    <!-- 你的原本敘事區：保留並微調語氣/排版 -->
     <article class="card" aria-labelledby="sec-story">
       <section id="sec-story">
         <h2>在月色與螢光之間</h2>
@@ -111,7 +105,6 @@
 
       <div class="divider" role="presentation"></div>
 
-      <!-- ===== 新增：TL;DR 她為什麼會出生？ ===== -->
       <section id="world" aria-labelledby="sec-why">
         <h2 id="sec-why">TL;DR · 她為什麼會出生？</h2>
         <div class="bullets">
@@ -123,7 +116,6 @@
 
       <div class="divider" role="presentation"></div>
 
-      <!-- ===== 新增：PV 區塊 ===== -->
       <section aria-labelledby="sec-pv">
         <h2 id="sec-pv">初配信預告 PV</h2>
         <iframe class="embed" id="pv" src="https://www.youtube.com/embed/eCQY1DBN4sw" title="諾菈 初配信預告 PV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -132,7 +124,6 @@
 
       <div class="divider" role="presentation"></div>
 
-      <!-- ===== 新增：關鍵名詞 ===== -->
       <section aria-labelledby="sec-terms">
         <h2 id="sec-terms">關鍵名詞</h2>
         <div class="terms">
@@ -167,7 +158,6 @@
     </article>
   </main>
 
-  <!-- 動態設定導覽高度，替 body 加入預留間距 + 當前頁高亮 -->
   <script>
     (function(){
       const nav = document.getElementById('siteNav');
@@ -180,7 +170,7 @@
       const path = location.pathname.replace(/\/+$/,'');
       for(const a of nav.querySelectorAll('a.pill')){
         const href = (a.getAttribute('href')||'').replace(/\/+$/,'');
-        if(href && href.startsWith('#')) continue; // 錨點不做 pathname 比對
+        if(href && href.startsWith('#')) continue;
         if((href === '' && (path === '' || path === '/')) || href === path){ a.classList.add('active'); }
       }
     })();
