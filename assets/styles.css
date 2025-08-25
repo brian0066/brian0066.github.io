@@ -223,34 +223,24 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
 .theme-sky .muted { color: var(--text-soft); }
 
 /* =========================================================
+/* =========================================================
    8) 主題 B：夜藍（關於諾菈）
    ========================================================= */
 .theme-night {
   color: #ECF2FF;
+  /* 背景只在這裡處理：深色漸層 + 森林.jpeg + 輕微飽和/亮度調整 */
   background:
-    radial-gradient(1400px 700px at 15% -10%, rgba(112,158,255,.18), transparent 60%),
-    radial-gradient(1200px 600px at 85% 0%, rgba(58,134,255,.14), transparent 60%),
-    #0E1B33;
+    linear-gradient(180deg, rgba(5,12,28,.88) 0%, rgba(8,18,44,.86) 35%, rgba(8,18,44,.86) 65%, rgba(6,12,30,.92) 100%),
+    url('/assets/森林.jpeg') center / cover fixed no-repeat;
+  filter: saturate(.9) brightness(.92);
 }
 
-/* 淡淡星空（不遮內容） */
+/* 關閉舊的星點疊圖，避免與底圖星點打架 */
 .theme-night::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .10; /* 柔一點即可 */
-  background: url('../assets/stars.png') repeat;
-  background-size: 800px 800px;
-  animation: starDrift 160s linear infinite;
-}
-@keyframes starDrift {
-  from { background-position: 0 0; }
-  to   { background-position: 1200px 900px; }
+  content: none !important;
 }
 
-/* 內容層在星空之上 */
+/* 內容層在背景之上（保留） */
 .theme-night .topnav,
 .theme-night header,
 .theme-night main,
@@ -258,7 +248,7 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
 .theme-night article,
 .theme-night section { position: relative; z-index: 1; }
 
-/* 夜藍：卡片半透明 + 讀性強 */
+/* 夜藍：卡片半透明 + 讀性強（保留原規格） */
 .theme-night .card {
   background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   border: 1px solid rgba(255,255,255,.08);
@@ -288,7 +278,7 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
   text-shadow: 0 1px 3px rgba(0,0,0,.55);
 }
 
-/* 區塊背板（避免星點穿透影響文字對比，可選） */
+/* 區塊背板（避免底圖穿透影響文字對比，可留可刪） */
 .theme-night main > section{
   position: relative; isolation:isolate;
 }
