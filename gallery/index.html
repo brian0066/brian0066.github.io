@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>回憶相簿</title>
+  <meta name="theme-color" content="#0b1020" />
   <link rel="stylesheet" href="/assets/styles.css" />
   <style>
     /* === 固定在頂端的膠囊導覽（統一樣式） === */
@@ -42,7 +43,9 @@
       padding: 28px 28px 24px;
       max-width: 1200px;
       border-radius: 20px;
-      background: radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,.45), rgba(255,255,255,.15)) , rgba(255,255,255,.12);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,.45), rgba(255,255,255,.15)),
+        rgba(255,255,255,.12);
       box-shadow: 0 20px 50px rgba(0,0,0,.18);
       border: 1px solid rgba(255,255,255,.28);
     }
@@ -83,9 +86,9 @@
       letter-spacing: .06em;
     }
 
-    /* 工具列（下載按鈕） */
+    /* 工具列（下載/編輯） */
     .toolbar{
-      display:flex; justify-content:flex-end; gap:10px;
+      display:flex; flex-wrap: wrap; align-items: center; gap:10px;
       max-width: 1200px; margin: 0 auto 24px; padding:0 4px;
     }
     .btn{
@@ -99,6 +102,17 @@
     }
     .btn:hover{ transform:translateY(-1px); box-shadow:0 12px 26px rgba(160,123,255,.28); }
     .hint{ opacity:.8; margin-top:8px; }
+    .input, .select{
+      appearance: none;
+      border:1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.06);
+      color:#eaf0ff;
+      padding:10px 12px; border-radius:12px;
+      outline: none;
+    }
+    .grow{ flex:1 1 280px; min-width: 220px; }
+    .hide-during-capture{ /* 只是在截圖前會加上 display:none; 用來藏控制列 */
+    }
   </style>
 </head>
 <body class="theme-sky">
@@ -111,8 +125,19 @@
     <a class="pill" href="/gallery/">相簿</a>
   </nav>
 
-  <!-- 工具列：下載圖片 -->
-  <div class="toolbar">
+  <!-- 工具列：編輯＋下載 -->
+  <div class="toolbar hide-during-capture" id="toolbar">
+    <input id="noteInput" class="input grow" type="text"
+           placeholder="輸入要放在海報上的那一句話..."
+           value="💜 諾菈一週年快樂，感謝一路的回憶與陪伴 💜" />
+    <button class="btn" id="applyNote">套用到海報</button>
+    <label class="select">
+      解析度：
+      <select id="scaleSel" class="select">
+        <option value="1">1x</option>
+        <option value="2" selected>2x（較清晰）</option>
+      </select>
+    </label>
     <button class="btn" id="saveBtn">下載這一頁為圖片（PNG）</button>
   </div>
 
@@ -127,9 +152,9 @@
       <img src="/assets/紅鼻子.jpg" alt="sample 4">
     </div>
     <!-- 一行字（可自行改內容） -->
-    <div class="memory-note">💜 諾菈一週年快樂，感謝一路的回憶與陪伴 💜</div>
-
-
+    <div class="memory-note" id="memoryNote">
+      💜 諾菈一週年快樂，感謝一路的回憶與陪伴 💜
+    </div>
   </main>
 
   <!-- 動態取得導覽高度，替 body 預留空間 -->
@@ -150,20 +175,63 @@
   <!-- 轉成圖片並下載（使用 html2canvas） -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
+    // 套用輸入的一行字
+    document.getElementById('applyNote')?.addEventListener('click', () => {
+      const val = document.getElementById('noteInput').value || '';
+      document.getElementById('memoryNote').textContent = val;
+    });
+
+    // 下載圖片
     document.getElementById('saveBtn')?.addEventListener('click', async () => {
       // 確保海報在可視範圍
       window.scrollTo({ top: 0, behavior: 'instant' });
-      const node = document.getElementById('captureArea');
-      const canvas = await html2canvas(node, {
-        backgroundColor: null,     // 保留透明漸層；要純白可改成 '#ffffff'
-        scale: window.devicePixelRatio > 1 ? 2 : 1  // 提升輸出清晰度
-      });
-      const url = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'gallery-memory.png';
-      a.click();
+
+      const area = document.getElementById('captureArea');
+      const toolbar = document.getElementById('toolbar');
+
+      // 截圖前隱藏控制列（避免被拍到）
+      const prevDisplay = toolbar.style.display;
+      toolbar.style.display = 'none';
+
+      // 取得使用者選擇的縮放倍率（沒有就 fallback）
+      const sel = document.getElementById('scaleSel');
+      const userScale = Number(sel?.value || 2);
+      const scale = Math.max(1, userScale);
+
+      try {
+        const canvas = await html2canvas(area, {
+          backgroundColor: null,         // 保留透明漸層；要純白可改 '#ffffff'
+          scale,                         // 手動設定清晰度
+          useCORS: true,                 // 未來如有跨網域圖片
+          logging: false,
+          windowWidth: document.documentElement.clientWidth
+        });
+
+        const url = canvas.toDataURL('image/png');
+
+        // 嘗試自動下載
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'gallery-memory.png';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        // 若瀏覽器阻擋下載（例如 iOS Safari），改為開新分頁顯示
+        // 簡單檢查：download 屬性在 Safari/iOS 可能不生效
+        const isDownloadSupported = 'download' in document.createElement('a');
+        if (!isDownloadSupported) {
+          window.open(url, '_blank');
+        }
+      } catch (err) {
+        alert('產生圖片時發生錯誤，請再試一次或截圖此區塊。\\n' + (err?.message || err));
+        console.error(err);
+      } finally {
+        // 還原工具列顯示
+        toolbar.style.display = prevDisplay || '';
+      }
     });
   </script>
 </body>
 </html>
+
