@@ -430,3 +430,12 @@ body::before{
 
 /* 6) 背景星點再淡一點（全站，可留可拿掉） */
 body::after{ opacity:.10 !important; }
+.theme-night main > section{
+  position: relative; isolation:isolate;
+}
+.theme-night main > section::before{
+  content:""; position:absolute; inset: -10px; z-index:0; border-radius:16px;
+  background: rgba(8,12,28,.70);
+}
+.theme-night main > section > *{ position:relative; z-index:1; }
+
