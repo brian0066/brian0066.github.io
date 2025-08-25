@@ -43,7 +43,9 @@
     h2{font-size:clamp(20px,2.2vw,28px);margin:0 0 10px;color:#fff;position:relative}
     h2::after{content:"";display:block;width:64px;height:3px;border-radius:999px;margin-top:8px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.75}
     p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);color:var(--text)}
-    .muted{color:#d0d8ff; text-shadow:0 1px 3px rgba(0,0,0,.6);} /* ★ 方案C：亮字＋陰影 */
+    .muted{color:#d0d8ff; text-shadow:0 1px 3px rgba(0,0,0,.6); transition:color .3s ease, text-shadow .3s ease;}
+    .muted:hover{color:#ffffff; text-shadow:0 2px 6px rgba(0,0,0,.8);} /* ★ hover 效果：更亮更立體 */
+
     figure{margin:18px auto;text-align:center}
     figure img{width:min(100%,760px);max-height:520px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 30px rgba(0,0,0,.25)}
     figcaption{color:var(--muted);font-size:.9rem;margin-top:6px}
@@ -177,6 +179,7 @@
   </script>
 </body>
 </html>
+
 
 
 
