@@ -12,88 +12,112 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --panel:#121833; 
-      --text:#eaf0ff;   /* 柔亮藍白文字 */
-      --muted:#a7b1d9;  /* 次要文字 */
-      --accent:#a07bff; 
+      --panel:#121833;
+      --text:#f9fbff;        /* 提亮主文字 */
+      --muted:#cbd3ff;       /* 提亮次要文字 */
+      --accent:#a07bff;
       --accent-soft:#7aa5ff;
-      --radius:18px; 
-      --shadow:0 12px 40px rgba(0,0,0,.35); 
-      --maxw: 860px; 
-      --leading: 1.95;
+      --radius:18px;
+      --shadow:0 12px 40px rgba(0,0,0,.35);
+      --maxw:860px;
+      --leading:1.95;
     }
     *{box-sizing:border-box}
     html,body{
-      margin:0;padding:0;
-      color:var(--text);
+      margin:0; padding:0; color:var(--text);
       font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif;
-      position:relative;min-height:100vh;overflow-x:hidden;
-      background:#0a1630
+      position:relative; min-height:100vh; overflow-x:hidden; background:#0a1630;
     }
 
+    /* 背景星空（視差） */
     body::before{
-      content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-      background:linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)), url('/assets/your-blue-starry.png');
-      background-repeat:no-repeat,no-repeat;background-position:center,center;background-size:cover,cover;
-      background-attachment:fixed,fixed;animation:nebulaDrift 160s linear infinite
+      content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
+        url('/assets/your-blue-starry.png');
+      background-repeat:no-repeat,no-repeat; background-position:center,center;
+      background-size:cover,cover; background-attachment:fixed,fixed;
+      animation:nebulaDrift 160s linear infinite;
     }
     @keyframes nebulaDrift{from{background-position:0 0,0 0}to{background-position:0 0,1200px 900px}}
     body::after{
-      content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.22;
-      background:url('/assets/stars.png') repeat;background-size:720px 720px;animation:starDrift 85s linear infinite
+      content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.22;
+      background:url('/assets/stars.png') repeat; background-size:720px 720px; animation:starDrift 85s linear infinite;
     }
     @keyframes starDrift{from{background-position:0 0}to{background-position:-1400px -900px}}
 
-    .site-nav{position:fixed;top:0;left:0;right:0;z-index:10000;display:flex;justify-content:center;gap:12px;
-      padding:10px 14px;background:rgba(11,16,32,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-      border-bottom:1px solid rgba(255,255,255,.08)}
-    .site-nav .pill{display:inline-block;padding:8px 14px;border-radius:999px;text-decoration:none;
-      color:#f2f5ff;font-weight:600;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);transition:.2s}
-    .site-nav .pill:hover{background:rgba(160,123,255,.25);border-color:rgba(255,255,255,.36);color:#fff;
-      box-shadow:0 6px 20px rgba(160,123,255,.25)}
-    .site-nav .pill.active{outline:2px solid rgba(160,123,255,.55);background:rgba(160,123,255,.18)}
-    body.has-fixed-nav{padding-top:var(--nav-h, 60px)}
+    /* 導覽 */
+    .site-nav{
+      position:fixed; top:0; left:0; right:0; z-index:10000;
+      display:flex; justify-content:center; gap:12px; padding:10px 14px;
+      background:rgba(11,16,32,.65); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .site-nav .pill{
+      display:inline-block; padding:8px 14px; border-radius:999px; text-decoration:none;
+      color:#f2f5ff; font-weight:600; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18); transition:.2s;
+    }
+    .site-nav .pill:hover{
+      background:rgba(160,123,255,.25); border-color:rgba(255,255,255,.36); color:#fff;
+      box-shadow:0 6px 20px rgba(160,123,255,.25);
+    }
+    .site-nav .pill.active{outline:2px solid rgba(160,123,255,.55); background:rgba(160,123,255,.18)}
+    body.has-fixed-nav{ padding-top:var(--nav-h, 60px) }
 
-    header{padding:64px 20px 12px;text-align:center}
-    .kicker{letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-size:.85rem}
-    h1{margin:.25em 0 0;font-size:clamp(28px,3.4vw,44px);line-height:1.2;font-weight:800;
-      background:linear-gradient(90deg,var(--accent),var(--accent-soft));
-      -webkit-background-clip:text;background-clip:text;color:transparent}
-    .subtitle{color:var(--muted);margin-top:6px;font-size:.98rem}
+    /* 內容 */
+    header{ padding:64px 20px 12px; text-align:center; }
+    .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
+    h1{
+      margin:.25em 0 0; font-size:clamp(28px,3.4vw,44px); line-height:1.2; font-weight:800;
+      background:linear-gradient(90deg, var(--accent), var(--accent-soft));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .subtitle{ color:var(--muted); margin-top:6px; font-size:.98rem; }
 
-    main{max-width:var(--maxw);margin:28px auto 80px;padding:0 20px}
+    main{ max-width:var(--maxw); margin:28px auto 80px; padding:0 20px; }
     .card{
-      background:rgba(18,24,51,0.75); /* 半透明，保留一點背景柔和 */
-      border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:clamp(18px,3vw,36px)}
-    section+section{margin-top:36px}
-    h2{font-size:clamp(20px,2.2vw,28px);margin:0 0 10px;color:#fff;position:relative}
-    h2::after{content:"";display:block;width:64px;height:3px;border-radius:999px;margin-top:8px;
-      background:linear-gradient(90deg,var(--accent),transparent);opacity:.75}
-    p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);
-      color:var(--text);text-shadow:0 0 2px rgba(0,0,0,.3)}   /* 提亮並加淡陰影 */
-    .muted{color:var(--muted);text-shadow:0 0 2px rgba(0,0,0,.3)}
+      background:rgba(18,24,51,.78);   /* 半透明但避免太暗 */
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:clamp(18px,3vw,36px);
+    }
+    section + section{ margin-top:36px; }
 
-    figure{margin:18px auto;text-align:center}
-    figure img{width:min(100%,760px);max-height:520px;object-fit:cover;border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 30px rgba(0,0,0,.25)}
-    figcaption{color:var(--muted);font-size:.9rem;margin-top:6px}
-    .float{float:right;width:min(46%,360px);margin:6px 0 12px 16px}
-    .float img{width:100%;border-radius:12px}
-    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);margin:24px 0}
-    @media (max-width:860px){.float{float:none;width:100%;margin:8px 0 12px 0}}
+    h2{ font-size:clamp(20px,2.2vw,28px); margin:0 0 10px; color:#fff; position:relative; }
+    h2::after{
+      content:""; display:block; width:64px; height:3px; border-radius:999px; margin-top:8px;
+      background:linear-gradient(90deg, var(--accent), transparent); opacity:.8;
+    }
 
-    .bullets{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-    .bullet{padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
-    .bullet strong{display:block;margin-bottom:6px}
-    @media (max-width:860px){.bullets{grid-template-columns:1fr}}
+    p{
+      margin:12px 0; line-height:var(--leading); font-size:clamp(15px,1.4vw,18px);
+      color:var(--text); text-shadow:0 0 2px rgba(0,0,0,.3);
+    }
+    .muted{ color:var(--muted); text-shadow:0 0 2px rgba(0,0,0,.3); }
 
-    .embed{aspect-ratio:16/9;width:100%;border:0;border-radius:14px;
-      filter:drop-shadow(0 10px 30px rgba(0,0,0,.45))}
-    .terms{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .term{padding:14px;border-radius:14px;background:rgba(18,24,51,.55);border:1px solid rgba(255,255,255,.08)}
-    .term h4{margin:0 0 6px 0}
-    @media (max-width:860px){.terms{grid-template-columns:1fr}}
+    figure{ margin:18px auto; text-align:center; }
+    figure img{
+      width:min(100%,760px); max-height:520px; object-fit:cover; border-radius:14px;
+      border:1px solid rgba(255,255,255,.08); box-shadow:0 8px 30px rgba(0,0,0,.25);
+    }
+    figcaption{ color:var(--muted); font-size:.9rem; margin-top:6px; }
+
+    .float{ float:right; width:min(46%,360px); margin:6px 0 12px 16px; }
+    .float img{ width:100%; border-radius:12px; }
+
+    .divider{ height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent); margin:24px 0; }
+
+    /* 三欄 bullet/詞彙 */
+    .bullets{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    .bullet{ padding:14px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); }
+    .bullet strong{ display:block; margin-bottom:6px; }
+    @media (max-width:860px){ .bullets{ grid-template-columns:1fr } }
+
+    .embed{ aspect-ratio:16/9; width:100%; border:0; border-radius:14px; filter:drop-shadow(0 10px 30px rgba(0,0,0,.45)); }
+    .terms{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .term{ padding:14px; border-radius:14px; background:rgba(18,24,51,.55); border:1px solid rgba(255,255,255,.08); }
+    .term h4{ margin:0 0 6px 0; }
+    @media (max-width:860px){ .terms{ grid-template-columns:1fr } }
   </style>
 </head>
 <body>
@@ -119,7 +143,7 @@
         <h2>在月色與螢光之間</h2>
         <p>在某個會飄著微光的夜晚，諾菈踏進了我們的時間線。她不急著說話，只是把歌聲放進你我的耳機，像把一盞盞小燈，悄悄點在各自的日常裡。</p>
         <figure>
-           <img src="/assets/諾菈1.jpg?v=1" alt="諾菈初遇的剪影">
+          <img src="/assets/諾菈1.jpg?v=1" alt="諾菈初遇的剪影">
           <figcaption>初遇諾菈的片刻（示意圖，請替換）</figcaption>
         </figure>
         <p>有人說，那天之後，通勤的路不再漫長；也有人說，考前夜的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
@@ -190,25 +214,33 @@
     </article>
   </main>
 
+  <!-- JS: 導覽列高度調整與 active 樣式 -->
   <script>
     (function(){
       const nav = document.getElementById('siteNav');
       if(!nav) return;
       function applyPadding(){
-        const h = nav.offsetHeight || 60; document.body.classList.add('has-fixed-nav');
+        const h = nav.offsetHeight || 60;
+        document.body.classList.add('has-fixed-nav');
         document.body.style.setProperty('--nav-h', h + 'px');
       }
-      applyPadding(); window.addEventListener('resize', applyPadding);
-      const path = location.pathname.replace(/\\/+$/,'');
+      applyPadding();
+      window.addEventListener('resize', applyPadding);
+
+      // 高亮目前頁面
+      const path = location.pathname.replace(/\/+$/,'');
       for(const a of nav.querySelectorAll('a.pill')){
-        const href = (a.getAttribute('href')||'').replace(/\\/+$/,'');
+        const href = (a.getAttribute('href')||'').replace(/\/+$/,'');
         if(href && href.startsWith('#')) continue;
-        if((href === '' && (path === '' || path === '/')) || href === path){ a.classList.add('active'); }
+        if((href === '' && (path === '' || path === '/')) || href === path){
+          a.classList.add('active');
+        }
       }
     })();
   </script>
 </body>
 </html>
+
 
 
 
