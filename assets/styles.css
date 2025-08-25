@@ -1,271 +1,36 @@
-/* 讓 Hero 變成「整塊背景」，而且會依螢幕高低自適應 */
-.hero {
-  position: relative;
-  /* 如果剛換圖看不到更新，把 ?v=2 改大一點破快取 */
-  background: url('/assets/cover.png?v=2') right center / cover no-repeat;
-  min-height: clamp(360px, 60vh, 720px); /* 手機不會太矮、桌機不會太扁 */
-}
-
-/* 疊一層暗漸層，讓字清楚 */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.40));
-}
-
-/* Hero 文字層要在最上面 */
-.hero .wrap {
-  position: relative;
-  z-index: 1;
-}
-
-/* 字體與容器做流體排版（各尺寸都好看） */
+/* =========================================================
+   0) Reset & 基礎變數
+   ========================================================= */
 :root {
+  /* 尺寸 */
   --wrap: min(92vw, 1040px);
-}
-.wrap {
-  max-width: var(--wrap);
-}
-.hero h1 {
-  font-size: clamp(28px, 4.5vw, 56px);
-  line-height: 1.1;
-}
-.tagline {
-  font-size: clamp(14px, 1.8vw, 18px);
-}
+  --radius: 16px;
 
-/* 導覽與按鈕在小螢幕不要擠在一起 */
-.nav {
-  flex-wrap: wrap;
-  gap: 10px 14px;
-}
-@media (max-width: 640px) {
-  .hero {
-    /* 直向手機時，背景重心往上，看起來更好 */
-    background-position: center 25%;
-    min-height: clamp(420px, 62vh, 780px);
-  }
-  .cta .btn {
-    margin: 0 10px 10px 0;
-  }
-}
+  /* 色系（主題可覆寫） */
+  --accent: #3A86FF;
+  --accent-soft: #9cc6ff;
 
-/* 影片永遠維持 16:9 */
-.video {
-  aspect-ratio: 16/9;
-}
-.video iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-/* 相簿格依螢幕數量自動增減 */
-.grid {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-}
-.grid img {
-  height: clamp(140px, 18vw, 220px);
-  object-fit: cover;
-  border-radius: 14px;
-}
-
-/* ========= 全站藍色主題變數 ========= */
-:root {
-  /* 藍色基調 */
-  --accent: #3A86FF;      /* 主藍（按鈕/重點） */
-  --accent-soft: #9cc6ff; /* 次藍（漸層） */
-
-  /* 文字色 */
-  --text-strong: #0c1a33; /* 淺底用深字 */
+  /* 文字色（淺底預設） */
+  --text-strong: #0c1a33;
   --text-soft: #455a7a;
 
-  /* 卡片圓角/陰影 */
-  --radius: 16px;
+  /* 陰影 */
   --shadow-soft: 0 8px 30px rgba(32,56,96,.15);
   --shadow-dark: 0 12px 40px rgba(0,0,0,.25);
 }
 
-/* ========= 兩種主題：淺藍 & 夜藍 ========= */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
 
-/* A. 淺藍（頁面：里程碑 / 禮物 / 相簿） */
-.theme-sky {
-  color: var(--text-strong);
-  background:
-    radial-gradient(1000px 600px at 10% -10%, rgba(154, 197, 255, .20), transparent 55%),
-    radial-gradient(900px 500px at 90% 0%, rgba(58, 134, 255, .12), transparent 60%),
-    linear-gradient(180deg, #F5F9FF, #F9FBFF);
-}
-/* 淺藍卡片（白底、柔和陰影） */
-.theme-sky .card {
-  background: #fff;
-  border: 1px solid rgba(58,134,255,.10);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
-}
-/* 標題/小字色 */
-.theme-sky h1, .theme-sky h2 { color: #12325f; }
-.theme-sky .muted { color: var(--text-soft); }
-
-/* B. 夜藍（頁面：關於諾菈）— 比現在更亮、更藍、星星更淡 */
-.theme-night {
-  color: #ECF2FF;
-  background:
-    radial-gradient(1400px 700px at 15% -10%, rgba(112,158,255,.18), transparent 60%),
-    radial-gradient(1200px 600px at 85% 0%, rgba(58,134,255,.14), transparent 60%),
-    #0E1B33; /* 更藍的深底 */
-}
-/* 夜藍卡片（半透明） */
-.theme-night .card {
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-dark);
-}
-/* 夜藍：淡淡的星空（不遮內容） */
-.theme-night::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .08; /* 星星更淡 */
-  background: url('../assets/stars.png') repeat;
-  background-size: 800px 800px; /* 星點更疏 */
-  animation: starDrift 160s linear infinite; /* 慢慢漂移 */
-}
-@keyframes starDrift {
-  from { background-position: 0 0; }
-  to   { background-position: 1200px 900px; }
-}
-/* 內容層確保在星空之上 */
-.theme-night .topnav,
-.theme-night header,
-.theme-night main,
-.theme-night footer,
-.theme-night article,
-.theme-night section {
-  position: relative;
-  z-index: 1;
+/* 讓 .wrap 容器置中 */
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
 }
 
-/* 共用：標題裝飾條（兩邊主題都用） */
-.card h2 {
-  position: relative;
-  margin: 0 0 12px;
-  font-weight: 700;
-}
-.card h2::after {
-  content: "";
-  display: block;
-  width: 64px;
-  height: 3px;
-  border-radius: 999px;
-  margin-top: 8px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  opacity: .75;
-}
-
-/* 小螢幕：時間軸/卡片留白 */
-@media (max-width: 860px) {
-  .card { border-radius: 14px; }
-}
-
-/* === Hero 區塊提亮 & 倒數更清楚 === */
-.hero {
-  position: relative;
-  isolation: isolate; /* 讓 ::before 不影響其他層 */
-}
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* 以前是偏暗的覆蓋，改成偏亮 + 微白霧，讓文字更清楚 */
-  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.18));
-  z-index: 0;
-}
-/* 如果你的主視覺是 <img class="cover">，把任何變暗的濾鏡移除 */
-.hero .cover {
-  filter: none !important;
-  opacity: 1 !important;
-}
-/* 標題顏色改成以藍為主的漸層，視覺更亮 */
-.hero h1 {
-  position: relative;
-  z-index: 1;
-  margin-bottom: .25em;
-  background: linear-gradient(90deg, #2f6aff, #7aa5ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 1px 0 rgba(255,255,255,.35); /* 細微提亮 */
-}
-
-/* 倒數文字：字大、行距緊、輕陰影，藍色點題 */
-.countdown, .countdown * {
-  position: relative;
-  z-index: 1;
-}
-.countdown {
-  font-weight: 700;
-  letter-spacing: .02em;
-  text-shadow: 
-    0 1px 0 rgba(255,255,255,.25),
-    0 8px 24px rgba(0,0,0,.06);
-}
-.countdown .num {
-  font-size: clamp(28px, 4.8vw, 56px);
-  line-height: 1.05;
-  color: #2456ff; /* 主藍 */
-  margin-right: .15em;
-}
-.countdown .unit {
-  font-size: clamp(16px, 2.2vw, 22px);
-  color: #1b2a4a;
-  opacity: .9;
-  margin-right: .6em;
-}
-/* 目標時間的顯示也提亮 */
-.countdown-note {
-  color: #0f2350;
-  font-weight: 600;
-  opacity: .9;
-}
-
-/* 倒數計時器（亮一點、數字更清楚） */
-.countdown {
-  font-weight: 700;
-  margin-top: 16px;
-  line-height: 1.25;
-  /* 提亮：藍色到紫色漸層＋柔和陰影 */
-  background: linear-gradient(90deg, #3aa8ff, #8b7bff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 2px 12px rgba(58,168,255,.25);
-  font-size: clamp(22px, 4vw, 36px);
-}
-.countdown .num {
-  display: inline-block;
-  min-width: 2ch; /* 讓 04 這種寬度一致 */
-  text-align: right;
-  letter-spacing: .5px;
-}
-.countdown .unit {
-  display: inline-block;
-  margin: 0 .35em 0 .15em;
-  opacity: .9;
-}
-.countdown-note {
-  margin-top: 6px;
-  font-weight: 500;
-  font-size: .85em;
-  color: rgba(234,240,255,.85);
-  text-shadow: none;
-}
-
-/* ==== 全站固定導覽列 ==== */
+/* =========================================================
+   1) Global：導覽 / 連結 / 文字
+   ========================================================= */
 .site-nav{
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
@@ -274,8 +39,6 @@
   backdrop-filter: blur(8px) saturate(140%);
   border-bottom: 1px solid rgba(47,106,255,.12);
 }
-
-/* 導覽的「膠囊」按鈕 */
 .site-nav .pill{
   display:inline-block; padding:9px 16px; border-radius:999px;
   text-decoration:none; font-weight:600; letter-spacing:.02em;
@@ -294,142 +57,238 @@
   box-shadow: 0 12px 26px rgba(28, 92, 255, .2), inset 0 0 0 1px rgba(47,106,255,.36);
 }
 
-/* 讓頁面內容不被固定導覽蓋住：由 JS 動態加上 padding-top */
+/* 讓頁面內容不被固定導覽蓋住：由 JS 設定 --nav-h */
 body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
 
-/* 手機時按鈕間距更好點 */
 @media (max-width:640px){
   .site-nav{ gap:10px 12px; }
 }
-/* 讓 .wrap 容器真正置中 */
-.wrap{
-  max-width: var(--wrap);
-  margin: 0 auto;           /* ← 這行很重要 */
+
+/* 一般導覽容器在小螢幕不要擠 */
+.nav { display:flex; flex-wrap: wrap; gap: 10px 14px; }
+
+/* =========================================================
+   2) Hero：滿版背景 + 讀性
+   ========================================================= */
+.hero {
+  position: relative;
+  isolation: isolate; /* 保證 ::before 不影響同層 */
+  background: url('/assets/cover.png?v=2') right center / cover no-repeat;
+  min-height: clamp(360px, 60vh, 720px);
+}
+.hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  /* 預設使用深色漸層，確保白字可讀 */
+  background: linear-gradient(180deg, rgba(0,0,0,.60), rgba(0,0,0,.48));
+  z-index: 0;
+}
+.hero .wrap { position: relative; z-index: 1; }
+.hero h1 {
+  margin: 0 0 .25em;
+  font-size: clamp(28px, 4.5vw, 56px);
+  line-height: 1.1;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,.55);
+}
+.tagline {
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: #f2f6ff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.55);
 }
 
-/* ✅ 單一版本的影片置中規則（刪掉前面舊的 .video 規則） */
+@media (max-width: 640px) {
+  .hero {
+    background-position: center 25%;
+    min-height: clamp(420px, 62vh, 780px);
+  }
+  .cta .btn { margin: 0 10px 10px 0; }
+}
+
+/* =========================================================
+   3) 倒數（讀性提升版）
+   ========================================================= */
+.countdown {
+  font-weight: 700;
+  margin-top: 16px;
+  line-height: 1.25;
+  font-size: clamp(22px, 4vw, 36px);
+  letter-spacing: .02em;
+  color: #eaf0ff;
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.25),
+    0 8px 24px rgba(0,0,0,.06);
+}
+.countdown .num {
+  display: inline-block;
+  min-width: 2ch; /* 04 對齊 */
+  text-align: right;
+  letter-spacing: .5px;
+  color: #2456ff;
+}
+.countdown .unit {
+  display: inline-block;
+  margin: 0 .35em 0 .15em;
+  opacity: .9;
+}
+.countdown-note {
+  margin-top: 6px;
+  font-weight: 500;
+  font-size: .85em;
+  color: rgba(234,240,255,.85);
+}
+
+/* =========================================================
+   4) 影片：單一置中版本（可用 .align-left / .align-right）
+   ========================================================= */
 .video{
-  --w: 800px;               /* 想多寬就改數字 */
+  --w: 800px;               /* 需要更寬/更窄就改這裡 */
   display: flex;
-  justify-content: center;  /* 置中 */
+  justify-content: center;  /* 預設置中 */
   align-items: center;
   width: 100%;
-  margin: 20px auto;        /* 容器本身置中 */
+  margin: 20px auto;
 }
-
 .video.align-left  { justify-content: flex-start; }
 .video.align-right { justify-content: flex-end;  }
-
 .video iframe{
-  width: min(100%, var(--w)) !important;  /* 蓋掉 YouTube 的行內 width */
+  width: min(100%, var(--w));
   aspect-ratio: 16 / 9;
-  height: auto !important;                /* 蓋掉行內 height */
+  height: auto;
   display: block;
   border: 0;
 }
 
-/* === 文字對比強化包（不改 HTML 內容）=== */
-/* 1) 卡片內加一層看不見的遮罩（不用改 HTML） */
-.card{
+/* =========================================================
+   5) 相簿：自動格 + 圖片裁切
+   ========================================================= */
+.grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.grid img {
+  width: 100%;
+  height: clamp(140px, 18vw, 220px);
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+/* =========================================================
+   6) 卡片：基礎（主題會再覆寫）
+   ========================================================= */
+.card {
   position: relative;
-  /* 兩層背景：第一層是深色薄膜，第二層保留你原本的卡片色調 */
-  background:
-    linear-gradient(0deg, rgba(8,12,28,.86), rgba(8,12,28,.86)),
-    rgba(18,24,51,.45) !important;
-  /* 避免任何奇怪的混色造成發灰 */
-  mix-blend-mode: normal !important;
-  isolation: isolate;             /* 防止父層混色影響子層 */
+  border-radius: var(--radius);
+  padding: 16px;
 }
-
-/* 2) 文字本身稍微描邊＋極淡陰影（漢字特別有感） */
-.card p,
-.card li,
-.card .muted{
-  color:#f9fbff !important;
-  text-shadow: 0 0 1px rgba(0,0,0,.55);
-  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);  /* Safari/Chromium 有效 */
-}
-
-.card h2, .card h3, .card h4{
-  color:#ffffff !important;
-  text-shadow: 0 1px 0 rgba(0,0,0,.45);
-  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
-}
-
-/* 3) 防止任何祖先的不小心透明度/濾鏡傳到文字（常見踩雷點） */
-.card, .card *{
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-}
-
-/* 4) 背景星點太亮時，可一併降亮（可選） */
-body::after{ opacity: .10 !important; }   /* 你原本大約 .22，這裡壓到 0.10 */
-body::before{
-  background:
-    linear-gradient(0deg, rgba(0,15,45,.72), rgba(0,15,45,.72)),
-    url('/assets/your-blue-starry.png') !important;
-}
-/* ====== 讀性鎖死：Hero 與卡片都變清楚（不改 HTML）====== */
-
-/* 1) Hero 先壓暗背景，不要用白霧提亮 */
-.hero{
+.card h2 {
   position: relative;
-  isolation: isolate;            /* 切斷混色鏈 */
+  margin: 0 0 12px;
+  font-weight: 700;
 }
-.hero::before{
-  content:"";
-  position:absolute; inset:0;
-  /* 由原本白霧(亮) → 改成深色漸層(暗)；讓白字有對比 */
-  background: linear-gradient(180deg, rgba(0,0,0,.60), rgba(0,0,0,.48)) !important;
-  z-index:0;
-}
-
-/* 2) Hero 標題不要用透明漸層字，先回到實白 + 細陰影 */
-.hero h1{
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  color: #ffffff !important;
-  text-shadow: 0 2px 6px rgba(0,0,0,.55) !important;
+.card h2::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  border-radius: 999px;
+  margin-top: 8px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: .75;
 }
 
-/* 3) Hero 內文也提亮與描邊，避免星星穿透時吃字 */
-.hero .wrap, .hero .wrap *{
-  color: #f9fbff !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,.55) !important;
-  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
+/* 小螢幕圓角微調 */
+@media (max-width: 860px) {
+  .card { border-radius: 14px; }
 }
 
-/* 4) 卡片內容：給卡片自己的一層暗幕（即使你的卡片是半透明也不會吃字） */
-.card{
-  position: relative;
-  isolation: isolate;                                     /* 切混色 */
+/* =========================================================
+   7) 主題 A：淺藍（里程碑 / 禮物 / 相簿）
+   ========================================================= */
+.theme-sky {
+  color: var(--text-strong);
   background:
-    linear-gradient(0deg, rgba(8,12,28,.86), rgba(8,12,28,.86)),
-    rgba(18,24,51,.45) !important;                        /* 深色薄膜 + 原色 */
-  mix-blend-mode: normal !important;
+    radial-gradient(1000px 600px at 10% -10%, rgba(154, 197, 255, .20), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(58, 134, 255, .12), transparent 60%),
+    linear-gradient(180deg, #F5F9FF, #F9FBFF);
 }
-.card p, .card li, .card .muted{
-  color:#f9fbff !important;
-  text-shadow: 0 0 1px rgba(0,0,0,.55);
-  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
+.theme-sky .card {
+  background: #fff;
+  border: 1px solid rgba(58,134,255,.10);
+  box-shadow: var(--shadow-soft);
 }
-.card h2, .card h3, .card h4{
-  color:#ffffff !important;
-  text-shadow: 0 1px 0 rgba(0,0,0,.45);
-  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
+.theme-sky h1, .theme-sky h2 { color: #12325f; }
+.theme-sky .muted { color: var(--text-soft); }
+
+/* =========================================================
+   8) 主題 B：夜藍（關於諾菈）
+   ========================================================= */
+.theme-night {
+  color: #ECF2FF;
+  background:
+    radial-gradient(1400px 700px at 15% -10%, rgba(112,158,255,.18), transparent 60%),
+    radial-gradient(1200px 600px at 85% 0%, rgba(58,134,255,.14), transparent 60%),
+    #0E1B33;
 }
 
-/* 5) 防踩雷：把任何祖先誤設的透明/濾鏡/混色阻斷掉 */
-.card, .card *{
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
+/* 淡淡星空（不遮內容） */
+.theme-night::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .10; /* 柔一點即可 */
+  background: url('../assets/stars.png') repeat;
+  background-size: 800px 800px;
+  animation: starDrift 160s linear infinite;
+}
+@keyframes starDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 1200px 900px; }
 }
 
-/* 6) 背景星點再淡一點（全站，可留可拿掉） */
-body::after{ opacity:.10 !important; }
+/* 內容層在星空之上 */
+.theme-night .topnav,
+.theme-night header,
+.theme-night main,
+.theme-night footer,
+.theme-night article,
+.theme-night section { position: relative; z-index: 1; }
+
+/* 夜藍：卡片半透明 + 讀性強 */
+.theme-night .card {
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: var(--shadow-dark);
+}
+.theme-night .card p,
+.theme-night .card li,
+.theme-night .card .muted{
+  color:#f9fbff;
+  text-shadow: 0 0 1px rgba(0,0,0,.45);
+}
+.theme-night .card h2, 
+.theme-night .card h3, 
+.theme-night .card h4{
+  color:#ffffff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.40);
+}
+
+/* 夜藍：Hero 讀性（專屬） */
+.theme-night .hero::before{
+  background: linear-gradient(180deg, rgba(0,0,0,.66), rgba(0,0,0,.52));
+}
+.theme-night .hero h1,
+.theme-night .hero .wrap,
+.theme-night .hero .wrap *{
+  color:#f9fbff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.55);
+}
+
+/* 區塊背板（避免星點穿透影響文字對比，可選） */
 .theme-night main > section{
   position: relative; isolation:isolate;
 }
@@ -438,71 +297,15 @@ body::after{ opacity:.10 !important; }
   background: rgba(8,12,28,.70);
 }
 .theme-night main > section > *{ position:relative; z-index:1; }
-/***** 終極覆寫：讓 Hero 與卡片的字一定清楚（放在 CSS 最底部） *****/
 
-/* 1) Hero 背景壓暗（不要白霧提亮） */
-.hero{ position:relative; isolation:isolate; }
-.hero::before{
-  content:""; position:absolute; inset:0;
-  background: linear-gradient(180deg, rgba(0,0,0,.66), rgba(0,0,0,.52)) !important;
-  z-index:0;
+/* =========================================================
+   9) 補充：工具類（若有需要）
+   ========================================================= */
+.muted { opacity:.9; }
+
+/* 讓導覽或 CTA 的按鈕群在小螢幕更好點 */
+@media (max-width:640px){
+  .cta .btn { margin: 0 10px 10px 0; }
 }
 
-/* 2) Hero 標題：取消漸層字，改為純白字 + 填色 */
-.hero h1{
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;   /* ← 關鍵：覆蓋原本的透明填色 */
-  text-shadow: 0 2px 6px rgba(0,0,0,.55) !important;
-}
-
-/* 3) Hero 內文/副標也提亮，避免被背景吃字 */
-.hero .wrap, .hero .wrap *{
-  color:#f9fbff !important;
-  -webkit-text-fill-color:#f9fbff !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,.55) !important;
-}
-
-/* 4) 卡片：改為不透明深色底（最穩），完全不讓星星透進來 */
-.theme-night .card{
-  background: #0b132d !important;               /* 不透明深藍 */
-  border-color: rgba(255,255,255,.10) !important;
-  isolation:isolate;
-}
-
-/* 如果你堅持半透明卡片，改用這個（擇一）：*/
-/*
-.theme-night .card{
-  background:
-    linear-gradient(0deg, rgba(8,12,28,.90), rgba(8,12,28,.90)),
-    rgba(18,24,51,.35) !important;
-}
-*/
-
-.theme-night .card p,
-.theme-night .card li,
-.theme-night .card .muted{
-  color:#f9fbff !important;
-  -webkit-text-fill-color:#f9fbff !important;
-  text-shadow: 0 0 1px rgba(0,0,0,.5) !important;
-}
-.theme-night .card h2, 
-.theme-night .card h3, 
-.theme-night .card h4{
-  color:#ffffff !important;
-  -webkit-text-fill-color:#ffffff !important;
-  text-shadow: 0 1px 0 rgba(0,0,0,.45) !important;
-}
-
-/* 5) 防踩雷：清掉任何傳進來的透明/濾鏡/混色 */
-.hero *, .theme-night .card *{
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-}
-
-/* 6) 背景星點再淡一點（可選） */
-body::after{ opacity:.10 !important; }
 
