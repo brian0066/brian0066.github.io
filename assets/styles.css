@@ -438,4 +438,71 @@ body::after{ opacity:.10 !important; }
   background: rgba(8,12,28,.70);
 }
 .theme-night main > section > *{ position:relative; z-index:1; }
+/***** 終極覆寫：讓 Hero 與卡片的字一定清楚（放在 CSS 最底部） *****/
+
+/* 1) Hero 背景壓暗（不要白霧提亮） */
+.hero{ position:relative; isolation:isolate; }
+.hero::before{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.66), rgba(0,0,0,.52)) !important;
+  z-index:0;
+}
+
+/* 2) Hero 標題：取消漸層字，改為純白字 + 填色 */
+.hero h1{
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;   /* ← 關鍵：覆蓋原本的透明填色 */
+  text-shadow: 0 2px 6px rgba(0,0,0,.55) !important;
+}
+
+/* 3) Hero 內文/副標也提亮，避免被背景吃字 */
+.hero .wrap, .hero .wrap *{
+  color:#f9fbff !important;
+  -webkit-text-fill-color:#f9fbff !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.55) !important;
+}
+
+/* 4) 卡片：改為不透明深色底（最穩），完全不讓星星透進來 */
+.theme-night .card{
+  background: #0b132d !important;               /* 不透明深藍 */
+  border-color: rgba(255,255,255,.10) !important;
+  isolation:isolate;
+}
+
+/* 如果你堅持半透明卡片，改用這個（擇一）：*/
+/*
+.theme-night .card{
+  background:
+    linear-gradient(0deg, rgba(8,12,28,.90), rgba(8,12,28,.90)),
+    rgba(18,24,51,.35) !important;
+}
+*/
+
+.theme-night .card p,
+.theme-night .card li,
+.theme-night .card .muted{
+  color:#f9fbff !important;
+  -webkit-text-fill-color:#f9fbff !important;
+  text-shadow: 0 0 1px rgba(0,0,0,.5) !important;
+}
+.theme-night .card h2, 
+.theme-night .card h3, 
+.theme-night .card h4{
+  color:#ffffff !important;
+  -webkit-text-fill-color:#ffffff !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.45) !important;
+}
+
+/* 5) 防踩雷：清掉任何傳進來的透明/濾鏡/混色 */
+.hero *, .theme-night .card *{
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* 6) 背景星點再淡一點（可選） */
+body::after{ opacity:.10 !important; }
 
