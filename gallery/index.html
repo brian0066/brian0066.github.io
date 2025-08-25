@@ -35,10 +35,73 @@
     }
     /* 預留導覽高度，避免內容被蓋住 */
     body.has-fixed-nav{ padding-top: var(--nav-h, 60px); }
+
+    /* === 可截圖的「海報」區塊 === */
+    .poster{
+      margin: 28px auto 20px;
+      padding: 28px 28px 24px;
+      max-width: 1200px;
+      border-radius: 20px;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,.45), rgba(255,255,255,.15)) , rgba(255,255,255,.12);
+      box-shadow: 0 20px 50px rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.28);
+    }
+    .poster h1{
+      margin: 0 0 18px;
+      letter-spacing: .08em;
+    }
+
+    /* 圖牆 */
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .grid img{
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+      box-shadow: 0 8px 20px rgba(0,0,0,.12);
+    }
+    @media (max-width: 1024px){
+      .grid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 720px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* 一行紀念字樣 */
+    .memory-note{
+      margin-top: 22px;
+      text-align: center;
+      font-size: clamp(16px, 2.2vw, 20px);
+      font-weight: 800;
+      color: #7aa5ff;
+      text-shadow: 0 1px 0 rgba(255,255,255,.35);
+      letter-spacing: .06em;
+    }
+
+    /* 工具列（下載按鈕） */
+    .toolbar{
+      display:flex; justify-content:flex-end; gap:10px;
+      max-width: 1200px; margin: 0 auto 24px; padding:0 4px;
+    }
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.35);
+      background: rgba(160,123,255,.18);
+      color:#fff; font-weight:700;
+      padding:10px 14px; border-radius:999px;
+      box-shadow: 0 8px 22px rgba(160,123,255,.22);
+      transition:.2s;
+    }
+    .btn:hover{ transform:translateY(-1px); box-shadow:0 12px 26px rgba(160,123,255,.28); }
+    .hint{ opacity:.8; margin-top:8px; }
   </style>
 </head>
 <body class="theme-sky">
-  
   <!-- 固定頂端導覽 -->
   <nav class="site-nav" id="siteNav">
     <a class="pill" href="/">Home</a>
@@ -48,14 +111,24 @@
     <a class="pill" href="/gallery/">相簿</a>
   </nav>
 
-  <main class="wrap">
+  <!-- 工具列：下載圖片 -->
+  <div class="toolbar">
+    <button class="btn" id="saveBtn">下載這一頁為圖片（PNG）</button>
+  </div>
+
+  <!-- 可截圖的主內容（整塊會被轉成圖片） -->
+  <main class="wrap poster" id="captureArea">
     <h1>回憶相簿</h1>
     <div class="grid">
+      <!-- 換成你的圖片：把檔案放到 /assets/ 後修改 src -->
       <img src="/assets/cover.png" alt="sample 1">
       <img src="/assets/cover.png" alt="sample 2">
       <img src="/assets/cover.png" alt="sample 3">
       <img src="/assets/cover.png" alt="sample 4">
     </div>
+    <!-- 一行字（可自行改內容） -->
+    <div class="memory-note">💜 諾菈一週年快樂，感謝一路的回憶與陪伴 💜</div>
+
     <p class="hint">* 將圖片上傳到 /assets/，把上面 &lt;img&gt; 的 src 改成你的檔名即可。*</p>
   </main>
 
@@ -72,6 +145,25 @@
       applyPadding();
       window.addEventListener('resize', applyPadding);
     })();
+  </script>
+
+  <!-- 轉成圖片並下載（使用 html2canvas） -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    document.getElementById('saveBtn')?.addEventListener('click', async () => {
+      // 確保海報在可視範圍
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      const node = document.getElementById('captureArea');
+      const canvas = await html2canvas(node, {
+        backgroundColor: null,     // 保留透明漸層；要純白可改成 '#ffffff'
+        scale: window.devicePixelRatio > 1 ? 2 : 1  // 提升輸出清晰度
+      });
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'gallery-memory.png';
+      a.click();
+    });
   </script>
 </body>
 </html>
