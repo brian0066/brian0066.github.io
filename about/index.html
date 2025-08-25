@@ -4,74 +4,163 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>關於諾菈 | Nolla</title>
-  <meta name="description" content="在百萬年一次的混沌循環中，神召喚象徵智、仁、勇的三使者。與海獸族有緣的智慧使者——諾菈，於比爾數位科技的大數據覺醒中降臨。這裡記錄她的誕生與旅途。"/>
-  <meta property="og:title" content="關於諾菈 | Nolla" />
-  <meta property="og:description" content="百萬年混沌、三使者、海獸族的宿緣與大數據的覺醒——諾菈為何而生。" />
-  <meta property="og:image" content="/assets/cover.png" />
-  <meta name="theme-color" content="#7aa5ff" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
+    /* ========= 基本變數 ========= */
     :root{
-      --panel:#121833; --text:#ffffff; --muted:#e6ebff; --accent:#a07bff; --accent-soft:#7aa5ff;
-      --radius:18px; --shadow:0 12px 40px rgba(0,0,0,.35); --maxw: 860px; --leading: 1.95;
+      --panel:#121833;
+      --text:#eaf0ff;   /* 柔亮文字色 */
+      --muted:#a7b1d9;
+      --accent:#a07bff;
+      --accent-soft:#7aa5ff;
+      --radius:18px;
+      --shadow:0 12px 40px rgba(0,0,0,.35);
+      --maxw: 820px;
+      --leading: 1.95;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;color:var(--text);font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif;position:relative;min-height:100vh;overflow-x:hidden;background:#0a1630}
 
-    body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:
-      linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
-      url('/assets/your-blue-starry.png');
-      background-repeat:no-repeat,no-repeat;background-position:center,center;background-size:cover,cover;background-attachment:fixed,fixed;animation:nebulaDrift 160s linear infinite}
-    @keyframes nebulaDrift{from{background-position:0 0,0 0}to{background-position:0 0,1200px 900px}}
-    body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.22;background:url('/assets/stars.png') repeat;background-size:720px 720px;animation:starDrift 85s linear infinite}
-    @keyframes starDrift{from{background-position:0 0}to{background-position:-1400px -900px}}
+    *{ box-sizing:border-box }
 
-    .site-nav{position:fixed;top:0;left:0;right:0;z-index:10000;display:flex;justify-content:center;gap:12px;padding:10px 14px;background:rgba(11,16,32,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.08)}
-    .site-nav .pill{display:inline-block;padding:8px 14px;border-radius:999px;text-decoration:none;color:#f2f5ff;font-weight:600;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);transition:.2s}
-    .site-nav .pill:hover{background:rgba(160,123,255,.25);border-color:rgba(255,255,255,.36);color:#fff;box-shadow:0 6px 20px rgba(160,123,255,.25)}
-    .site-nav .pill.active{outline:2px solid rgba(160,123,255,.55);background:rgba(160,123,255,.18)}
-    body.has-fixed-nav{padding-top:var(--nav-h, 60px)}
+    html,body{
+      margin:0; padding:0;
+      color:var(--text);
+      font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:#0a1630; /* 防止載入瞬間閃白 */
+    }
 
-    header{padding:64px 20px 12px;text-align:center}
-    .kicker{letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-size:.85rem}
-    h1{margin:.25em 0 0;font-size:clamp(28px,3.4vw,44px);line-height:1.2;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-soft));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .subtitle{color:var(--muted);margin-top:6px;font-size:.98rem}
+    /* ====== 動態雙層星空（視差） ====== */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
+        url('../assets/your-blue-starry.png');
+      background-repeat: no-repeat, no-repeat;
+      background-position: center, center;
+      background-size: cover, cover;
+      background-attachment: fixed, fixed;
+      animation: nebulaDrift 160s linear infinite;
+    }
+    @keyframes nebulaDrift{
+      from { background-position: 0 0, 0 0; }
+      to   { background-position: 0 0, 1200px 900px; }
+    }
 
-    main{max-width:var(--maxw);margin:28px auto 80px;padding:0 20px}
-    .card{background:rgba(10,15,35,0.92); /* 提高透明度，讓字更清楚 */
-      border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(18px,3vw,36px)}
-    section+section{margin-top:36px}
-    h2{font-size:clamp(20px,2.2vw,28px);margin:0 0 10px;color:#fff;position:relative}
-    h2::after{content:"";display:block;width:64px;height:3px;border-radius:999px;margin-top:8px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.75}
-    p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);color:var(--text);text-shadow:0 0 6px rgba(0,0,0,.9)}
-    .muted{color:var(--muted);text-shadow:0 0 6px rgba(0,0,0,.9)}
+    body::after{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .22;
+      background: url('../assets/stars.png') repeat;
+      background-size: 720px 720px;
+      animation: starDrift 85s linear infinite;
+    }
+    @keyframes starDrift{
+      from { background-position: 0 0; }
+      to   { background-position: -1400px -900px; }
+    }
 
-    figure{margin:18px auto;text-align:center}
-    figure img{width:min(100%,760px);max-height:520px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 30px rgba(0,0,0,.25)}
-    figcaption{color:var(--muted);font-size:.9rem;margin-top:6px}
-    .float{float:right;width:min(46%,360px);margin:6px 0 12px 16px}
-    .float img{width:100%;border-radius:12px}
-    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);margin:24px 0}
-    @media (max-width:860px){.float{float:none;width:100%;margin:8px 0 12px 0}}
+    /* 內容層 */
+    .topnav, .site-nav, header, main, footer, article, section{ position:relative; z-index:1; }
 
-    .bullets{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-    .bullet{padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
-    .bullet strong{display:block;margin-bottom:6px}
-    @media (max-width:860px){.bullets{grid-template-columns:1fr}}
+    /* ========= 導覽 ========= */
+    .site-nav{
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(11,16,32,.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .site-nav .pill{
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #eaf0ff;
+      font-weight: 600;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      transition: .2s;
+    }
+    .site-nav .pill:hover{
+      background: rgba(160,123,255,.25);
+      border-color: rgba(255,255,255,.36);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(160,123,255,.25);
+    }
+    body.has-fixed-nav{
+      padding-top: var(--nav-h, 60px);
+    }
 
-    .embed{aspect-ratio:16/9;width:100%;border:0;border-radius:14px;filter:drop-shadow(0 10px 30px rgba(0,0,0,.45))}
-    .terms{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .term{padding:14px;border-radius:14px;background:rgba(18,24,51,.55);border:1px solid rgba(255,255,255,.08)}
-    .term h4{margin:0 0 6px 0}
-    @media (max-width:860px){.terms{grid-template-columns:1fr}}
+    /* ========= 內容 ========= */
+    header{ padding: 48px 20px 12px; text-align:center; }
+    .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
+    h1{
+      margin:.25em 0 0;
+      font-size: clamp(28px, 3.4vw, 44px);
+      line-height:1.2; font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .subtitle{ color:var(--muted); margin-top: 6px; font-size: .98rem; }
+
+    main{ max-width: var(--maxw); margin: 28px auto 80px; padding: 0 20px 0; }
+    .card{
+      background: rgba(18,24,51,.75); /* 比原本深一點，但不壓暗字 */
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 36px);
+    }
+    section + section{ margin-top: 36px; }
+
+    h2{ font-size: clamp(20px, 2.2vw, 28px); margin: 0 0 10px; color: #ffffff; position: relative; }
+    h2::after{
+      content:""; display:block; width: 64px; height: 3px; border-radius: 999px;
+      margin-top: 8px; background: linear-gradient(90deg, var(--accent), transparent); opacity:.75;
+    }
+
+    p{ margin: 12px 0; line-height: var(--leading); font-size: clamp(15px, 1.4vw, 18px); color: var(--text); }
+    .muted{ color: var(--muted); }
+
+    figure{ margin: 18px auto; text-align:center; }
+    figure img{
+      width: min(100%, 760px); max-height: 520px; object-fit: cover; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
+    figcaption{ color: var(--muted); font-size: .9rem; margin-top: 6px; }
+
+    .float{ float: right; width: min(46%, 360px); margin: 6px 0 12px 16px; }
+    .float img{ width: 100%; border-radius: 12px; }
+
+    .divider{ height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); margin: 24px 0; }
+
+    @media (max-width: 860px){
+      .float{ float:none; width:100%; margin: 8px 0 12px 0; }
+    }
   </style>
 </head>
+
 <body>
-  <nav class="site-nav" id="siteNav" aria-label="主導覽">
+  <!-- 導覽 -->
+  <nav class="site-nav" id="siteNav">
     <a class="pill" href="/">Home</a>
     <a class="pill" href="/about/">關於諾菈</a>
-    <a class="pill" href="#world">世界觀</a>
-    <a class="pill" href="#pv">PV</a>
     <a class="pill" href="/timeline/">里程碑</a>
     <a class="pill" href="/gifts/">給諾菈的禮物</a>
     <a class="pill" href="/gallery/">相簿</a>
@@ -84,96 +173,67 @@
   </header>
 
   <main>
-    <article class="card" aria-labelledby="sec-story">
-      <section id="sec-story">
+    <article class="card">
+      <section>
         <h2>在月色與螢光之間</h2>
-        <p>在某個會飄著微光的夜晚，諾菈踏進了我們的時間線。她不急著說話，只是把歌聲放進你我的耳機，像把一盞盞小燈，悄悄點在各自的日常裡。</p>
+        <p>在某個總會飄著微光的夜晚，諾菈踏進了我們的時間線。她並不急著說話，只是把歌聲放進你我的耳機，像把一盞盞小燈，悄悄點在各自的日常裡。</p>
         <figure>
            <img src="/assets/諾菈1.jpg?v=1" alt="諾菈初遇的剪影">
           <figcaption>初遇諾菈的片刻（示意圖，請替換）</figcaption>
         </figure>
-        <p>有人說，那天之後，通勤的路不再漫長；也有人說，考前夜的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
+        <p>有人說，那天之後，通勤的路不再那麼漫長；也有人說，考前夜的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
       </section>
 
-      <div class="divider" role="presentation"></div>
+      <div class="divider"></div>
 
       <section>
         <h2>關於諾菈的日常</h2>
-        <figure class="float"><img src="/assets/nolla-daily.png" alt="諾菈的日常插圖（請替換為實圖）"></figure>
+        <figure class="float"><img src="nolla-daily.png" alt="諾菈日常插圖（替換）"></figure>
         <p>直播裡，她是那個不疾不徐的人：先把聊天室都看過一遍，再把遊戲打開；先接住你的問候，再把玩笑說完。她喜歡把舞台讓出一半給觀眾，讓彼此的故事都能被看見。</p>
         <p>有時是輕快聊天，有時是全力唱歌；偶爾也會輸給藍色 SC（笑）。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
-        <p class="muted">（此段可換成你的實際設定／經歷）</p>
+        <p class="muted">（這段可換成你的實際設定／經歷）</p>
       </section>
 
-      <div class="divider" role="presentation"></div>
+      <div class="divider"></div>
 
-      <section id="world" aria-labelledby="sec-why">
-        <h2 id="sec-why">TL;DR · 她為什麼會出生？</h2>
-        <div class="bullets">
-          <div class="bullet"><strong>混沌循環的解</strong>世界在百萬年的週期中動盪，神召喚三使者維繫天地與光影的平衡。</div>
-          <div class="bullet"><strong>智慧的化身</strong>與海獸族締結宿緣之「智者」，被喚名為諾菈，承接引路之職。</div>
-          <div class="bullet"><strong>數據的覺醒</strong>比爾數位科技偵測到覺醒信號，確認她非「碧兒記憶體」，而是智慧使者的歸位。</div>
-        </div>
+      <section>
+        <h2>夥伴與彩蛋</h2>
+        <p>一路上，總有固定會出現的夥伴：剪精華的你、做圖的你、每晚準時打招呼的你。也有只在特別時刻冒頭的彩蛋：周年的倒數、深夜的突發、和那句「晚安要記得說」。</p>
+        <figure>
+          <img src="nolla-friends.png" alt="群像合照（替換）">
+        </figure>
       </section>
 
-      <div class="divider" role="presentation"></div>
-
-      <section aria-labelledby="sec-pv">
-        <h2 id="sec-pv">初配信預告 PV</h2>
-        <iframe class="embed" id="pv" src="https://www.youtube.com/embed/eCQY1DBN4sw" title="諾菈 初配信預告 PV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <p class="muted">摘錄：「世界每隔一百萬年淪落一次混沌……象徵著智、仁、勇的三使者將被神召喚，引導真心人遠離劫難。智者與我海獸族有緣，他的名字叫——諾菈。」</p>
-      </section>
-
-      <div class="divider" role="presentation"></div>
-
-      <section aria-labelledby="sec-terms">
-        <h2 id="sec-terms">關鍵名詞</h2>
-        <div class="terms">
-          <div class="term">
-            <h4>三使者（智・仁・勇）</h4>
-            <p>神於混沌循環時召喚的三位守護者，象徵理性、慈愛與無畏。諾菈為其中「智」的化身。</p>
-          </div>
-          <div class="term">
-            <h4>海獸族／海怪族</h4>
-            <p>與智慧使者有宿緣的族裔，流傳著她將在劫前覺醒、引導真心人的古老預言。</p>
-          </div>
-          <div class="term">
-            <h4>比爾數位科技</h4>
-            <p>捕捉到覺醒信號的科技機構。大數據解析過程一度將她與「碧兒」傳聞混淆，最終確認「諾菈」身份。</p>
-          </div>
-          <div class="term">
-            <h4>碧兒記憶體</h4>
-            <p>業界流傳之靈魂檔案載體的傳聞名稱，曾引發誤會，亦成為諾菈誕生戲劇性的伏筆。</p>
-          </div>
-        </div>
-      </section>
-
-      <div class="divider" role="presentation"></div>
+      <div class="divider"></div>
 
       <section>
         <h2>接下來，我們要去的地方</h2>
+        <p>如果說開始是偶然，那就讓後來變成約定。下一次歌回、下一個里程碑、下一份更勇敢的作品——都麻煩你一起見證。</p>
         <figure>
-          <img src="/assets/nolla-future.png" alt="未來展望插圖（請替換）">
+          <img src="nolla-future.png" alt="未來展望插圖（替換）">
         </figure>
-        <p class="muted">最後更新：2025-08-25（記得維護時間）</p>
+        <p class="muted">最後更新：2025-08-22（記得維護時間）</p>
       </section>
     </article>
   </main>
 
+  <!-- 動態設定導覽高度 -->
   <script>
     (function(){
       const nav = document.getElementById('siteNav');
       if(!nav) return;
       function applyPadding(){
-        const h = nav.offsetHeight || 60; document.body.classList.add('has-fixed-nav');
+        const h = nav.offsetHeight || 60;
+        document.body.classList.add('has-fixed-nav');
         document.body.style.setProperty('--nav-h', h + 'px');
       }
-      applyPadding(); window.addEventListener('resize', applyPadding);
+      applyPadding();
+      window.addEventListener('resize', applyPadding);
+
       const path = location.pathname.replace(/\/+$/,'');
-      for(const a of nav.querySelectorAll('a.pill')){
-        const href = (a.getAttribute('href')||'').replace(/\/+$/,'');
-        if(href && href.startsWith('#')) continue;
-        if((href === '' && (path === '' || path === '/')) || href === path){ a.classList.add('active'); }
+      for (const a of nav.querySelectorAll('a.pill')){
+        const href = (a.getAttribute('href') || '').replace(/\/+$/,'');
+        if ((href === '' && (path === '' || path === '/')) || href === path) a.classList.add('active');
       }
     })();
   </script>
