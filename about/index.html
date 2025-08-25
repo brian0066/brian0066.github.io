@@ -62,7 +62,8 @@
     .subtitle{color:var(--muted);margin-top:6px;font-size:.98rem}
 
     main{max-width:var(--maxw);margin:28px auto 80px;padding:0 20px}
-    .card{background:rgba(10,15,35,0.92);
+    .card{
+      background:rgba(18,24,51,0.75); /* 半透明，保留一點背景柔和 */
       border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);
       padding:clamp(18px,3vw,36px)}
     section+section{margin-top:36px}
@@ -70,8 +71,8 @@
     h2::after{content:"";display:block;width:64px;height:3px;border-radius:999px;margin-top:8px;
       background:linear-gradient(90deg,var(--accent),transparent);opacity:.75}
     p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);
-      color:var(--text);text-shadow:0 0 4px rgba(0,0,0,.6)}   /* 提亮並加輕陰影 */
-    .muted{color:var(--muted);text-shadow:0 0 4px rgba(0,0,0,.6)}
+      color:var(--text);text-shadow:0 0 2px rgba(0,0,0,.3)}   /* 提亮並加淡陰影 */
+    .muted{color:var(--muted);text-shadow:0 0 2px rgba(0,0,0,.3)}
 
     figure{margin:18px auto;text-align:center}
     figure img{width:min(100%,760px);max-height:520px;object-fit:cover;border-radius:14px;
