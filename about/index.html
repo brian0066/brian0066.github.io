@@ -9,7 +9,12 @@
   <meta property="og:description" content="百萬年混沌、三使者、海獸族的宿緣與大數據的覺醒——諾菈為何而生。" />
   <meta property="og:image" content="/assets/cover.png" />
   <meta name="theme-color" content="#7aa5ff" />
+
+  <!-- 字體 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- 外部樣式，啟用 .theme-night 背景 -->
+  <link rel="stylesheet" href="/assets/style.css">
+
   <style>
     :root{
       --panel:#121833;
@@ -27,10 +32,10 @@
       margin:0; padding:0; color:var(--text);
       font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif;
       position:relative; min-height:100vh; overflow-x:hidden;
-      background:#0a1630; /* 單純深藍色背景 */
+      /* 移除固定背景色，交給 .theme-night 控制 */
     }
 
-    /* === 移除背景圖片與星點 === */
+    /* 移除舊的背景偽元素 */
     body::before,
     body::after {
       content: none !important;
