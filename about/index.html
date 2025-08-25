@@ -7,14 +7,14 @@
   <meta name="description" content="在百萬年一次的混沌循環中，神召喚象徵智、仁、勇的三使者。與海獸族有緣的智慧使者——諾菈，於比爾數位科技的大數據覺醒中降臨。這裡記錄她的誕生與旅途。"/>
   <meta property="og:title" content="關於諾菈 | Nolla" />
   <meta property="og:description" content="百萬年混沌、三使者、海獸族的宿緣與大數據的覺醒——諾菈為何而生。" />
-  <meta property="og:image" content="/assets/cover.png" />
+  <meta property="og:image" content="../assets/cover.png" />
   <meta name="theme-color" content="#7aa5ff" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
       --panel:#121833;
-      --text:#f9fbff;        /* 提亮主文字 */
-      --muted:#cbd3ff;       /* 提亮次要文字 */
+      --text:#f9fbff;        
+      --muted:#cbd3ff;       
       --accent:#a07bff;
       --accent-soft:#7aa5ff;
       --radius:18px;
@@ -34,7 +34,7 @@
       content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
       background:
         linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
-        url('/assets/your-blue-starry.png');
+        url('../assets/your-blue-starry.png');
       background-repeat:no-repeat,no-repeat; background-position:center,center;
       background-size:cover,cover; background-attachment:fixed,fixed;
       animation:nebulaDrift 160s linear infinite;
@@ -42,7 +42,7 @@
     @keyframes nebulaDrift{from{background-position:0 0,0 0}to{background-position:0 0,1200px 900px}}
     body::after{
       content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.22;
-      background:url('/assets/stars.png') repeat; background-size:720px 720px; animation:starDrift 85s linear infinite;
+      background:url('../assets/stars.png') repeat; background-size:720px 720px; animation:starDrift 85s linear infinite;
     }
     @keyframes starDrift{from{background-position:0 0}to{background-position:-1400px -900px}}
 
@@ -76,7 +76,7 @@
 
     main{ max-width:var(--maxw); margin:28px auto 80px; padding:0 20px; }
     .card{
-      background:rgba(18,24,51,.78);   /* 半透明但避免太暗 */
+      background:rgba(18,24,51,.78);   
       border:1px solid rgba(255,255,255,.06);
       border-radius:var(--radius); box-shadow:var(--shadow);
       padding:clamp(18px,3vw,36px);
@@ -142,7 +142,7 @@
         <h2>在月色與螢光之間</h2>
         <p>在某個會飄著微光的夜晚，諾菈踏進了我們的時間線。她不急著說話，只是把歌聲放進你我的耳機，像把一盞盞小燈，悄悄點在各自的日常裡。</p>
         <figure>
-          <img src="/assets/諾菈1.jpg?v=1" alt="諾菈初遇的剪影">
+          <img src="../assets/諾菈1.jpg?v=1" alt="諾菈初遇的剪影">
           <figcaption>初遇諾菈的片刻（示意圖，請替換）</figcaption>
         </figure>
         <p>有人說，那天之後，通勤的路不再漫長；也有人說，考試前晚的焦慮，被她的打氣消了一點點。於是我們開始期待，下一次相遇。</p>
@@ -153,7 +153,7 @@
       <section>
         <h2>關於諾菈的日常</h2>
         <figure class="float">
-          <img src="/assets/諾菈2.png" alt="諾菈的日常插圖">
+          <img src="../assets/諾菈2.png" alt="諾菈的日常插圖">
         </figure>
         <p>直播裡，她是那個不疾不徐的人：先把聊天室都看過一遍，再把遊戲打開；先接住你的問候，再把玩笑說完。她喜歡把舞台讓出一半給觀眾，讓彼此的故事都能被看見。</p>
         <p>有時是輕快聊天，有時是全力唱歌；偶爾也會pon pon。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
@@ -207,7 +207,7 @@
       <section>
         <h2>接下來，我們要去的地方</h2>
         <figure>
-          <img src="/assets/諾菈3.png" alt="未來展望插圖">
+          <img src="../assets/諾菈3.png" alt="未來展望插圖">
         </figure>
         <p class="muted">最後更新：2025-08-25</p>
       </section>
@@ -240,6 +240,7 @@
   </script>
 </body>
 </html>
+
 
 
 
