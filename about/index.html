@@ -27,35 +27,55 @@
       margin:0; padding:0; color:var(--text);
       font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,"PingFang TC","Microsoft JhengHei",sans-serif;
       position:relative; min-height:100vh; overflow-x:hidden; background:#0a1630;
+      text-rendering:optimizeLegibility;
     }
 
-    /* 背景星空（視差） */
+    /* === 背景：深色漸層 + 森林底圖 === */
     body::before{
       content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
       background:
-        linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
-        url('../assets/your-blue-starry.png');
-      background-repeat:no-repeat,no-repeat; background-position:center,center;
-      background-size:cover,cover; background-attachment:fixed,fixed;
+        linear-gradient(180deg, rgba(3,10,28,.80) 0%, rgba(8,18,44,.78) 35%, rgba(8,18,44,.78) 65%, rgba(6,12,30,.85) 100%),
+        url('/assets/森林.jpeg');
+      background-repeat:no-repeat,no-repeat;
+      background-position:center,center;
+      background-size:cover,cover;
+      background-attachment:fixed,fixed;
+      filter: saturate(0.9) brightness(0.95);
       animation:nebulaDrift 160s linear infinite;
     }
-    @keyframes nebulaDrift{from{background-position:0 0,0 0}to{background-position:0 0,1200px 900px}}
-    body::after{
-      content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.22;
-      background:url('../assets/stars.png') repeat; background-size:720px 720px; animation:starDrift 85s linear infinite;
+    @keyframes nebulaDrift{
+      from{ background-position: center, 0px 0px; }
+      to  { background-position: center, 1200px 900px; }
     }
-    @keyframes starDrift{from{background-position:0 0}to{background-position:-1400px -900px}}
 
-    /* 導覽 */
+    /* 上層細星點紋理（降低干擾） */
+    body::after{
+      content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.12;
+      background:url('/assets/stars.png') repeat;
+      background-size:720px 720px;
+      mix-blend-mode:screen;
+      animation:starDrift 85s linear infinite;
+    }
+    @keyframes starDrift{
+      from{background-position:0 0}
+      to{background-position:-1400px -900px}
+    }
+
+    /* === 導覽 === */
     .site-nav{
       position:fixed; top:0; left:0; right:0; z-index:10000;
       display:flex; justify-content:center; gap:12px; padding:10px 14px;
-      background:rgba(11,16,32,.65); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+      background:rgba(11,16,32,.65);
+      backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
       border-bottom:1px solid rgba(255,255,255,.08);
     }
     .site-nav .pill{
       display:inline-block; padding:8px 14px; border-radius:999px; text-decoration:none;
-      color:#f2f5ff; font-weight:600; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18); transition:.2s;
+      color:#f2f5ff; font-weight:600;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      transition:.2s;
+      text-shadow:0 1px 2px rgba(0,0,0,.6);
     }
     .site-nav .pill:hover{
       background:rgba(160,123,255,.25); border-color:rgba(255,255,255,.36); color:#fff;
@@ -64,7 +84,7 @@
     .site-nav .pill.active{outline:2px solid rgba(160,123,255,.55); background:rgba(160,123,255,.18)}
     body.has-fixed-nav{ padding-top:var(--nav-h, 60px) }
 
-    /* 內容 */
+    /* === 內容 === */
     header{ padding:64px 20px 12px; text-align:center; }
     .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
     h1{
@@ -72,35 +92,37 @@
       background:linear-gradient(90deg, var(--accent), var(--accent-soft));
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
-    .subtitle{ color:var(--muted); margin-top:6px; font-size:.98rem; }
+    .subtitle{ color:var(--muted); margin-top:6px; font-size:.98rem; text-shadow:0 1px 2px rgba(0,0,0,.45); }
 
     main{ max-width:var(--maxw); margin:28px auto 80px; padding:0 20px; }
     .card{
-      background:rgba(18,24,51,.78);
-      border:1px solid rgba(255,255,255,.06);
+      background:rgba(10,16,34,.72);
+      border:1px solid rgba(255,255,255,.10);
       border-radius:var(--radius); box-shadow:var(--shadow);
       padding:clamp(18px,3vw,36px);
+      backdrop-filter:saturate(105%) blur(2px);
     }
     section + section{ margin-top:36px; }
 
-    h2{ font-size:clamp(20px,2.2vw,28px); margin:0 0 10px; color:#fff; position:relative; }
+    h2{ font-size:clamp(20px,2.2vw,28px); margin:0 0 10px; color:#fff; position:relative; text-shadow:0 2px 4px rgba(0,0,0,.55); }
     h2::after{
       content:""; display:block; width:64px; height:3px; border-radius:999px; margin-top:8px;
-      background:linear-gradient(90deg, var(--accent), transparent); opacity:.8;
+      background:linear-gradient(90deg, var(--accent), transparent); opacity:.85;
     }
 
     p{
       margin:12px 0; line-height:var(--leading); font-size:clamp(15px,1.4vw,18px);
-      color:var(--text); text-shadow:0 0 2px rgba(0,0,0,.3);
+      color:var(--text);
+      text-shadow:0 1px 2px rgba(0,0,0,.55);
     }
-    .muted{ color:var(--muted); text-shadow:0 0 2px rgba(0,0,0,.3); }
+    .muted{ color:var(--muted); text-shadow:0 1px 2px rgba(0,0,0,.55); }
 
     figure{ margin:18px auto; text-align:center; }
     figure img{
       width:min(100%,760px); max-height:520px; object-fit:cover; border-radius:14px;
-      border:1px solid rgba(255,255,255,.08); box-shadow:0 8px 30px rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.10); box-shadow:0 8px 30px rgba(0,0,0,.35);
     }
-    figcaption{ color:var(--muted); font-size:.9rem; margin-top:6px; }
+    figcaption{ color:var(--muted); font-size:.9rem; margin-top:6px; text-shadow:0 1px 2px rgba(0,0,0,.5); }
 
     .float{ float:right; width:min(46%,360px); margin:6px 0 12px 16px; }
     .float img{ width:100%; border-radius:12px; }
@@ -117,12 +139,13 @@
     .terms{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     .term{ padding:14px; border-radius:14px; background:rgba(18,24,51,.55); border:1px solid rgba(255,255,255,.08); }
     .term h4{ margin:0 0 6px 0; }
+
     @media (max-width:860px){ .terms{ grid-template-columns:1fr } }
 
-    /* 特製：直立圖往上對焦避免截到頭髮 */
+    /* 直立圖往上對焦避免截到頭髮 */
     figure img.portrait-top {
       object-fit: cover;
-      object-position: 50% 20%;  /* 往上 20% */
+      object-position: 50% 20%;
       max-height: 520px;
       width: min(100%, 760px);
       height: 520px;
@@ -166,7 +189,7 @@
           <img src="../assets/諾菈2.png" alt="諾菈的日常插圖">
         </figure>
         <p>直播裡，她是那個不疾不徐的人：先把聊天室都看過一遍，再把遊戲打開；先接住你的問候，再把玩笑說完。她喜歡把舞台讓出一半給觀眾，讓彼此的故事都能被看見。</p>
-        <p>有時是輕快聊天，有時是全力唱歌；偶爾也會pon pon。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
+        <p>有時是輕快聊天，有時是全力唱歌；偶爾也會 pon pon。但她總把跌倒的樣子說成一個笑話，然後拉我們一起往前走。</p>
       </section>
 
       <div class="divider" role="presentation"></div>
@@ -248,6 +271,7 @@
   </script>
 </body>
 </html>
+
 
 
 
