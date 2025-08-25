@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --panel:#121833; --text:#eaf0ff; --muted:#a7b1d9; --accent:#a07bff; --accent-soft:#7aa5ff;
+      --panel:#121833; --text:#eaf0ff; --muted:#cdd6f4; --accent:#a07bff; --accent-soft:#7aa5ff;
       --radius:18px; --shadow:0 12px 40px rgba(0,0,0,.35); --maxw: 860px; --leading: 1.95;
     }
     *{box-sizing:border-box}
@@ -43,8 +43,7 @@
     h2{font-size:clamp(20px,2.2vw,28px);margin:0 0 10px;color:#fff;position:relative}
     h2::after{content:"";display:block;width:64px;height:3px;border-radius:999px;margin-top:8px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.75}
     p{margin:12px 0;line-height:var(--leading);font-size:clamp(15px,1.4vw,18px);color:var(--text)}
-    .muted{color:#d0d8ff; text-shadow:0 1px 3px rgba(0,0,0,.6); transition:color .3s ease, text-shadow .3s ease;}
-    .muted:hover{color:#ffffff; text-shadow:0 2px 6px rgba(0,0,0,.8);} /* ★ hover 效果：更亮更立體 */
+    .muted{color:var(--muted);} /* ★ 方案A：提亮字色 */
 
     figure{margin:18px auto;text-align:center}
     figure img{width:min(100%,760px);max-height:520px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 30px rgba(0,0,0,.25)}
