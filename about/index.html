@@ -30,35 +30,24 @@
       text-rendering:optimizeLegibility;
     }
 
-    /* === 背景：深色漸層 + 森林底圖 === */
+    /* === 背景：深色漸層 + 森林圖；移除額外星星疊圖，提升可讀性 === */
     body::before{
       content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
       background:
-        linear-gradient(180deg, rgba(3,10,28,.80) 0%, rgba(8,18,44,.78) 35%, rgba(8,18,44,.78) 65%, rgba(6,12,30,.85) 100%),
+        /* 更深的保護漸層，確保字可讀 */
+        linear-gradient(180deg, rgba(5,12,28,.88) 0%, rgba(8,18,44,.86) 35%, rgba(8,18,44,.86) 65%, rgba(6,12,30,.92) 100%),
         url('/assets/森林.jpeg');
       background-repeat:no-repeat,no-repeat;
       background-position:center,center;
       background-size:cover,cover;
       background-attachment:fixed,fixed;
-      filter: saturate(0.9) brightness(0.95);
-      animation:nebulaDrift 160s linear infinite;
+      filter: saturate(.9) brightness(.9);
     }
-    @keyframes nebulaDrift{
-      from{ background-position: center, 0px 0px; }
-      to  { background-position: center, 1200px 900px; }
-    }
-
-    /* 上層細星點紋理（降低干擾） */
+    /* 用柔和的周邊暈影取代星點疊圖，讓中央文字區更乾淨 */
     body::after{
-      content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.12;
-      background:url('/assets/stars.png') repeat;
-      background-size:720px 720px;
-      mix-blend-mode:screen;
-      animation:starDrift 85s linear infinite;
-    }
-    @keyframes starDrift{
-      from{background-position:0 0}
-      to{background-position:-1400px -900px}
+      content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,.25) 100%);
+      /* 如果還覺得太暗，可把 .25 調成 .18 */
     }
 
     /* === 導覽 === */
@@ -91,12 +80,13 @@
       margin:.25em 0 0; font-size:clamp(28px,3.4vw,44px); line-height:1.2; font-weight:800;
       background:linear-gradient(90deg, var(--accent), var(--accent-soft));
       -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-shadow:0 2px 4px rgba(0,0,0,.55); /* 提升標題對比 */
     }
     .subtitle{ color:var(--muted); margin-top:6px; font-size:.98rem; text-shadow:0 1px 2px rgba(0,0,0,.45); }
 
     main{ max-width:var(--maxw); margin:28px auto 80px; padding:0 20px; }
     .card{
-      background:rgba(10,16,34,.72);
+      background:rgba(10,16,34,.75);
       border:1px solid rgba(255,255,255,.10);
       border-radius:var(--radius); box-shadow:var(--shadow);
       padding:clamp(18px,3vw,36px);
@@ -107,7 +97,7 @@
     h2{ font-size:clamp(20px,2.2vw,28px); margin:0 0 10px; color:#fff; position:relative; text-shadow:0 2px 4px rgba(0,0,0,.55); }
     h2::after{
       content:""; display:block; width:64px; height:3px; border-radius:999px; margin-top:8px;
-      background:linear-gradient(90deg, var(--accent), transparent); opacity:.85;
+      background:linear-gradient(90deg, var(--accent), transparent); opacity:.9;
     }
 
     p{
@@ -129,7 +119,6 @@
 
     .divider{ height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent); margin:24px 0; }
 
-    /* 三欄 bullet/詞彙 */
     .bullets{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
     .bullet{ padding:14px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); }
     .bullet strong{ display:block; margin-bottom:6px; }
