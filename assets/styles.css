@@ -223,70 +223,26 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
 .theme-sky .muted { color: var(--text-soft); }
 
 /* =========================================================
-/* =========================================================
-   8) 主題 B：夜藍（關於諾菈）
-   ========================================================= */
-.theme-night {
-  color: #ECF2FF;
-  /* 背景只在這裡處理：深色漸層 + 森林.jpeg + 輕微飽和/亮度調整 */
-  background:
-    linear-gradient(180deg, rgba(5,12,28,.88) 0%, rgba(8,18,44,.86) 35%, rgba(8,18,44,.86) 65%, rgba(6,12,30,.92) 100%),
-    url('/assets/森林.jpeg') center / cover fixed no-repeat;
-  filter: saturate(.9) brightness(.92);
-}
-
-/* 關閉舊的星點疊圖，避免與底圖星點打架 */
-.theme-night::before {
-  content: none !important;
-}
-
-/* 內容層在背景之上（保留） */
-.theme-night .topnav,
-.theme-night header,
-.theme-night main,
-.theme-night footer,
-.theme-night article,
-.theme-night section { position: relative; z-index: 1; }
-
-/* 夜藍：卡片半透明 + 讀性強（保留原規格） */
-.theme-night .card {
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.08);
-  box-shadow: var(--shadow-dark);
-}
-.theme-night .card p,
-.theme-night .card li,
-.theme-night .card .muted{
-  color:#f9fbff;
-  text-shadow: 0 0 1px rgba(0,0,0,.45);
-}
-.theme-night .card h2, 
-.theme-night .card h3, 
-.theme-night .card h4{
-  color:#ffffff;
-  text-shadow: 0 1px 0 rgba(0,0,0,.40);
-}
-
-/* 夜藍：Hero 讀性（專屬） */
-.theme-night .hero::before{
-  background: linear-gradient(180deg, rgba(0,0,0,.66), rgba(0,0,0,.52));
-}
-.theme-night .hero h1,
-.theme-night .hero .wrap,
-.theme-night .hero .wrap *{
-  color:#f9fbff;
-  text-shadow: 0 1px 3px rgba(0,0,0,.55);
-}
-
-/* 區塊背板（避免底圖穿透影響文字對比，可留可刪） */
-.theme-night main > section{
-  position: relative; isolation:isolate;
-}
-.theme-night main > section::before{
-  content:""; position:absolute; inset: -10px; z-index:0; border-radius:16px;
-  background: rgba(8,12,28,.70);
-}
-.theme-night main > section > *{ position:relative; z-index:1; }
+ /* =========================================================
+    8) 主題 B：夜藍（關於諾菈）
+    ========================================================= */
+ .theme-night {
+   color: #ECF2FF;
+-  /* 背景只在這裡處理：深色漸層 + 森林.jpeg + 輕微飽和/亮度調整 */
+-  background:
+-    linear-gradient(180deg, rgba(5,12,28,.88) 0%, rgba(8,18,44,.86) 35%, rgba(8,18,44,.86) 65%, rgba(6,12,30,.92) 100%),
+-    url('/assets/森林.jpeg') center / cover fixed no-repeat;
+-  filter: saturate(.9) brightness(.92);
++  /* 改成純底色（無背景圖），保證可讀性 */
++  background: #0a1630;
++  filter: none;
+ }
+ 
+ /* 關閉舊的星點疊圖，避免與底圖星點打架 */
+ .theme-night::before {
+-  content: none !important;
++  content: none !important;  /* 留著，確保不會再疊任何圖層 */
+ }
 
 /* =========================================================
    9) 補充：工具類（若有需要）
