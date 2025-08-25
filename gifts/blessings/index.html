@@ -5,24 +5,91 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>祝福語</title>
   <link rel="stylesheet" href="/assets/styles.css" />
+  <style>
+    /* 導航列 */
+    .nav {
+      position: fixed;        /* 固定在上方 */
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 12px 0;
+      background: rgba(40,40,60,0.7); /* 半透明背景 */
+      backdrop-filter: blur(6px);
+      z-index: 999;
+    }
+
+    /* 導航列按鈕 */
+    .nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: background 0.3s;
+      font-weight: 500;
+    }
+
+    .nav a:hover,
+    .nav a:focus {
+      background: rgba(122,165,255,0.25);
+    }
+
+    /* 主內容避免被 nav 擋住 */
+    .wrap {
+      padding-top: 100px; /* 預留導航列高度 */
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cards {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding: 16px 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.2);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .hint {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
 <body>
   
-<nav class="nav">
-  <a href="/">HOME</a>
-  <a href="/about/">關於諾菈</a>
-  <a href="/timeline/">里程碑</a>
-  <a href="/gifts/">給諾菈的禮物</a>
-  <a href="/gallery/">相簿</a>
-</nav>
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a href="/about/">關於諾菈</a>
+    <a href="/timeline/">里程碑</a>
+    <a href="/gifts/">給諾菈的禮物</a>
+    <a href="/gallery/">相簿</a>
+  </nav>
 
   <main class="wrap">
     <h1>祝福語</h1>
     <div class="cards">
-      <div class="card"><h3>致 Nolla</h3><p>一路以來的回憶都很珍貴，謝謝你的陪伴。下一年也請多多指教 💜</p></div>
-      <div class="card"><h3>第一百天</h3><p>看著你的直播讓我撐過了很多難熬的夜，謝謝！</p></div>
+      <div class="card">
+        <h3>致 Nolla</h3>
+        <p>一路以來的回憶都很珍貴，謝謝你的陪伴。下一年也請多多指教 💜</p>
+      </div>
+      <div class="card">
+        <h3>第一百天</h3>
+        <p>看著你的直播讓我撐過了很多難熬的夜，謝謝！</p>
+      </div>
     </div>
     <p class="hint">* 想再加卡片，只要複製一個 &lt;div class="card"&gt; 區塊。*</p>
   </main>
 </body>
 </html>
+
