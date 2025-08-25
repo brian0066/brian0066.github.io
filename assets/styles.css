@@ -328,4 +328,46 @@ body.has-fixed-nav { padding-top: var(--nav-h, 64px); }
   border: 0;
 }
 
+/* === 文字對比強化包（不改 HTML 內容）=== */
+/* 1) 卡片內加一層看不見的遮罩（不用改 HTML） */
+.card{
+  position: relative;
+  /* 兩層背景：第一層是深色薄膜，第二層保留你原本的卡片色調 */
+  background:
+    linear-gradient(0deg, rgba(8,12,28,.86), rgba(8,12,28,.86)),
+    rgba(18,24,51,.45) !important;
+  /* 避免任何奇怪的混色造成發灰 */
+  mix-blend-mode: normal !important;
+  isolation: isolate;             /* 防止父層混色影響子層 */
+}
+
+/* 2) 文字本身稍微描邊＋極淡陰影（漢字特別有感） */
+.card p,
+.card li,
+.card .muted{
+  color:#f9fbff !important;
+  text-shadow: 0 0 1px rgba(0,0,0,.55);
+  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);  /* Safari/Chromium 有效 */
+}
+
+.card h2, .card h3, .card h4{
+  color:#ffffff !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.45);
+  -webkit-text-stroke: 0.2px rgba(0,0,0,.35);
+}
+
+/* 3) 防止任何祖先的不小心透明度/濾鏡傳到文字（常見踩雷點） */
+.card, .card *{
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* 4) 背景星點太亮時，可一併降亮（可選） */
+body::after{ opacity: .10 !important; }   /* 你原本大約 .22，這裡壓到 0.10 */
+body::before{
+  background:
+    linear-gradient(0deg, rgba(0,15,45,.72), rgba(0,15,45,.72)),
+    url('/assets/your-blue-starry.png') !important;
+}
 
