@@ -33,8 +33,7 @@
     body::before{
       content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
       background:
-        /* CLARITY+: 深色膜加強，提升所有文字對比 */
-        linear-gradient(0deg, rgba(0,15,45,.70), rgba(0,15,45,.70)),
+        linear-gradient(0deg, rgba(0,15,45,.58), rgba(0,15,45,.58)),
         url('/assets/your-blue-starry.png');
       background-repeat:no-repeat,no-repeat; background-position:center,center;
       background-size:cover,cover; background-attachment:fixed,fixed;
@@ -42,9 +41,8 @@
     }
     @keyframes nebulaDrift{from{background-position:0 0,0 0}to{background-position:0 0,1200px 900px}}
     body::after{
-      content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
-      opacity:.10; /* CLARITY+: 星點更淡，避免吃字 */
-      background:url('/assets/stars.png') repeat; background-size:800px 800px; animation:starDrift 85s linear infinite;
+      content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.22;
+      background:url('/assets/stars.png') repeat; background-size:720px 720px; animation:starDrift 85s linear infinite;
     }
     @keyframes starDrift{from{background-position:0 0}to{background-position:-1400px -900px}}
 
@@ -67,54 +65,25 @@
     body.has-fixed-nav{ padding-top:var(--nav-h, 60px) }
 
     /* 內容 */
-    header{
-      padding:64px 20px 12px; text-align:center;
-      position: relative; /* CLARITY+: 供 header::before 疊層 */
-    }
-    /* CLARITY+: 標題區局部暗幕，保留背景但讓標題更穩 */
-    header::before{
-      content:""; position:absolute; inset:0; z-index:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.40), rgba(0,0,0,.38));
-    }
-    .kicker{
-      position: relative; z-index:1;
-      letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.9rem;
-      text-shadow:0 1px 2px rgba(0,0,0,.55); /* CLARITY+ */
-    }
+    header{ padding:64px 20px 12px; text-align:center; }
+    .kicker{ letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-size:.85rem; }
     h1{
-      position: relative; z-index:1;
       margin:.25em 0 0; font-size:clamp(28px,3.4vw,44px); line-height:1.2; font-weight:800;
       background:linear-gradient(90deg, var(--accent), var(--accent-soft));
       -webkit-background-clip:text; background-clip:text; color:transparent;
-      /* CLARITY+: 漸層字的可讀性增強（多層陰影） */
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.55),
-        0 2px 6px rgba(0,0,0,.45),
-        0 8px 24px rgba(0,0,0,.25);
     }
-    /* CLARITY+: 如果瀏覽器不支援 background-clip:text，回退為白字 */
-    @supports not (-webkit-background-clip: text) {
-      h1 { color:#ffffff; background:none; }
-    }
-    .subtitle{
-      position: relative; z-index:1;
-      color:var(--muted); margin-top:6px; font-size:1rem;
-      text-shadow:0 1px 3px rgba(0,0,0,.55); /* CLARITY+ */
-    }
+    .subtitle{ color:var(--muted); margin-top:6px; font-size:.98rem; }
 
     main{ max-width:var(--maxw); margin:28px auto 80px; padding:0 20px; }
     .card{
-      background:rgba(18,24,51,.60);
-      border:1px solid rgba(255,255,255,.10);
+      background:rgba(18,24,51,.78);   /* 半透明但避免太暗 */
+      border:1px solid rgba(255,255,255,.06);
       border-radius:var(--radius); box-shadow:var(--shadow);
       padding:clamp(18px,3vw,36px);
     }
     section + section{ margin-top:36px; }
 
-    h2{
-      font-size:clamp(20px,2.2vw,28px); margin:0 0 10px; color:#fff; position:relative;
-      text-shadow:0 1px 0 rgba(0,0,0,.45); /* CLARITY+ */
-    }
+    h2{ font-size:clamp(20px,2.2vw,28px); margin:0 0 10px; color:#fff; position:relative; }
     h2::after{
       content:""; display:block; width:64px; height:3px; border-radius:999px; margin-top:8px;
       background:linear-gradient(90deg, var(--accent), transparent); opacity:.8;
@@ -122,14 +91,14 @@
 
     p{
       margin:12px 0; line-height:var(--leading); font-size:clamp(15px,1.4vw,18px);
-      color:var(--text); text-shadow:0 0 2px rgba(0,0,0,.3); /* CLARITY+ */
+      color:var(--text); text-shadow:0 0 2px rgba(0,0,0,.3);
     }
     .muted{ color:var(--muted); text-shadow:0 0 2px rgba(0,0,0,.3); }
 
     figure{ margin:18px auto; text-align:center; }
     figure img{
       width:min(100%,760px); max-height:520px; object-fit:cover; border-radius:14px;
-      border:1px solid rgba(255,255,255,.10); box-shadow:0 8px 30px rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.08); box-shadow:0 8px 30px rgba(0,0,0,.25);
     }
     figcaption{ color:var(--muted); font-size:.9rem; margin-top:6px; }
 
@@ -149,11 +118,6 @@
     .term{ padding:14px; border-radius:14px; background:rgba(18,24,51,.55); border:1px solid rgba(255,255,255,.08); }
     .term h4{ margin:0 0 6px 0; }
     @media (max-width:860px){ .terms{ grid-template-columns:1fr } }
-
-    /* CLARITY+: 使用者偏好減少動態時，關閉背景動畫 */
-    @media (prefers-reduced-motion: reduce){
-      body::before, body::after { animation: none !important; }
-    }
   </style>
 </head>
 <body>
@@ -276,7 +240,6 @@
   </script>
 </body>
 </html>
-
 
 
 
